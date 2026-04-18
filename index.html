@@ -513,7 +513,7 @@ function plotMapMarkers(){
       iconSize:[13,13],iconAnchor:[6,6],className:''
     });
     const dist=s.dist<1?`${(s.dist*1000).toFixed(0)}m`:`${s.dist.toFixed(1)} km`;
-    const navUrl=`https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}&travelmode=driving`;
+    const navUrl=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((s.name||'')+(s.addr?' '+s.addr:''))}`;
     const popup=`<div class="popup-name">${s.name}</div>
       <div class="popup-addr">📍 ${s.addr||''} · ${dist} away</div>
       <div class="popup-price">₹${(s.total||19).toFixed(2)}/kWh in pocket · ${fastest}kW max</div>
@@ -769,7 +769,7 @@ async function loadStations(){
       const r=getOpRates(s.operator);
       return{...s,dist:haversine(userLat,userLng,s.lat,s.lng),...r,operational:true,statusLabel:'Operational',
         plugs:s.plugs.map(p=>({...p,...r}))};
-    }).sort((a,b)=>a.dist-b.dist);
+    }).filter(s=>s.dist<=parseFloat(radius)).sort((a,b)=>a.dist-b.dist);
     setStatus('cached',`Curated · ${stationData.length} Hyderabad stations · OCM API unavailable`);
   }
   renderStations();
@@ -827,7 +827,7 @@ function renderStations(){
     const acSec=acPlugs.length?`<div class="plugs-section"><div class="plugs-section-title" style="color:var(--ac)">〜 AC Chargers</div><div class="plugs-row">${tiles(acPlugs)}</div></div>`:'';
     const mallTag=s.isMall?`<span class="mall-tag">🏬 Mall</span>`:'';
     // Navigation: Google Maps directions from current location
-    const navUrl=`https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}&travelmode=driving`;
+    const navUrl=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((s.name||'')+(s.addr?' '+s.addr:''))}`;
     const inPocket=(s.total||19).toFixed(2);
     const baseRate=(s.base||16.10).toFixed(2);
     const gstAmt=((s.total||19)-(s.base||16.10)).toFixed(2);
