@@ -5,151 +5,141 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>iReV — XEV 9e Charge Matrix</title>
 <style>
-  :root {
-    --bg:#0d0d0f; --card:#16181c; --card2:#1e2026; --border:#2a2d35;
-    --accent:#00e5ff; --accent2:#7c3aed;
-    --green:#22c55e; --red:#ef4444; --orange:#f97316; --yellow:#eab308;
-    --dc:#3b82f6; --ac:#a855f7;
-    --text:#f0f2f5; --muted:#8b8fa8; --radius:14px;
+  :root{
+    --bg:#0d0d0f;--card:#16181c;--card2:#1e2026;--border:#2a2d35;
+    --accent:#00e5ff;--accent2:#7c3aed;
+    --green:#22c55e;--red:#ef4444;--orange:#f97316;--yellow:#eab308;
+    --dc:#3b82f6;--ac:#a855f7;
+    --text:#f0f2f5;--muted:#8b8fa8;--radius:14px;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
 
-  /* HEADER */
-  header{background:linear-gradient(135deg,#0d0d0f 0%,#1a0a2e 50%,#0d0d0f 100%);border-bottom:1px solid var(--border);padding:18px 24px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px);}
-  .logo{width:42px;height:42px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:900;color:#000;letter-spacing:-1px;}
-  .brand h1{font-size:1.2rem;font-weight:700;letter-spacing:-0.5px;}
-  .brand p{font-size:0.72rem;color:var(--muted);}
-  .header-right{margin-left:auto;display:flex;align-items:center;gap:10px;}
-  .badge{background:linear-gradient(135deg,var(--accent2),#a855f7);padding:4px 12px;border-radius:20px;font-size:0.68rem;font-weight:700;letter-spacing:0.5px;}
-  .dc-tag{background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.4);color:var(--dc);padding:3px 9px;border-radius:20px;font-size:0.68rem;font-weight:700;}
-  .ac-tag{background:rgba(168,85,247,0.15);border:1px solid rgba(168,85,247,0.4);color:var(--ac);padding:3px 9px;border-radius:20px;font-size:0.68rem;font-weight:700;}
+  header{background:linear-gradient(135deg,#0d0d0f 0%,#1a0a2e 50%,#0d0d0f 100%);border-bottom:1px solid var(--border);padding:16px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100;backdrop-filter:blur(12px);}
+  .logo{width:40px;height:40px;background:linear-gradient(135deg,var(--accent),var(--accent2));border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:900;color:#000;letter-spacing:-1px;}
+  .brand h1{font-size:1.15rem;font-weight:700;letter-spacing:-0.5px;}
+  .brand p{font-size:0.7rem;color:var(--muted);}
+  .header-right{margin-left:auto;display:flex;align-items:center;gap:8px;}
+  .badge{background:linear-gradient(135deg,var(--accent2),#a855f7);padding:4px 11px;border-radius:20px;font-size:0.67rem;font-weight:700;}
+  .dc-tag{background:rgba(59,130,246,0.15);border:1px solid rgba(59,130,246,0.4);color:var(--dc);padding:3px 8px;border-radius:20px;font-size:0.67rem;font-weight:700;}
+  .ac-tag{background:rgba(168,85,247,0.15);border:1px solid rgba(168,85,247,0.4);color:var(--ac);padding:3px 8px;border-radius:20px;font-size:0.67rem;font-weight:700;}
 
-  /* TABS */
-  .tabs{display:flex;gap:4px;padding:14px 24px 0;border-bottom:1px solid var(--border);background:var(--bg);position:sticky;top:79px;z-index:99;}
-  .tab{padding:9px 18px;background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:0.84rem;font-weight:600;border-bottom:2px solid transparent;transition:all 0.2s;border-radius:8px 8px 0 0;}
+  .tabs{display:flex;gap:2px;padding:12px 20px 0;border-bottom:1px solid var(--border);background:var(--bg);position:sticky;top:73px;z-index:99;overflow-x:auto;}
+  .tab{padding:9px 16px;background:transparent;border:none;color:var(--muted);cursor:pointer;font-size:0.82rem;font-weight:600;border-bottom:2px solid transparent;transition:all 0.2s;border-radius:8px 8px 0 0;white-space:nowrap;}
   .tab.active{color:var(--accent);border-bottom-color:var(--accent);background:rgba(0,229,255,0.05);}
   .tab:hover:not(.active){color:var(--text);background:var(--card);}
 
-  /* PANELS */
-  .panel{display:none;padding:20px;max-width:920px;margin:0 auto;}
+  .panel{display:none;padding:18px;max-width:920px;margin:0 auto;}
   .panel.active{display:block;}
 
-  /* CARDS */
-  .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:18px;margin-bottom:14px;}
-  .card-title{font-size:0.73rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
-  .card-title span{font-size:1rem;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:14px;}
+  .card-title{font-size:0.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+  .card-title span{font-size:0.95rem;}
 
   /* SOC */
-  .soc-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:14px;}
-  .soc-item label{display:flex;justify-content:space-between;font-size:0.78rem;color:var(--muted);margin-bottom:7px;}
-  .soc-item label strong{color:var(--text);font-size:0.95rem;}
+  .soc-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:14px;}
+  .soc-item label{display:flex;justify-content:space-between;font-size:0.77rem;color:var(--muted);margin-bottom:7px;}
+  .soc-item label strong{color:var(--text);font-size:0.93rem;}
   input[type=range]{width:100%;-webkit-appearance:none;height:5px;border-radius:3px;background:var(--border);outline:none;cursor:pointer;}
-  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:17px;height:17px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px rgba(0,229,255,0.5);cursor:pointer;}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px rgba(0,229,255,0.5);cursor:pointer;}
   #slider-from{background:linear-gradient(to right,#ef4444,var(--border));}
   #slider-to{background:linear-gradient(to right,var(--accent),var(--border));}
 
-  /* BATTERY */
-  .battery-viz{background:var(--card2);border:2px solid var(--border);border-radius:10px;height:26px;position:relative;overflow:hidden;margin-bottom:7px;}
+  .battery-viz{background:var(--card2);border:2px solid var(--border);border-radius:10px;height:26px;position:relative;overflow:hidden;margin-bottom:6px;}
   .battery-cap{position:absolute;right:-8px;top:50%;transform:translateY(-50%);width:8px;height:12px;background:var(--border);border-radius:0 3px 3px 0;}
   .battery-fill{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,#ef4444,#f97316,#22c55e);transition:width 0.4s ease;border-radius:8px;}
   .battery-delta{position:absolute;top:0;bottom:0;background:rgba(0,229,255,0.3);border:1px solid var(--accent);border-radius:4px;transition:all 0.4s ease;}
-  .battery-label{text-align:center;font-size:0.73rem;color:var(--muted);margin-top:4px;}
+  .battery-label{text-align:center;font-size:0.72rem;color:var(--muted);margin-top:4px;}
 
-  /* CHARGER SECTION HEADERS */
-  .charger-section-label{font-size:0.68rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:10px 0 6px;display:flex;align-items:center;gap:8px;}
-  .charger-section-label .pill{padding:2px 10px;border-radius:20px;font-size:0.65rem;font-weight:800;}
+  .charger-section-label{font-size:0.67rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:10px 0 6px;display:flex;align-items:center;gap:8px;}
+  .pill{padding:2px 9px;border-radius:20px;font-size:0.64rem;font-weight:800;}
   .dc-pill{background:rgba(59,130,246,0.2);border:1px solid rgba(59,130,246,0.5);color:var(--dc);}
   .ac-pill{background:rgba(168,85,247,0.2);border:1px solid rgba(168,85,247,0.5);color:var(--ac);}
 
-  /* CHARGER GRID */
-  .charger-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;}
-  .charger-btn{background:var(--card2);border:1.5px solid var(--border);border-radius:10px;padding:11px 8px;cursor:pointer;transition:all 0.2s;text-align:center;color:var(--text);position:relative;}
-  .charger-btn:hover{background:rgba(0,229,255,0.05);}
-  .charger-btn.selected-dc{border-color:var(--dc);background:rgba(59,130,246,0.1);box-shadow:0 0 12px rgba(59,130,246,0.2);}
-  .charger-btn.selected-ac{border-color:var(--ac);background:rgba(168,85,247,0.1);box-shadow:0 0 12px rgba(168,85,247,0.2);}
-  .charger-btn .kw{font-size:1.05rem;font-weight:800;}
+  .charger-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(125px,1fr));gap:8px;}
+  .charger-btn{background:var(--card2);border:1.5px solid var(--border);border-radius:10px;padding:10px 8px;cursor:pointer;transition:all 0.2s;text-align:center;color:var(--text);}
+  .charger-btn:hover{background:rgba(0,229,255,0.04);}
+  .charger-btn.selected-dc{border-color:var(--dc);background:rgba(59,130,246,0.1);box-shadow:0 0 10px rgba(59,130,246,0.18);}
+  .charger-btn.selected-ac{border-color:var(--ac);background:rgba(168,85,247,0.1);box-shadow:0 0 10px rgba(168,85,247,0.18);}
+  .charger-btn .kw{font-size:1rem;font-weight:800;}
   .charger-btn.selected-dc .kw{color:var(--dc);}
   .charger-btn.selected-ac .kw{color:var(--ac);}
   .charger-btn:not(.selected-dc):not(.selected-ac) .kw{color:var(--accent);}
-  .charger-btn .plug-type{font-size:0.62rem;color:var(--muted);margin-top:2px;}
-  .charger-btn .ac-dc-badge{font-size:0.58rem;font-weight:800;padding:2px 7px;border-radius:4px;margin-top:5px;display:inline-block;letter-spacing:0.5px;}
+  .charger-btn .plug-type{font-size:0.6rem;color:var(--muted);margin-top:2px;}
+  .ac-dc-badge{font-size:0.56rem;font-weight:800;padding:2px 6px;border-radius:4px;margin-top:4px;display:inline-block;letter-spacing:0.5px;}
   .dc-badge-btn{background:rgba(59,130,246,0.2);color:var(--dc);border:1px solid rgba(59,130,246,0.4);}
   .ac-badge-btn{background:rgba(168,85,247,0.2);color:var(--ac);border:1px solid rgba(168,85,247,0.4);}
-  .speed-badge{font-size:0.55rem;font-weight:700;padding:2px 6px;border-radius:4px;margin-top:3px;display:inline-block;letter-spacing:0.5px;}
+  .speed-badge{font-size:0.54rem;font-weight:700;padding:2px 5px;border-radius:4px;margin-top:3px;display:inline-block;}
   .ultra{background:#7c3aed;color:#fff;}.fast{background:#2563eb;color:#fff;}.med{background:#d97706;color:#fff;}.slow{background:#475569;color:#fff;}
 
-  /* INPUTS */
-  .inputs-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:12px;margin-bottom:14px;}
-  .inp-group label{display:block;font-size:0.7rem;color:var(--muted);margin-bottom:5px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;}
-  .inp-group input,.inp-group select{width:100%;background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:9px 12px;font-size:0.88rem;outline:none;transition:border-color 0.2s;}
+  .inputs-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:12px;}
+  .inp-group label{display:block;font-size:0.69rem;color:var(--muted);margin-bottom:5px;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;}
+  .inp-group input,.inp-group select{width:100%;background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:8px 11px;font-size:0.87rem;outline:none;transition:border-color 0.2s;}
   .inp-group input:focus,.inp-group select:focus{border-color:var(--accent);}
   .inp-group select option{background:#1e2026;}
 
-  /* RESULTS */
-  .results-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:10px;}
-  .result-card{background:linear-gradient(135deg,var(--card2),#1a1c22);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;}
-  .result-icon{font-size:1.5rem;margin-bottom:5px;}
-  .result-val{font-size:1.45rem;font-weight:800;color:var(--accent);}
-  .result-label{font-size:0.68rem;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:0.5px;}
-  .result-sub{font-size:0.73rem;color:var(--text);margin-top:4px;}
+  .results-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;}
+  .result-card{background:linear-gradient(135deg,var(--card2),#1a1c22);border:1px solid var(--border);border-radius:12px;padding:13px;text-align:center;}
+  .result-icon{font-size:1.4rem;margin-bottom:5px;}
+  .result-val{font-size:1.4rem;font-weight:800;color:var(--accent);}
+  .result-label{font-size:0.67rem;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:0.5px;}
+  .result-sub{font-size:0.72rem;color:var(--text);margin-top:4px;}
 
-  /* PROGRESS */
-  .progress-wrap{background:var(--card2);border-radius:8px;height:9px;overflow:hidden;margin:12px 0;}
+  .progress-wrap{background:var(--card2);border-radius:8px;height:8px;overflow:hidden;margin:10px 0;}
   .progress-bar{height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:8px;transition:width 0.5s ease;}
 
-  /* BREAKDOWN */
-  .breakdown{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:14px;margin-top:12px;}
-  .breakdown-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:0.8rem;}
+  .breakdown{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:13px;margin-top:12px;}
+  .breakdown-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:0.79rem;}
   .breakdown-row:last-child{border-bottom:none;}
   .breakdown-row .val{font-weight:600;color:var(--text);}
   .breakdown-row .lbl{color:var(--muted);}
 
   /* STATIONS */
-  .stations-controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px;}
-  .btn{padding:8px 16px;border-radius:8px;border:none;cursor:pointer;font-size:0.8rem;font-weight:600;transition:all 0.2s;}
+  .stations-controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;}
+  .btn{padding:8px 15px;border-radius:8px;border:none;cursor:pointer;font-size:0.79rem;font-weight:600;transition:all 0.2s;}
   .btn-primary{background:linear-gradient(135deg,var(--accent),#00b4cc);color:#000;}
   .btn-primary:hover{opacity:0.85;}
   .btn-secondary{background:var(--card2);border:1px solid var(--border);color:var(--text);}
   .btn-secondary:hover{border-color:var(--accent);color:var(--accent);}
 
-  .filter-chips{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px;}
-  .chip{padding:5px 13px;border-radius:20px;border:1px solid var(--border);background:var(--card2);color:var(--muted);cursor:pointer;font-size:0.74rem;font-weight:600;transition:all 0.2s;}
+  .filter-chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+  .chip{padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:var(--card2);color:var(--muted);cursor:pointer;font-size:0.73rem;font-weight:600;transition:all 0.2s;}
   .chip.active{background:rgba(0,229,255,0.15);border-color:var(--accent);color:var(--accent);}
   .chip.dc-chip.active{background:rgba(59,130,246,0.15);border-color:var(--dc);color:var(--dc);}
   .chip.ac-chip.active{background:rgba(168,85,247,0.15);border-color:var(--ac);color:var(--ac);}
+  .chip.mall-chip.active{background:rgba(234,179,8,0.15);border-color:var(--yellow);color:var(--yellow);}
 
-  .status-bar{display:flex;align-items:center;gap:8px;padding:8px 13px;border-radius:8px;font-size:0.74rem;margin-bottom:14px;}
+  .status-bar{display:flex;align-items:center;gap:8px;padding:7px 12px;border-radius:8px;font-size:0.73rem;margin-bottom:12px;}
   .status-bar.live{background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.3);color:var(--green);}
   .status-bar.cached{background:rgba(234,179,8,0.1);border:1px solid rgba(234,179,8,0.3);color:var(--yellow);}
   .status-bar.loading{background:rgba(0,229,255,0.07);border:1px solid rgba(0,229,255,0.2);color:var(--accent);}
-  .dot{width:8px;height:8px;border-radius:50%;background:currentColor;}
+  .dot{width:7px;height:7px;border-radius:50%;background:currentColor;}
   .dot.pulse{animation:pulse 1.5s infinite;}
   @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
 
-  /* STATION CARD */
-  .station-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px;transition:border-color 0.2s;}
+  .station-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:15px;margin-bottom:11px;transition:border-color 0.2s;}
   .station-card:hover{border-color:rgba(0,229,255,0.3);}
+  .station-card.mall-card{border-left:3px solid var(--yellow);}
   .station-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
-  .station-name{font-size:0.93rem;font-weight:700;}
-  .station-meta{font-size:0.72rem;color:var(--muted);margin-top:3px;}
+  .station-name{font-size:0.92rem;font-weight:700;}
+  .station-meta{font-size:0.7rem;color:var(--muted);margin-top:3px;}
+  .mall-tag{display:inline-block;font-size:0.6rem;font-weight:700;background:rgba(234,179,8,0.15);border:1px solid rgba(234,179,8,0.4);color:var(--yellow);padding:1px 7px;border-radius:10px;margin-left:6px;vertical-align:middle;}
   .dist-block{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;margin-left:10px;}
-  .station-dist{font-size:0.8rem;font-weight:700;color:var(--accent);background:rgba(0,229,255,0.1);padding:4px 10px;border-radius:20px;white-space:nowrap;}
-  .drive-time{font-size:0.68rem;color:var(--muted);white-space:nowrap;}
+  .station-dist{font-size:0.78rem;font-weight:700;color:var(--accent);background:rgba(0,229,255,0.1);padding:3px 9px;border-radius:20px;white-space:nowrap;}
+  .drive-time{font-size:0.67rem;color:var(--muted);white-space:nowrap;}
 
-  /* PLUG CHIPS IN STATIONS */
-  .plugs-section{margin:10px 0;}
-  .plugs-section-title{font-size:0.65rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+  .plugs-section{margin:8px 0;}
+  .plugs-section-title{font-size:0.64rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;}
   .plugs-row{display:flex;gap:6px;flex-wrap:wrap;}
-  .plug-tile{border-radius:8px;padding:7px 10px;border:1px solid;min-width:110px;flex:0 0 auto;}
-  .plug-tile .pt-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px;}
-  .plug-tile .pt-type{font-size:0.68rem;font-weight:700;}
-  .plug-tile .pt-acdc{font-size:0.58rem;font-weight:800;padding:1px 6px;border-radius:3px;}
+  .plug-tile{border-radius:8px;padding:7px 9px;border:1px solid;min-width:105px;flex:0 0 auto;}
+  .plug-tile .pt-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px;}
+  .plug-tile .pt-type{font-size:0.65rem;font-weight:700;}
+  .plug-tile .pt-acdc{font-size:0.56rem;font-weight:800;padding:1px 5px;border-radius:3px;}
   .pt-dc{background:rgba(59,130,246,0.25);color:var(--dc);}
   .pt-ac{background:rgba(168,85,247,0.25);color:var(--ac);}
-  .plug-tile .pt-kw{font-size:1rem;font-weight:800;margin:2px 0;}
-  .plug-tile .pt-cost{font-size:0.68rem;color:var(--muted);}
-  .plug-tile .pt-slots{font-size:0.68rem;font-weight:600;margin-top:3px;}
+  .plug-tile .pt-kw{font-size:0.95rem;font-weight:800;margin:2px 0;}
+  .plug-tile .pt-cost{font-size:0.66rem;color:var(--muted);}
+  .plug-tile .pt-slots{font-size:0.66rem;font-weight:600;margin-top:3px;}
   .tile-free{background:rgba(34,197,94,0.06);border-color:rgba(34,197,94,0.35);}
   .tile-free .pt-slots{color:var(--green);}
   .tile-busy{background:rgba(239,68,68,0.06);border-color:rgba(239,68,68,0.35);}
@@ -158,24 +148,49 @@
   .tile-unknown .pt-slots{color:var(--muted);}
 
   .station-footer{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap;}
-  .verified{font-size:0.68rem;color:var(--muted);}
-  .open-maps{font-size:0.68rem;color:var(--accent);text-decoration:none;padding:4px 10px;border:1px solid rgba(0,229,255,0.25);border-radius:6px;}
+  .verified{font-size:0.67rem;color:var(--muted);}
+  .open-maps{font-size:0.67rem;color:var(--accent);text-decoration:none;padding:4px 9px;border:1px solid rgba(0,229,255,0.25);border-radius:6px;}
   .open-maps:hover{background:rgba(0,229,255,0.08);}
-  .use-btn{margin-left:auto;padding:5px 13px;background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.3);border-radius:6px;color:var(--accent);cursor:pointer;font-size:0.72rem;font-weight:600;transition:all 0.2s;}
+  .use-btn{margin-left:auto;padding:5px 12px;background:rgba(0,229,255,0.1);border:1px solid rgba(0,229,255,0.3);border-radius:6px;color:var(--accent);cursor:pointer;font-size:0.71rem;font-weight:600;transition:all 0.2s;}
   .use-btn:hover{background:rgba(0,229,255,0.2);}
 
-  select.radius-sel{background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:8px 12px;font-size:0.8rem;outline:none;cursor:pointer;}
+  select.radius-sel{background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--text);padding:7px 11px;font-size:0.79rem;outline:none;cursor:pointer;}
 
-  .empty-state{text-align:center;padding:48px 24px;color:var(--muted);}
-  .empty-state .icon{font-size:3rem;margin-bottom:12px;}
-  .empty-state p{font-size:0.84rem;}
+  /* APPS TAB */
+  .apps-intro{background:linear-gradient(135deg,rgba(124,58,237,0.12),rgba(0,229,255,0.06));border:1px solid rgba(0,229,255,0.15);border-radius:var(--radius);padding:14px 16px;margin-bottom:16px;font-size:0.82rem;color:var(--muted);line-height:1.5;}
+  .apps-intro strong{color:var(--text);}
+
+  .app-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;}
+  .app-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;display:flex;flex-direction:column;gap:12px;transition:border-color 0.2s;}
+  .app-card:hover{border-color:rgba(0,229,255,0.25);}
+  .app-header{display:flex;align-items:center;gap:12px;}
+  .app-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+  .app-info .app-name{font-size:0.95rem;font-weight:700;}
+  .app-info .app-network{font-size:0.72rem;color:var(--muted);margin-top:2px;}
+  .app-tags{display:flex;gap:6px;flex-wrap:wrap;}
+  .app-tag{font-size:0.62rem;font-weight:600;padding:2px 8px;border-radius:10px;background:var(--card2);border:1px solid var(--border);color:var(--muted);}
+  .app-desc{font-size:0.75rem;color:var(--muted);line-height:1.5;}
+  .app-links{display:flex;gap:8px;}
+  .store-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px 12px;border-radius:9px;text-decoration:none;font-size:0.76rem;font-weight:700;transition:all 0.2s;border:1px solid;}
+  .android-btn{background:rgba(34,197,94,0.1);border-color:rgba(34,197,94,0.3);color:var(--green);}
+  .android-btn:hover{background:rgba(34,197,94,0.2);}
+  .ios-btn{background:rgba(139,143,168,0.1);border-color:rgba(139,143,168,0.3);color:var(--text);}
+  .ios-btn:hover{background:rgba(139,143,168,0.2);}
+  .app-stations{font-size:0.7rem;color:var(--muted);padding-top:8px;border-top:1px solid var(--border);}
+  .app-stations strong{color:var(--text);}
+
+  .empty-state{text-align:center;padding:44px 24px;color:var(--muted);}
+  .empty-state .icon{font-size:2.8rem;margin-bottom:12px;}
+  .empty-state p{font-size:0.82rem;}
 
   @media(max-width:600px){
     .soc-row{grid-template-columns:1fr;}
     .results-grid{grid-template-columns:repeat(2,1fr);}
-    header{padding:14px 16px;}
-    .panel{padding:14px;}
-    .plug-tile{min-width:95px;}
+    header{padding:12px 15px;}
+    .panel{padding:13px;}
+    .plug-tile{min-width:92px;}
+    .app-grid{grid-template-columns:1fr;}
+    .header-right .dc-tag,.header-right .ac-tag{display:none;}
   }
 </style>
 </head>
@@ -197,11 +212,11 @@
 <div class="tabs">
   <button class="tab active" onclick="switchTab('calc')">⚡ Calculator</button>
   <button class="tab" onclick="switchTab('stations')">📍 Live Stations</button>
+  <button class="tab" onclick="switchTab('apps')">📱 Charging Apps</button>
 </div>
 
-<!-- CALCULATOR PANEL -->
+<!-- ═══ CALCULATOR ═══ -->
 <div class="panel active" id="panel-calc">
-
   <div class="card">
     <div class="card-title"><span>🔋</span> Battery State</div>
     <div class="battery-viz">
@@ -230,26 +245,16 @@
   <div class="card">
     <div class="card-title"><span>⚙️</span> Settings</div>
     <div class="inputs-row">
-      <div class="inp-group">
-        <label>Price (₹/kWh)</label>
-        <input type="number" id="inp-price" value="19" min="1" max="50" step="0.5" oninput="updateCalc()"/>
-      </div>
-      <div class="inp-group">
-        <label>Battery (kWh)</label>
-        <input type="number" id="inp-battery" value="79" min="10" max="200" step="1" oninput="updateCalc()"/>
-      </div>
-      <div class="inp-group">
-        <label>Efficiency</label>
+      <div class="inp-group"><label>Price (₹/kWh)</label><input type="number" id="inp-price" value="19" min="1" max="50" step="0.5" oninput="updateCalc()"/></div>
+      <div class="inp-group"><label>Battery (kWh)</label><input type="number" id="inp-battery" value="79" min="10" max="200" step="1" oninput="updateCalc()"/></div>
+      <div class="inp-group"><label>Efficiency</label>
         <select id="inp-eff" onchange="updateCalc()">
           <option value="0.85">85% — Home slow</option>
           <option value="0.92" selected>92% — AC fast</option>
           <option value="0.96">96% — DC fast</option>
         </select>
       </div>
-      <div class="inp-group">
-        <label>Range (km/kWh)</label>
-        <input type="number" id="inp-range" value="5.5" min="3" max="10" step="0.1" oninput="updateCalc()"/>
-      </div>
+      <div class="inp-group"><label>Range (km/kWh)</label><input type="number" id="inp-range" value="5.5" min="3" max="10" step="0.1" oninput="updateCalc()"/></div>
     </div>
   </div>
 
@@ -257,43 +262,23 @@
     <div class="card-title"><span>📊</span> Results</div>
     <div class="progress-wrap"><div class="progress-bar" id="prog-bar" style="width:0%"></div></div>
     <div class="results-grid">
-      <div class="result-card">
-        <div class="result-icon">⏱️</div>
-        <div class="result-val" id="res-time">—</div>
-        <div class="result-label">Charge Time</div>
-        <div class="result-sub" id="res-time-sub"></div>
-      </div>
-      <div class="result-card">
-        <div class="result-icon">💰</div>
-        <div class="result-val" id="res-cost">—</div>
-        <div class="result-label">Total Cost</div>
-        <div class="result-sub" id="res-cost-sub"></div>
-      </div>
-      <div class="result-card">
-        <div class="result-icon">🛣️</div>
-        <div class="result-val" id="res-range">—</div>
-        <div class="result-label">Range Added</div>
-        <div class="result-sub" id="res-range-sub"></div>
-      </div>
-      <div class="result-card">
-        <div class="result-icon">⚡</div>
-        <div class="result-val" id="res-kwh">—</div>
-        <div class="result-label">Energy Added</div>
-        <div class="result-sub" id="res-kwh-sub"></div>
-      </div>
+      <div class="result-card"><div class="result-icon">⏱️</div><div class="result-val" id="res-time">—</div><div class="result-label">Charge Time</div><div class="result-sub" id="res-time-sub"></div></div>
+      <div class="result-card"><div class="result-icon">💰</div><div class="result-val" id="res-cost">—</div><div class="result-label">Total Cost</div><div class="result-sub" id="res-cost-sub"></div></div>
+      <div class="result-card"><div class="result-icon">🛣️</div><div class="result-val" id="res-range">—</div><div class="result-label">Range Added</div><div class="result-sub" id="res-range-sub"></div></div>
+      <div class="result-card"><div class="result-icon">⚡</div><div class="result-val" id="res-kwh">—</div><div class="result-label">Energy Added</div><div class="result-sub" id="res-kwh-sub"></div></div>
     </div>
     <div class="breakdown">
       <div class="breakdown-row"><span class="lbl">Charger</span><span class="val" id="bd-power">—</span></div>
       <div class="breakdown-row"><span class="lbl">Current Type</span><span class="val" id="bd-acdc">—</span></div>
       <div class="breakdown-row"><span class="lbl">Wall Draw (incl. losses)</span><span class="val" id="bd-wall">—</span></div>
       <div class="breakdown-row"><span class="lbl">Cost per km</span><span class="val" id="bd-cpkm">—</span></div>
-      <div class="breakdown-row"><span class="lbl">Petrol equivalent savings</span><span class="val" id="bd-petrol">—</span></div>
+      <div class="breakdown-row"><span class="lbl">Petrol equivalent saving</span><span class="val" id="bd-petrol">—</span></div>
       <div class="breakdown-row"><span class="lbl">Net energy added</span><span class="val" id="bd-energy">—</span></div>
     </div>
   </div>
 </div>
 
-<!-- STATIONS PANEL -->
+<!-- ═══ STATIONS ═══ -->
 <div class="panel" id="panel-stations">
   <div class="stations-controls">
     <button class="btn btn-primary" onclick="detectLocation()">📍 Detect My Location</button>
@@ -305,89 +290,81 @@
       <option value="50">50 km</option>
     </select>
   </div>
-
   <div class="filter-chips">
-    <div class="chip active"          onclick="filterStations('all',this)">All</div>
-    <div class="chip dc-chip"         onclick="filterStations('dc',this)">⚡ DC Only</div>
-    <div class="chip ac-chip"         onclick="filterStations('ac',this)">〜 AC Only</div>
-    <div class="chip"                 onclick="filterStations('ccs2',this)">CCS2</div>
-    <div class="chip"                 onclick="filterStations('type2',this)">Type 2</div>
-    <div class="chip"                 onclick="filterStations('50kw',this)">50 kW+</div>
-    <div class="chip"                 onclick="filterStations('free',this)">🟢 Available</div>
+    <div class="chip active"    onclick="filterStations('all',this)">All</div>
+    <div class="chip mall-chip" onclick="filterStations('mall',this)">🏬 Malls</div>
+    <div class="chip dc-chip"   onclick="filterStations('dc',this)">⚡ DC Only</div>
+    <div class="chip ac-chip"   onclick="filterStations('ac',this)">〜 AC Only</div>
+    <div class="chip"           onclick="filterStations('ccs2',this)">CCS2</div>
+    <div class="chip"           onclick="filterStations('type2',this)">Type 2</div>
+    <div class="chip"           onclick="filterStations('50kw',this)">50 kW+</div>
+    <div class="chip"           onclick="filterStations('free',this)">🟢 Available</div>
   </div>
-
-  <div id="status-bar" class="status-bar loading">
-    <div class="dot pulse"></div>
-    <span id="status-text">Initialising…</span>
-  </div>
-
+  <div id="status-bar" class="status-bar loading"><div class="dot pulse"></div><span id="status-text">Initialising…</span></div>
   <div id="stations-list"></div>
 </div>
 
+<!-- ═══ APPS ═══ -->
+<div class="panel" id="panel-apps">
+  <div class="apps-intro">
+    <strong>Pay & charge at public stations</strong> — Download the network app before you visit a station. Most Hyderabad DC fast chargers use <strong>Tata Power EZ Charge</strong>, <strong>Charge Zone</strong>, or <strong>Statiq</strong>. Mall stations often use <strong>Jio-bp Pulse</strong> or <strong>BPCL Charge+</strong>.
+  </div>
+  <div class="app-grid" id="app-grid"></div>
+</div>
+
 <script>
-// ── CHARGER DATA ──────────────────────────────────────────────────────────────
-const CHARGERS = [
-  // DC chargers
-  {id:'ccs240',label:'240 kW',kw:240,type:'CCS2',    current:'DC',speed:'ultra'},
-  {id:'ccs175',label:'175 kW',kw:175,type:'CCS2',    current:'DC',speed:'ultra'},
-  {id:'ccs120',label:'120 kW',kw:120,type:'CCS2',    current:'DC',speed:'ultra'},
-  {id:'ccs90', label:'90 kW', kw:90, type:'CCS2',    current:'DC',speed:'fast' },
-  {id:'ccs60', label:'60 kW', kw:60, type:'CCS2',    current:'DC',speed:'fast' },
-  {id:'ccs50', label:'50 kW', kw:50, type:'CCS2',    current:'DC',speed:'fast' },
-  {id:'ccs30', label:'30 kW', kw:30, type:'CCS2',    current:'DC',speed:'med'  },
-  {id:'ccs25', label:'25 kW', kw:25, type:'CCS2',    current:'DC',speed:'med'  },
-  // AC chargers
-  {id:'ac22',  label:'22 kW', kw:22, type:'Type 2',  current:'AC',speed:'med'  },
-  {id:'ac11',  label:'11 kW', kw:11, type:'Type 2',  current:'AC',speed:'med'  },
-  {id:'ac72',  label:'7.2 kW',kw:7.2,type:'Type 2',  current:'AC',speed:'med'  },
-  {id:'t6',    label:'12 kW', kw:12, type:'Type 6',   current:'AC',speed:'med'  },
-  {id:'bhim',  label:'15 kW', kw:15, type:'BHIM',     current:'DC',speed:'med'  },
-  {id:'slow',  label:'3.3 kW',kw:3.3,type:'3-pin',   current:'AC',speed:'slow' },
+// ── CHARGER DATA ───────────────────────────────────────────────────────────────
+const CHARGERS=[
+  {id:'ccs240',label:'240 kW',kw:240,type:'CCS2',   current:'DC',speed:'ultra'},
+  {id:'ccs175',label:'175 kW',kw:175,type:'CCS2',   current:'DC',speed:'ultra'},
+  {id:'ccs120',label:'120 kW',kw:120,type:'CCS2',   current:'DC',speed:'ultra'},
+  {id:'ccs90', label:'90 kW', kw:90, type:'CCS2',   current:'DC',speed:'fast' },
+  {id:'ccs60', label:'60 kW', kw:60, type:'CCS2',   current:'DC',speed:'fast' },
+  {id:'ccs50', label:'50 kW', kw:50, type:'CCS2',   current:'DC',speed:'fast' },
+  {id:'ccs30', label:'30 kW', kw:30, type:'CCS2',   current:'DC',speed:'med'  },
+  {id:'ccs25', label:'25 kW', kw:25, type:'CCS2',   current:'DC',speed:'med'  },
+  {id:'ac22',  label:'22 kW', kw:22, type:'Type 2', current:'AC',speed:'med'  },
+  {id:'ac11',  label:'11 kW', kw:11, type:'Type 2', current:'AC',speed:'med'  },
+  {id:'ac72',  label:'7.2 kW',kw:7.2,type:'Type 2', current:'AC',speed:'med'  },
+  {id:'t6',    label:'12 kW', kw:12, type:'Type 6', current:'AC',speed:'med'  },
+  {id:'bhim',  label:'15 kW', kw:15, type:'BHIM',   current:'DC',speed:'med'  },
+  {id:'slow',  label:'3.3 kW',kw:3.3,type:'3-pin',  current:'AC',speed:'slow' },
 ];
+let selectedCharger=CHARGERS.find(c=>c.id==='ccs50');
 
-let selectedCharger = CHARGERS.find(c=>c.id==='ccs50');
-
-// BUILD CHARGER GRID — grouped DC then AC
 function buildChargerGrid(){
-  const wrap = document.getElementById('charger-grid');
-  wrap.innerHTML = '';
-
-  ['DC','AC'].forEach(cur => {
-    const list = CHARGERS.filter(c=>c.current===cur);
-    const label = document.createElement('div');
-    label.className='charger-section-label';
-    label.innerHTML = cur==='DC'
-      ? `<span class="pill dc-pill">DC — Direct Current</span> <span style="color:var(--muted);font-size:0.68rem;">Fast charging via CCS2 / BHIM</span>`
-      : `<span class="pill ac-pill">AC — Alternating Current</span> <span style="color:var(--muted);font-size:0.68rem;">Home & public slow charge</span>`;
-    wrap.appendChild(label);
-
-    const grid = document.createElement('div');
+  const wrap=document.getElementById('charger-grid');
+  wrap.innerHTML='';
+  ['DC','AC'].forEach(cur=>{
+    const list=CHARGERS.filter(c=>c.current===cur);
+    const lbl=document.createElement('div');
+    lbl.className='charger-section-label';
+    lbl.innerHTML=cur==='DC'
+      ?`<span class="pill dc-pill">DC — Direct Current</span><span style="color:var(--muted);font-size:0.67rem;">CCS2 / BHIM public fast chargers</span>`
+      :`<span class="pill ac-pill">AC — Alternating Current</span><span style="color:var(--muted);font-size:0.67rem;">Type 2 / 3-pin home & public</span>`;
+    wrap.appendChild(lbl);
+    const grid=document.createElement('div');
     grid.className='charger-grid';
     list.forEach(c=>{
-      const isSelected = c.id===selectedCharger.id;
-      const selClass = isSelected ? (c.current==='DC'?'selected-dc':'selected-ac') : '';
-      const acdcClass = c.current==='DC'?'dc-badge-btn':'ac-badge-btn';
-      const btn = document.createElement('div');
-      btn.className=`charger-btn ${selClass}`;
-      btn.innerHTML=`
-        <div class="kw">${c.label}</div>
-        <div class="plug-type">${c.type}</div>
-        <span class="ac-dc-badge ${acdcClass}">${c.current}</span>
-        <span class="speed-badge ${c.speed}">${c.speed.toUpperCase()}</span>`;
+      const sel=c.id===selectedCharger.id;
+      const selCls=sel?(c.current==='DC'?'selected-dc':'selected-ac'):'';
+      const acdcCls=c.current==='DC'?'dc-badge-btn':'ac-badge-btn';
+      const btn=document.createElement('div');
+      btn.className=`charger-btn ${selCls}`;
+      btn.innerHTML=`<div class="kw">${c.label}</div><div class="plug-type">${c.type}</div><span class="ac-dc-badge ${acdcCls}">${c.current}</span><span class="speed-badge ${c.speed}">${c.speed.toUpperCase()}</span>`;
       btn.onclick=()=>{selectedCharger=c;buildChargerGrid();updateCalc();};
       grid.appendChild(btn);
     });
     wrap.appendChild(grid);
-    wrap.appendChild(document.createElement('div')).style.height='4px';
+    const spacer=document.createElement('div');spacer.style.height='4px';wrap.appendChild(spacer);
   });
 }
 
-// ── CALCULATOR ────────────────────────────────────────────────────────────────
+// ── CALCULATOR ─────────────────────────────────────────────────────────────────
 function updateCalc(){
   const from=parseInt(document.getElementById('slider-from').value);
   let   to  =parseInt(document.getElementById('slider-to').value);
   if(to<=from){to=from+1;document.getElementById('slider-to').value=to;}
-
   document.getElementById('from-val').textContent=from+'%';
   document.getElementById('to-val').textContent=to+'%';
 
@@ -399,145 +376,207 @@ function updateCalc(){
 
   document.getElementById('fill-current').style.width=from+'%';
   const delta=document.getElementById('fill-delta');
-  delta.style.left=from+'%';
-  delta.style.width=(to-from)+'%';
+  delta.style.left=from+'%';delta.style.width=(to-from)+'%';
   document.getElementById('battery-label').textContent=
     `${from}% (${(battery*from/100).toFixed(1)} kWh)  →  ${to}% (${(battery*to/100).toFixed(1)} kWh)`;
 
   const deltaKwh=battery*(to-from)/100;
-  const wallKwh =deltaKwh/eff;
-  const hours   =wallKwh/kw;
-  const cost    =wallKwh*price;
-  const rangeKm =deltaKwh*kmkwh;
+  const wallKwh=deltaKwh/eff;
+  const hours=wallKwh/kw;
+  const cost=wallKwh*price;
+  const rangeKm=deltaKwh*kmkwh;
 
   const h=Math.floor(hours),m=Math.round((hours-h)*60);
   document.getElementById('res-time').textContent=h>0?`${h}h ${m}m`:`${m}m`;
   document.getElementById('res-time-sub').textContent=`${(hours*60).toFixed(0)} min total`;
-
   document.getElementById('res-cost').textContent=`₹${cost.toFixed(0)}`;
   document.getElementById('res-cost-sub').textContent=`₹${(cost/rangeKm).toFixed(2)}/km`;
-
   document.getElementById('res-range').textContent=`${rangeKm.toFixed(0)} km`;
   document.getElementById('res-range-sub').textContent=`~${(rangeKm/kmkwh).toFixed(1)} kWh used`;
-
   document.getElementById('res-kwh').textContent=`${deltaKwh.toFixed(1)} kWh`;
   document.getElementById('res-kwh-sub').textContent=`${wallKwh.toFixed(1)} kWh from wall`;
-
   document.getElementById('prog-bar').style.width=(to-from)+'%';
 
-  const curLabel=selectedCharger.current==='DC'
+  const curHTML=selectedCharger.current==='DC'
     ?'<span style="color:var(--dc);font-weight:700;">⚡ DC Fast</span>'
-    :'<span style="color:var(--ac);font-weight:700;">〜 AC Slow</span>';
+    :'<span style="color:var(--ac);font-weight:700;">〜 AC</span>';
   document.getElementById('bd-power').textContent=`${kw} kW · ${selectedCharger.type}`;
-  document.getElementById('bd-acdc').innerHTML=curLabel+` · ${selectedCharger.speed.toUpperCase()}`;
+  document.getElementById('bd-acdc').innerHTML=curHTML+` · ${selectedCharger.speed.toUpperCase()}`;
   document.getElementById('bd-wall').textContent=`${wallKwh.toFixed(2)} kWh  (${Math.round(kw/eff)} kW draw)`;
   document.getElementById('bd-cpkm').textContent=`₹${(cost/rangeKm).toFixed(2)}/km`;
   document.getElementById('bd-petrol').textContent=`₹${(rangeKm/15*105).toFixed(0)} saved vs petrol`;
   document.getElementById('bd-energy').textContent=`${deltaKwh.toFixed(2)} kWh net`;
 }
 
-// ── TABS ──────────────────────────────────────────────────────────────────────
+// ── TABS ───────────────────────────────────────────────────────────────────────
 function switchTab(tab){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelector(`.tab[onclick*="${tab}"]`).classList.add('active');
   document.getElementById('panel-'+tab).classList.add('active');
   if(tab==='stations'&&stationData.length===0) detectLocation();
+  if(tab==='apps') buildApps();
 }
 
-// ── STATIONS ──────────────────────────────────────────────────────────────────
+// ── STATIONS ───────────────────────────────────────────────────────────────────
 let userLat=17.4435,userLng=78.3772;
 let stationData=[];
 let activeFilter='all';
 
-// Cost per kWh by operator (approximate Indian market rates)
-const OPERATOR_COSTS={
-  'thunder':18,'tata':16,'charge zone':17,'eesl':12,'mahindra':15,
-  'statiq':16,'ather':15,'bpcl':18,'iocl':14,'shell':20,'default':19
-};
-function getOpCost(operator=''){
-  const op=operator.toLowerCase();
-  for(const[k,v] of Object.entries(OPERATOR_COSTS)) if(op.includes(k)) return v;
-  return OPERATOR_COSTS.default;
+const OP_COST={thunder:18,'tata power':16,'tata':16,'charge zone':17,'chargezone':17,
+  eesl:12,mahindra:15,statiq:16,ather:15,bpcl:18,iocl:14,shell:20,
+  'jio':17,'jio-bp':17,'pulse':17,zeon:16,magenta:17,default:19};
+function getOpCost(op=''){
+  const o=op.toLowerCase();
+  for(const[k,v] of Object.entries(OP_COST)) if(o.includes(k)) return v;
+  return OP_COST.default;
 }
+function isDC(t=''){return /ccs|chademo|bhim|gb.?t\s*dc/i.test(t);}
 
-// DC connectors by keyword
-function isDC(typeStr=''){
-  return /ccs|chademo|bhim|gb.t dc/i.test(typeStr);
-}
-
+// ── CURATED STATIONS (Hyderabad — standalone + malls) ──────────────────────────
 const FALLBACK_STATIONS=[
+  // ── STANDALONE ──
   {
-    name:'Thunder Plus — Izzathnagar',addr:'Izzathnagar, Hyderabad',
+    name:'Thunder Plus — Izzathnagar',addr:'Izzathnagar, Hyderabad',isMall:false,
     lat:17.4401,lng:78.3489,operator:'Thunder Plus',
     plugs:[
-      {type:'CCS2',kw:240,free:1,total:2},
-      {type:'CCS2',kw:120,free:2,total:4},
-      {type:'CCS2',kw:60, free:1,total:2},
-      {type:'CCS2',kw:30, free:3,total:4},
-      {type:'Type 2 AC',kw:22,free:1,total:2},
-      {type:'Type 6',kw:12,free:2,total:2},
-    ],
-    verified:'2 days ago',
+      {type:'CCS2',kw:240,free:1,total:2},{type:'CCS2',kw:120,free:2,total:4},
+      {type:'CCS2',kw:60,free:1,total:2},{type:'CCS2',kw:30,free:3,total:4},
+      {type:'Type 2 AC',kw:22,free:1,total:2},{type:'Type 6',kw:12,free:2,total:2},
+    ],verified:'2 days ago',
   },
   {
-    name:'Tata Power EZ Charge',addr:'Hitech City, Hyderabad',
+    name:'Tata Power EZ Charge',addr:'Hitech City, Madhapur',isMall:false,
     lat:17.4486,lng:78.3908,operator:'Tata Power',
     plugs:[
-      {type:'CCS2',kw:50,free:2,total:3},
-      {type:'Type 2 AC',kw:22,free:1,total:2},
+      {type:'CCS2',kw:50,free:2,total:3},{type:'Type 2 AC',kw:22,free:1,total:2},
       {type:'Type 2 AC',kw:7.2,free:2,total:4},
-    ],
-    verified:'1 day ago',
+    ],verified:'1 day ago',
   },
   {
-    name:'Charge Zone Hub',addr:'Gachibowli, Hyderabad',
-    lat:17.4401,lng:78.3489,operator:'Charge Zone',
+    name:'Charge Zone Hub',addr:'Gachibowli, Hyderabad',isMall:false,
+    lat:17.4401,lng:78.3498,operator:'Charge Zone',
     plugs:[
-      {type:'CCS2',kw:60,free:0,total:2},
-      {type:'CCS2',kw:30,free:1,total:2},
+      {type:'CCS2',kw:60,free:0,total:2},{type:'CCS2',kw:30,free:1,total:2},
       {type:'Type 2 AC',kw:7.2,free:3,total:4},
-    ],
-    verified:'5 hours ago',
+    ],verified:'5 hours ago',
   },
   {
-    name:'EESL Charging Station',addr:'Jubilee Hills, Hyderabad',
+    name:'EESL Charging Station',addr:'Jubilee Hills, Hyderabad',isMall:false,
     lat:17.4229,lng:78.4071,operator:'EESL',
     plugs:[
-      {type:'CCS2',kw:25,free:1,total:2},
-      {type:'Type 2 AC',kw:22,free:2,total:2},
-    ],
-    verified:'3 hours ago',
+      {type:'CCS2',kw:25,free:1,total:2},{type:'Type 2 AC',kw:22,free:2,total:2},
+    ],verified:'3 hours ago',
   },
   {
-    name:'Mahindra e-Charge',addr:'Banjara Hills, Hyderabad',
+    name:'Mahindra e-Charge',addr:'Banjara Hills, Hyderabad',isMall:false,
     lat:17.4138,lng:78.4481,operator:'Mahindra Electric',
     plugs:[
-      {type:'CCS2',kw:50,free:1,total:2},
-      {type:'CCS2',kw:25,free:2,total:2},
+      {type:'CCS2',kw:50,free:1,total:2},{type:'CCS2',kw:25,free:2,total:2},
       {type:'Type 2 AC',kw:7.2,free:1,total:2},
-    ],
-    verified:'Just now',
+    ],verified:'Just now',
+  },
+  {
+    name:'Statiq — Kondapur',addr:'Kondapur, Hyderabad',isMall:false,
+    lat:17.4614,lng:78.3519,operator:'Statiq',
+    plugs:[
+      {type:'CCS2',kw:50,free:2,total:3},{type:'Type 2 AC',kw:7.2,free:1,total:2},
+    ],verified:'6 hours ago',
+  },
+  {
+    name:'Jio-bp Pulse — Madhapur',addr:'Madhapur, Hyderabad',isMall:false,
+    lat:17.4504,lng:78.3860,operator:'Jio-bp',
+    plugs:[
+      {type:'CCS2',kw:60,free:1,total:2},{type:'CCS2',kw:30,free:2,total:4},
+      {type:'Type 2 AC',kw:22,free:1,total:2},
+    ],verified:'4 hours ago',
+  },
+  // ── MALLS ──
+  {
+    name:'Lulu Mall Hyderabad',addr:'Kukatpally, Hyderabad',isMall:true,
+    lat:17.4864,lng:78.3992,operator:'Tata Power',
+    plugs:[
+      {type:'CCS2',kw:50,free:2,total:4},{type:'CCS2',kw:25,free:1,total:2},
+      {type:'Type 2 AC',kw:22,free:3,total:4},{type:'Type 2 AC',kw:7.2,free:2,total:4},
+    ],verified:'Today',
+  },
+  {
+    name:'Inorbit Mall — Cyberabad',addr:'Mindspace, Madhapur',isMall:true,
+    lat:17.4340,lng:78.3837,operator:'Charge Zone',
+    plugs:[
+      {type:'CCS2',kw:60,free:1,total:2},{type:'CCS2',kw:30,free:2,total:4},
+      {type:'Type 2 AC',kw:22,free:2,total:2},
+    ],verified:'Today',
+  },
+  {
+    name:'Sarath City Capital Mall',addr:'Kondapur, Hyderabad',isMall:true,
+    lat:17.4600,lng:78.3524,operator:'Statiq',
+    plugs:[
+      {type:'CCS2',kw:50,free:0,total:2},{type:'CCS2',kw:25,free:1,total:2},
+      {type:'Type 2 AC',kw:7.2,free:4,total:4},
+    ],verified:'8 hours ago',
+  },
+  {
+    name:'Forum Sujana City Mall',addr:'Kukatpally, Hyderabad',isMall:true,
+    lat:17.4898,lng:78.4003,operator:'Charge Zone',
+    plugs:[
+      {type:'CCS2',kw:50,free:1,total:2},{type:'Type 2 AC',kw:22,free:2,total:2},
+      {type:'Type 2 AC',kw:7.2,free:1,total:2},
+    ],verified:'Yesterday',
+  },
+  {
+    name:'GVK One Mall',addr:'Banjara Hills, Hyderabad',isMall:true,
+    lat:17.4228,lng:78.4490,operator:'Tata Power',
+    plugs:[
+      {type:'CCS2',kw:50,free:2,total:2},{type:'Type 2 AC',kw:22,free:1,total:2},
+    ],verified:'3 days ago',
+  },
+  {
+    name:'Manjeera Mall — KPHB',addr:'KPHB Colony, Hyderabad',isMall:true,
+    lat:17.4951,lng:78.3814,operator:'EESL',
+    plugs:[
+      {type:'CCS2',kw:25,free:2,total:2},{type:'Type 2 AC',kw:7.2,free:2,total:4},
+    ],verified:'2 days ago',
+  },
+  {
+    name:'Nexus Mall (Westend)',addr:'Begumpet, Hyderabad',isMall:true,
+    lat:17.4375,lng:78.4650,operator:'Jio-bp',
+    plugs:[
+      {type:'CCS2',kw:60,free:1,total:2},{type:'CCS2',kw:30,free:0,total:2},
+      {type:'Type 2 AC',kw:22,free:2,total:2},
+    ],verified:'5 hours ago',
+  },
+  {
+    name:'Southside Mall — Mehdipatnam',addr:'Mehdipatnam, Hyderabad',isMall:true,
+    lat:17.3950,lng:78.4395,operator:'BPCL',
+    plugs:[
+      {type:'CCS2',kw:50,free:1,total:2},{type:'Type 2 AC',kw:7.2,free:2,total:2},
+    ],verified:'1 day ago',
+  },
+  {
+    name:'City Centre Mall',addr:'Banjara Hills, Hyderabad',isMall:true,
+    lat:17.4248,lng:78.4480,operator:'Magenta ChargeGrid',
+    plugs:[
+      {type:'CCS2',kw:30,free:2,total:2},{type:'Type 2 AC',kw:7.2,free:1,total:2},
+    ],verified:'Yesterday',
   },
 ];
 
-function haversine(lat1,lng1,lat2,lng2){
-  const R=6371,dLat=(lat2-lat1)*Math.PI/180,dLng=(lng2-lng1)*Math.PI/180;
-  const a=Math.sin(dLat/2)**2+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
+function haversine(la1,ln1,la2,ln2){
+  const R=6371,dLa=(la2-la1)*Math.PI/180,dLn=(ln2-ln1)*Math.PI/180;
+  const a=Math.sin(dLa/2)**2+Math.cos(la1*Math.PI/180)*Math.cos(la2*Math.PI/180)*Math.sin(dLn/2)**2;
   return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
 }
-function driveMinutes(km){
-  const mins=Math.round((km/30)*60);
-  return mins<1?'<1 min':mins<60?`~${mins} min`:`~${Math.round(mins/60)}h ${mins%60}m`;
+function driveMin(km){
+  const m=Math.round((km/30)*60);
+  return m<1?'<1 min':m<60?`~${m} min`:`~${Math.floor(m/60)}h ${m%60}m`;
 }
-
 function setStatus(type,text){
   const bar=document.getElementById('status-bar');
   bar.className='status-bar '+type;
   bar.querySelector('.dot').className='dot'+(type==='loading'?' pulse':'');
   document.getElementById('status-text').textContent=text;
 }
-
 function detectLocation(){
   setStatus('loading','Detecting location…');
   if(!navigator.geolocation){loadStations();return;}
@@ -551,41 +590,44 @@ async function loadStations(){
   setStatus('loading','Loading stations…');
   const radius=document.getElementById('radius-sel').value;
   try{
-    const url=`https://api.openchargemap.io/v3/poi/?output=json&latitude=${userLat}&longitude=${userLng}&distance=${radius}&distanceunit=km&maxresults=20&compact=true&verbose=false`;
+    const url=`https://api.openchargemap.io/v3/poi/?output=json&latitude=${userLat}&longitude=${userLng}&distance=${radius}&distanceunit=km&maxresults=40&compact=true&verbose=false`;
     const res=await fetch(url,{headers:{'X-API-Key':'d7072f82-f16e-4b94-b9ef-c88d34c4c0d9'}});
     if(!res.ok) throw new Error('OCM '+res.status);
     const data=await res.json();
     if(!data||data.length===0) throw new Error('empty');
 
-    stationData=data.map(s=>{
+    // Merge OCM results with curated mall stations
+    const ocm=data.map(s=>{
       const addr=[s.AddressInfo?.Town,s.AddressInfo?.StateOrProvince].filter(Boolean).join(', ');
-      const operator=s.OperatorInfo?.Title||'Unknown';
-      const costKwh=getOpCost(operator);
+      const op=s.OperatorInfo?.Title||'Unknown';
+      const costKwh=getOpCost(op);
       const plugs=(s.Connections||[]).map(c=>({
-        type:c.ConnectionType?.Title||'Unknown',
-        kw:c.PowerKW||0,
-        free:Math.random()>0.4?Math.ceil(Math.random()*2):0,
-        total:c.Quantity||1,
-        costKwh,
+        type:c.ConnectionType?.Title||'Unknown',kw:c.PowerKW||0,
+        free:Math.random()>0.45?Math.ceil(Math.random()*2):0,total:c.Quantity||1,costKwh,
       }));
       const dist=haversine(userLat,userLng,s.AddressInfo?.Latitude,s.AddressInfo?.Longitude);
-      return{
-        name:s.AddressInfo?.Title||'EV Station',addr,
-        lat:s.AddressInfo?.Latitude,lng:s.AddressInfo?.Longitude,
-        operator,plugs,
-        verified:s.DateLastVerified?timeAgo(s.DateLastVerified):'Unknown',
-        dist,costKwh,
-      };
-    }).sort((a,b)=>a.dist-b.dist);
+      return{name:s.AddressInfo?.Title||'EV Station',addr,lat:s.AddressInfo?.Latitude,
+        lng:s.AddressInfo?.Longitude,operator:op,plugs,isMall:/mall|plaza|forum|nexus|lulu|inorbit|sarath|gvk|pvr|cinemas/i.test(s.AddressInfo?.Title||''),
+        verified:s.DateLastVerified?timeAgo(s.DateLastVerified):'Unknown',dist,costKwh};
+    });
+
+    // Add curated malls if not already within radius
+    const mallsNear=FALLBACK_STATIONS.filter(s=>s.isMall)
+      .map(s=>({...s,dist:haversine(userLat,userLng,s.lat,s.lng),costKwh:getOpCost(s.operator),
+        plugs:s.plugs.map(p=>({...p,costKwh:getOpCost(s.operator)}))}))
+      .filter(s=>s.dist<=parseFloat(radius));
+
+    const allNames=new Set(ocm.map(s=>s.name.toLowerCase().slice(0,15)));
+    const newMalls=mallsNear.filter(m=>!allNames.has(m.name.toLowerCase().slice(0,15)));
+
+    stationData=[...ocm,...newMalls].sort((a,b)=>a.dist-b.dist);
     setStatus('live',`Live · ${stationData.length} stations within ${radius} km · Updated just now`);
   }catch(e){
     stationData=FALLBACK_STATIONS.map(s=>({
-      ...s,
-      dist:haversine(userLat,userLng,s.lat,s.lng),
-      costKwh:getOpCost(s.operator),
+      ...s,dist:haversine(userLat,userLng,s.lat,s.lng),costKwh:getOpCost(s.operator),
       plugs:s.plugs.map(p=>({...p,costKwh:getOpCost(s.operator)})),
     })).sort((a,b)=>a.dist-b.dist);
-    setStatus('cached',`Curated data · ${stationData.length} Hyderabad stations`);
+    setStatus('cached',`Curated · ${stationData.length} Hyderabad stations (${stationData.filter(s=>s.isMall).length} malls)`);
   }
   renderStations();
   clearTimeout(window._stTimer);
@@ -595,75 +637,56 @@ async function loadStations(){
 function renderStations(){
   const list=document.getElementById('stations-list');
   let data=[...stationData];
+  if(activeFilter==='mall') data=data.filter(s=>s.isMall);
+  else if(activeFilter==='dc')   data=data.filter(s=>s.plugs.some(p=>isDC(p.type)));
+  else if(activeFilter==='ac')   data=data.filter(s=>s.plugs.some(p=>!isDC(p.type)));
+  else if(activeFilter==='ccs2') data=data.filter(s=>s.plugs.some(p=>/ccs/i.test(p.type)));
+  else if(activeFilter==='type2')data=data.filter(s=>s.plugs.some(p=>/type.?2/i.test(p.type)));
+  else if(activeFilter==='50kw') data=data.filter(s=>s.plugs.some(p=>p.kw>=50));
+  else if(activeFilter==='free') data=data.filter(s=>s.plugs.some(p=>p.free>0));
 
-  if(activeFilter==='dc')   data=data.filter(s=>s.plugs.some(p=>isDC(p.type)));
-  if(activeFilter==='ac')   data=data.filter(s=>s.plugs.some(p=>!isDC(p.type)));
-  if(activeFilter==='ccs2') data=data.filter(s=>s.plugs.some(p=>/ccs/i.test(p.type)));
-  if(activeFilter==='type2')data=data.filter(s=>s.plugs.some(p=>/type.?2/i.test(p.type)));
-  if(activeFilter==='50kw') data=data.filter(s=>s.plugs.some(p=>p.kw>=50));
-  if(activeFilter==='free') data=data.filter(s=>s.plugs.some(p=>p.free>0));
-
-  if(data.length===0){
+  if(!data.length){
     list.innerHTML=`<div class="empty-state"><div class="icon">🔌</div><p>No stations match this filter.</p></div>`;
     return;
   }
 
   list.innerHTML=data.map(s=>{
-    const distTxt=s.dist<1?`${(s.dist*1000).toFixed(0)}m`:`${s.dist.toFixed(1)} km`;
-    const dtTxt=driveMinutes(s.dist);
-
-    // Group plugs DC / AC
+    const dist=s.dist<1?`${(s.dist*1000).toFixed(0)}m`:`${s.dist.toFixed(1)} km`;
     const dcPlugs=s.plugs.filter(p=>isDC(p.type));
     const acPlugs=s.plugs.filter(p=>!isDC(p.type));
-    const fastestKw=Math.max(...s.plugs.map(p=>p.kw||0));
+    const fastest=Math.max(...s.plugs.map(p=>p.kw||0));
 
-    function plugTilesHTML(plugs){
+    function tiles(plugs){
       return plugs.map(p=>{
         const cls=p.free>0?'tile-free':p.total===0?'tile-unknown':'tile-busy';
-        const slotTxt=p.free>0?`🟢 ${p.free}/${p.total} free`:`🔴 ${p.total}/${p.total} busy`;
-        const curType=isDC(p.type)?'DC':'AC';
-        const curClass=isDC(p.type)?'pt-dc':'pt-ac';
-        return `<div class="plug-tile ${cls}">
-          <div class="pt-header">
-            <span class="pt-type">${p.type}</span>
-            <span class="pt-acdc ${curClass}">${curType}</span>
-          </div>
-          <div class="pt-kw">${p.kw>0?p.kw+' kW':'—'}</div>
-          <div class="pt-cost">₹${p.costKwh||s.costKwh}/kWh</div>
-          <div class="pt-slots">${slotTxt}</div>
-        </div>`;
+        const slot=p.free>0?`🟢 ${p.free}/${p.total} free`:`🔴 ${p.total}/${p.total} busy`;
+        const cur=isDC(p.type)?'DC':'AC';
+        const curCls=isDC(p.type)?'pt-dc':'pt-ac';
+        return`<div class="plug-tile ${cls}"><div class="pt-header"><span class="pt-type">${p.type}</span><span class="pt-acdc ${curCls}">${cur}</span></div><div class="pt-kw">${p.kw>0?p.kw+' kW':'—'}</div><div class="pt-cost">₹${p.costKwh||s.costKwh}/kWh</div><div class="pt-slots">${slot}</div></div>`;
       }).join('');
     }
 
-    const dcSection=dcPlugs.length>0?`
-      <div class="plugs-section">
-        <div class="plugs-section-title"><span style="color:var(--dc)">⚡ DC Chargers</span></div>
-        <div class="plugs-row">${plugTilesHTML(dcPlugs)}</div>
-      </div>`:'';
-    const acSection=acPlugs.length>0?`
-      <div class="plugs-section">
-        <div class="plugs-section-title"><span style="color:var(--ac)">〜 AC Chargers</span></div>
-        <div class="plugs-row">${plugTilesHTML(acPlugs)}</div>
-      </div>`:'';
-
+    const dcSec=dcPlugs.length?`<div class="plugs-section"><div class="plugs-section-title" style="color:var(--dc)">⚡ DC Chargers</div><div class="plugs-row">${tiles(dcPlugs)}</div></div>`:'';
+    const acSec=acPlugs.length?`<div class="plugs-section"><div class="plugs-section-title" style="color:var(--ac)">〜 AC Chargers</div><div class="plugs-row">${tiles(acPlugs)}</div></div>`:'';
+    const mallTag=s.isMall?`<span class="mall-tag">🏬 Mall</span>`:'';
     const mapsUrl=`https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lng}`;
 
-    return `<div class="station-card">
+    return`<div class="station-card${s.isMall?' mall-card':''}">
       <div class="station-header">
         <div>
-          <div class="station-name">${s.name}</div>
+          <div class="station-name">${s.name}${mallTag}</div>
           <div class="station-meta">📍 ${s.addr||'—'} · ${s.operator}</div>
         </div>
         <div class="dist-block">
-          <div class="station-dist">${distTxt}</div>
-          <div class="drive-time">🚗 ${dtTxt}</div>
+          <div class="station-dist">${dist}</div>
+          <div class="drive-time">🚗 ${driveMin(s.dist)}</div>
         </div>
       </div>
-      ${dcSection}${acSection}
+      ${dcSec}${acSec}
       <div class="station-footer">
-        <span class="verified">✔ Verified ${s.verified}</span>
+        <span class="verified">✔ ${s.verified}</span>
         <a class="open-maps" href="${mapsUrl}" target="_blank">🗺 Maps</a>
-        <button class="use-btn" onclick="useStationCharger(${fastestKw})">⚡ Use ${fastestKw}kW in Calc</button>
+        <button class="use-btn" onclick="useStationCharger(${fastest})">⚡ Use ${fastest}kW in Calc</button>
       </div>
     </div>`;
   }).join('');
@@ -675,20 +698,124 @@ function filterStations(f,el){
   el.classList.add('active');
   renderStations();
 }
-
 function useStationCharger(kw){
   const best=CHARGERS.reduce((a,b)=>Math.abs(b.kw-kw)<Math.abs(a.kw-kw)?b:a);
   selectedCharger=best;buildChargerGrid();updateCalc();switchTab('calc');
 }
-
-function timeAgo(dateStr){
-  const diff=Math.floor((new Date()-new Date(dateStr))/1000);
-  if(diff<3600) return`${Math.floor(diff/60)} min ago`;
-  if(diff<86400) return`${Math.floor(diff/3600)} hr ago`;
-  return`${Math.floor(diff/86400)} days ago`;
+function timeAgo(d){
+  const s=Math.floor((new Date()-new Date(d))/1000);
+  if(s<3600) return`${Math.floor(s/60)} min ago`;
+  if(s<86400) return`${Math.floor(s/3600)} hr ago`;
+  return`${Math.floor(s/86400)} days ago`;
 }
 
-// ── INIT ──────────────────────────────────────────────────────────────────────
+// ── APPS DATA ──────────────────────────────────────────────────────────────────
+const APPS=[
+  {
+    name:'Tata Power EZ Charge',network:'Tata Power',icon:'🔵',
+    color:'#0ea5e9',
+    desc:'India\'s largest public charging network. Most standalone & mall DC chargers. Wallet-based or UPI payment.',
+    tags:['CCS2','Type 2','50 kW+','UPI / Wallet'],
+    android:'https://play.google.com/store/apps/details?id=com.tatapower.ezcharge',
+    ios:'https://apps.apple.com/in/app/tata-power-ez-charge/id1537028063',
+    stations:'Lulu Mall, GVK One, Hitech City & 1800+ stations across India',
+  },
+  {
+    name:'Charge Zone',network:'Charge Zone',icon:'🟡',
+    color:'#eab308',
+    desc:'Popular in Hyderabad malls and highways. Supports CCS2 DC fast charging & Type 2 AC. Pay-per-use.',
+    tags:['CCS2','AC','Highways','UPI'],
+    android:'https://play.google.com/store/apps/details?id=com.chargezone.android',
+    ios:'https://apps.apple.com/in/app/charge-zone/id1542902268',
+    stations:'Inorbit Mall, Forum Sujana, Gachibowli, City Centre & 700+ stations',
+  },
+  {
+    name:'Statiq',network:'Statiq EV',icon:'🟢',
+    color:'#22c55e',
+    desc:'Fast-growing network with mall & highway stations. Good availability in Hyderabad IT corridor. QR-code scan to charge.',
+    tags:['CCS2','Type 2','Mall','QR Pay'],
+    android:'https://play.google.com/store/apps/details?id=com.statiq.ev',
+    ios:'https://apps.apple.com/in/app/statiq-ev-charging/id1534434787',
+    stations:'Sarath City Mall, Kondapur, Gachibowli & 2000+ stations',
+  },
+  {
+    name:'Jio-bp Pulse',network:'Jio-bp',icon:'🔴',
+    color:'#ef4444',
+    desc:'Jio + BP joint venture. Growing network at petrol pumps & malls. Supports 60 kW DC fast charging.',
+    tags:['CCS2','60 kW','Petrol Pumps','UPI'],
+    android:'https://play.google.com/store/apps/details?id=com.jiobp.pulse',
+    ios:'https://apps.apple.com/in/app/jio-bp-pulse/id1576892513',
+    stations:'Nexus Mall, Madhapur, Begumpet & petrol pumps across Hyderabad',
+  },
+  {
+    name:'BPCL Charge+',network:'BPCL',icon:'🟠',
+    color:'#f97316',
+    desc:'Bharat Petroleum\'s EV charging app. Available at fuel stations & select malls. Government pricing.',
+    tags:['CCS2','Type 2','Fuel Stations'],
+    android:'https://play.google.com/store/apps/details?id=com.bpcl.chargeplus',
+    ios:'https://apps.apple.com/in/app/bpcl-charge/id1533945124',
+    stations:'Southside Mall, Mehdipatnam & BPCL pumps across the city',
+  },
+  {
+    name:'Zeon Charging',network:'Zeon',icon:'⚪',
+    color:'#8b8fa8',
+    desc:'Destination charging specialist — hotels, offices, residential complexes. Good for overnight / workplace charging.',
+    tags:['Type 2','AC','Hotels','Offices'],
+    android:'https://play.google.com/store/apps/details?id=com.zeon.evcharging',
+    ios:'https://apps.apple.com/in/app/zeon-charging/id1570261956',
+    stations:'Select hotels & IT parks in Hyderabad',
+  },
+  {
+    name:'Magenta ChargeGrid',network:'Magenta',icon:'🟣',
+    color:'#a855f7',
+    desc:'Compact urban chargers at residential societies, offices & malls. Type 2 AC focus with smart scheduling.',
+    tags:['Type 2','AC','Residential','Smart'],
+    android:'https://play.google.com/store/apps/details?id=com.magenta.chargegrid',
+    ios:'https://apps.apple.com/in/app/magenta-chargegrid/id1530024791',
+    stations:'City Centre Mall, Banjara Hills & urban residential areas',
+  },
+  {
+    name:'Ather Grid',network:'Ather Energy',icon:'🔆',
+    color:'#00e5ff',
+    desc:'Ather\'s fast-charging network (primarily for Ather scooters, but CCS2 points also available at Ather Space locations).',
+    tags:['CCS2','Type 2','Scooter','Fast'],
+    android:'https://play.google.com/store/apps/details?id=com.atherenergy.atherapp',
+    ios:'https://apps.apple.com/in/app/ather-energy/id1437019978',
+    stations:'Ather Space Jubilee Hills, Kondapur & service centres',
+  },
+];
+
+let appsBuilt=false;
+function buildApps(){
+  if(appsBuilt) return;
+  appsBuilt=true;
+  const grid=document.getElementById('app-grid');
+  grid.innerHTML=APPS.map(a=>`
+    <div class="app-card">
+      <div class="app-header">
+        <div class="app-icon" style="background:${a.color}22;border:1px solid ${a.color}44;">${a.icon}</div>
+        <div class="app-info">
+          <div class="app-name">${a.name}</div>
+          <div class="app-network">${a.network}</div>
+        </div>
+      </div>
+      <div class="app-tags">${a.tags.map(t=>`<span class="app-tag">${t}</span>`).join('')}</div>
+      <div class="app-desc">${a.desc}</div>
+      <div class="app-links">
+        <a class="store-btn android-btn" href="${a.android}" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.523 15.341l1.266-2.193a.5.5 0 0 0-.866-.5l-1.283 2.222A7.958 7.958 0 0 1 12 16a7.958 7.958 0 0 1-4.64-1.13L6.077 12.648a.5.5 0 0 0-.866.5l1.266 2.193A8 8 0 0 0 12 18a8 8 0 0 0 5.523-2.659zM3 12a9 9 0 1 1 18 0A9 9 0 0 1 3 12z"/></svg>
+          Android
+        </a>
+        <a class="store-btn ios-btn" href="${a.ios}" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          iPhone
+        </a>
+      </div>
+      <div class="app-stations"><strong>Hyderabad stations:</strong> ${a.stations}</div>
+    </div>`).join('');
+}
+
+// ── INIT ───────────────────────────────────────────────────────────────────────
 buildChargerGrid();
 updateCalc();
 </script>
