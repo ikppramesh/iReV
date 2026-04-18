@@ -123,6 +123,11 @@
   .station-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
   .station-name{font-size:0.92rem;font-weight:700;}
   .station-meta{font-size:0.7rem;color:var(--muted);margin-top:3px;}
+  .station-pricing{display:flex;align-items:center;gap:5px;margin-top:6px;flex-wrap:wrap;}
+  .price-base{font-size:0.72rem;color:var(--muted);}
+  .price-plus,.price-eq{font-size:0.68rem;color:var(--muted);}
+  .price-gst{font-size:0.72rem;color:var(--orange);font-weight:600;}
+  .price-total{font-size:0.78rem;font-weight:800;color:var(--green);background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.25);padding:2px 8px;border-radius:10px;}
   .mall-tag{display:inline-block;font-size:0.6rem;font-weight:700;background:rgba(234,179,8,0.15);border:1px solid rgba(234,179,8,0.4);color:var(--yellow);padding:1px 7px;border-radius:10px;margin-left:6px;vertical-align:middle;}
   .dist-block{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0;margin-left:10px;}
   .station-dist{font-size:0.78rem;font-weight:700;color:var(--accent);background:rgba(0,229,255,0.1);padding:3px 9px;border-radius:20px;white-space:nowrap;}
@@ -131,15 +136,21 @@
   .plugs-section{margin:8px 0;}
   .plugs-section-title{font-size:0.64rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px;}
   .plugs-row{display:flex;gap:6px;flex-wrap:wrap;}
-  .plug-tile{border-radius:8px;padding:7px 9px;border:1px solid;min-width:105px;flex:0 0 auto;}
+  .plug-tile{border-radius:8px;padding:7px 9px;border:1px solid;min-width:130px;flex:0 0 auto;}
   .plug-tile .pt-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:2px;}
   .plug-tile .pt-type{font-size:0.65rem;font-weight:700;}
   .plug-tile .pt-acdc{font-size:0.56rem;font-weight:800;padding:1px 5px;border-radius:3px;}
   .pt-dc{background:rgba(59,130,246,0.25);color:var(--dc);}
   .pt-ac{background:rgba(168,85,247,0.25);color:var(--ac);}
-  .plug-tile .pt-kw{font-size:0.95rem;font-weight:800;margin:2px 0;}
-  .plug-tile .pt-cost{font-size:0.66rem;color:var(--muted);}
-  .plug-tile .pt-slots{font-size:0.66rem;font-weight:600;margin-top:3px;}
+  .plug-tile .pt-kw{font-size:0.95rem;font-weight:800;margin:2px 0 5px;}
+  .pt-cost-block{display:flex;flex-direction:column;gap:2px;margin-bottom:5px;background:rgba(0,0,0,0.15);border-radius:5px;padding:5px 6px;}
+  .pt-cost-row{display:flex;justify-content:space-between;align-items:center;gap:6px;}
+  .pt-cost-lbl{font-size:0.6rem;color:var(--muted);}
+  .pt-cost-val{font-size:0.62rem;font-weight:600;color:var(--text);}
+  .gst-val{color:var(--orange);}
+  .total-row{border-top:1px solid var(--border);margin-top:2px;padding-top:3px;}
+  .total-val{color:var(--green);font-size:0.68rem;font-weight:800;}
+  .plug-tile .pt-slots{font-size:0.66rem;font-weight:600;margin-top:2px;}
   .tile-free{background:rgba(34,197,94,0.06);border-color:rgba(34,197,94,0.35);}
   .tile-free .pt-slots{color:var(--green);}
   .tile-busy{background:rgba(239,68,68,0.06);border-color:rgba(239,68,68,0.35);}
@@ -271,7 +282,10 @@
       <div class="breakdown-row"><span class="lbl">Charger</span><span class="val" id="bd-power">—</span></div>
       <div class="breakdown-row"><span class="lbl">Current Type</span><span class="val" id="bd-acdc">—</span></div>
       <div class="breakdown-row"><span class="lbl">Wall Draw (incl. losses)</span><span class="val" id="bd-wall">—</span></div>
-      <div class="breakdown-row"><span class="lbl">Cost per km</span><span class="val" id="bd-cpkm">—</span></div>
+      <div class="breakdown-row"><span class="lbl">Base rate (pre-tax)</span><span class="val" id="bd-base">—</span></div>
+      <div class="breakdown-row"><span class="lbl">GST 18%</span><span class="val" id="bd-gst" style="color:var(--orange)">—</span></div>
+      <div class="breakdown-row"><span class="lbl">In-pocket rate</span><span class="val" id="bd-rate" style="color:var(--green)">—</span></div>
+      <div class="breakdown-row"><span class="lbl">Cost per km (with tax)</span><span class="val" id="bd-cpkm">—</span></div>
       <div class="breakdown-row"><span class="lbl">Petrol equivalent saving</span><span class="val" id="bd-petrol">—</span></div>
       <div class="breakdown-row"><span class="lbl">Net energy added</span><span class="val" id="bd-energy">—</span></div>
     </div>
@@ -400,9 +414,14 @@ function updateCalc(){
   const curHTML=selectedCharger.current==='DC'
     ?'<span style="color:var(--dc);font-weight:700;">⚡ DC Fast</span>'
     :'<span style="color:var(--ac);font-weight:700;">〜 AC</span>';
+  const baseRate=price/1.18;
+  const gstAmt=price-baseRate;
   document.getElementById('bd-power').textContent=`${kw} kW · ${selectedCharger.type}`;
   document.getElementById('bd-acdc').innerHTML=curHTML+` · ${selectedCharger.speed.toUpperCase()}`;
   document.getElementById('bd-wall').textContent=`${wallKwh.toFixed(2)} kWh  (${Math.round(kw/eff)} kW draw)`;
+  document.getElementById('bd-base').textContent=`₹${baseRate.toFixed(2)}/kWh`;
+  document.getElementById('bd-gst').textContent=`+₹${gstAmt.toFixed(2)}/kWh  (18%)`;
+  document.getElementById('bd-rate').textContent=`₹${price.toFixed(2)}/kWh`;
   document.getElementById('bd-cpkm').textContent=`₹${(cost/rangeKm).toFixed(2)}/km`;
   document.getElementById('bd-petrol').textContent=`₹${(rangeKm/15*105).toFixed(0)} saved vs petrol`;
   document.getElementById('bd-energy').textContent=`${deltaKwh.toFixed(2)} kWh net`;
@@ -423,14 +442,35 @@ let userLat=17.4435,userLng=78.3772;
 let stationData=[];
 let activeFilter='all';
 
-const OP_COST={thunder:18,'tata power':16,'tata':16,'charge zone':17,'chargezone':17,
-  eesl:12,mahindra:15,statiq:16,ather:15,bpcl:18,iocl:14,shell:20,
-  'jio':17,'jio-bp':17,'pulse':17,zeon:16,magenta:17,default:19};
-function getOpCost(op=''){
+// base = pre-GST rate, gst = 18% standard, total = in-pocket per kWh
+const OP_RATES={
+  'go ec':       {base:20.00, gst:18, total:23.60},
+  'thunder':     {base:15.25, gst:18, total:18.00},
+  'tata power':  {base:14.41, gst:18, total:17.00},
+  'tata':        {base:14.41, gst:18, total:17.00},
+  'charge zone': {base:14.41, gst:18, total:17.00},
+  'chargezone':  {base:14.41, gst:18, total:17.00},
+  'statiq':      {base:13.56, gst:18, total:16.00},
+  'eesl':        {base:10.17, gst:18, total:12.00},
+  'mahindra':    {base:13.56, gst:18, total:16.00},
+  'jio-bp':      {base:14.41, gst:18, total:17.00},
+  'jio':         {base:14.41, gst:18, total:17.00},
+  'pulse':       {base:14.41, gst:18, total:17.00},
+  'bpcl':        {base:15.25, gst:18, total:18.00},
+  'iocl':        {base:11.86, gst:18, total:14.00},
+  'shell':       {base:16.95, gst:18, total:20.00},
+  'ather':       {base:12.71, gst:18, total:15.00},
+  'zeon':        {base:13.56, gst:18, total:16.00},
+  'magenta':     {base:13.56, gst:18, total:16.00},
+  'default':     {base:16.10, gst:18, total:19.00},
+};
+function getOpRates(op=''){
   const o=op.toLowerCase();
-  for(const[k,v] of Object.entries(OP_COST)) if(o.includes(k)) return v;
-  return OP_COST.default;
+  for(const[k,v] of Object.entries(OP_RATES)) if(o.includes(k)) return v;
+  return OP_RATES.default;
 }
+// keep backward compat
+function getOpCost(op){return getOpRates(op).total;}
 function isDC(t=''){return /ccs|chademo|bhim|gb.?t\s*dc/i.test(t);}
 
 // ── CURATED STATIONS (Hyderabad — standalone + malls) ──────────────────────────
@@ -494,7 +534,7 @@ const FALLBACK_STATIONS=[
   // ── MALLS ──
   {
     name:'Lulu Mall Hyderabad',addr:'Kukatpally, Hyderabad',isMall:true,
-    lat:17.4864,lng:78.3992,operator:'Tata Power',
+    lat:17.4864,lng:78.3992,operator:'GO EC',
     plugs:[
       {type:'CCS2',kw:50,free:2,total:4},{type:'CCS2',kw:25,free:1,total:2},
       {type:'Type 2 AC',kw:22,free:3,total:4},{type:'Type 2 AC',kw:7.2,free:2,total:4},
@@ -600,21 +640,21 @@ async function loadStations(){
     const ocm=data.map(s=>{
       const addr=[s.AddressInfo?.Town,s.AddressInfo?.StateOrProvince].filter(Boolean).join(', ');
       const op=s.OperatorInfo?.Title||'Unknown';
-      const costKwh=getOpCost(op);
+      const rates=getOpRates(op);
       const plugs=(s.Connections||[]).map(c=>({
         type:c.ConnectionType?.Title||'Unknown',kw:c.PowerKW||0,
-        free:Math.random()>0.45?Math.ceil(Math.random()*2):0,total:c.Quantity||1,costKwh,
+        free:Math.random()>0.45?Math.ceil(Math.random()*2):0,total:c.Quantity||1,...rates,
       }));
       const dist=haversine(userLat,userLng,s.AddressInfo?.Latitude,s.AddressInfo?.Longitude);
       return{name:s.AddressInfo?.Title||'EV Station',addr,lat:s.AddressInfo?.Latitude,
-        lng:s.AddressInfo?.Longitude,operator:op,plugs,isMall:/mall|plaza|forum|nexus|lulu|inorbit|sarath|gvk|pvr|cinemas/i.test(s.AddressInfo?.Title||''),
-        verified:s.DateLastVerified?timeAgo(s.DateLastVerified):'Unknown',dist,costKwh};
+        lng:s.AddressInfo?.Longitude,operator:op,plugs,
+        isMall:/mall|plaza|forum|nexus|lulu|inorbit|sarath|gvk|pvr|cinemas/i.test(s.AddressInfo?.Title||''),
+        verified:s.DateLastVerified?timeAgo(s.DateLastVerified):'Unknown',dist,...rates};
     });
 
     // Add curated malls if not already within radius
     const mallsNear=FALLBACK_STATIONS.filter(s=>s.isMall)
-      .map(s=>({...s,dist:haversine(userLat,userLng,s.lat,s.lng),costKwh:getOpCost(s.operator),
-        plugs:s.plugs.map(p=>({...p,costKwh:getOpCost(s.operator)}))}))
+      .map(s=>{const r=getOpRates(s.operator);return{...s,dist:haversine(userLat,userLng,s.lat,s.lng),...r,plugs:s.plugs.map(p=>({...p,...r}))};})
       .filter(s=>s.dist<=parseFloat(radius));
 
     const allNames=new Set(ocm.map(s=>s.name.toLowerCase().slice(0,15)));
@@ -623,10 +663,11 @@ async function loadStations(){
     stationData=[...ocm,...newMalls].sort((a,b)=>a.dist-b.dist);
     setStatus('live',`Live · ${stationData.length} stations within ${radius} km · Updated just now`);
   }catch(e){
-    stationData=FALLBACK_STATIONS.map(s=>({
-      ...s,dist:haversine(userLat,userLng,s.lat,s.lng),costKwh:getOpCost(s.operator),
-      plugs:s.plugs.map(p=>({...p,costKwh:getOpCost(s.operator)})),
-    })).sort((a,b)=>a.dist-b.dist);
+    stationData=FALLBACK_STATIONS.map(s=>{
+      const rates=getOpRates(s.operator);
+      return{...s,dist:haversine(userLat,userLng,s.lat,s.lng),...rates,
+        plugs:s.plugs.map(p=>({...p,...rates}))};
+    }).sort((a,b)=>a.dist-b.dist);
     setStatus('cached',`Curated · ${stationData.length} Hyderabad stations (${stationData.filter(s=>s.isMall).length} malls)`);
   }
   renderStations();
@@ -662,7 +703,20 @@ function renderStations(){
         const slot=p.free>0?`🟢 ${p.free}/${p.total} free`:`🔴 ${p.total}/${p.total} busy`;
         const cur=isDC(p.type)?'DC':'AC';
         const curCls=isDC(p.type)?'pt-dc':'pt-ac';
-        return`<div class="plug-tile ${cls}"><div class="pt-header"><span class="pt-type">${p.type}</span><span class="pt-acdc ${curCls}">${cur}</span></div><div class="pt-kw">${p.kw>0?p.kw+' kW':'—'}</div><div class="pt-cost">₹${p.costKwh||s.costKwh}/kWh</div><div class="pt-slots">${slot}</div></div>`;
+        const base=(p.base||s.base||16.10).toFixed(2);
+        const gstPct=(p.gst||s.gst||18);
+        const gstAmt=((p.total||s.total||19)-(p.base||s.base||16.10)).toFixed(2);
+        const total=(p.total||s.total||19).toFixed(2);
+        return`<div class="plug-tile ${cls}">
+          <div class="pt-header"><span class="pt-type">${p.type}</span><span class="pt-acdc ${curCls}">${cur}</span></div>
+          <div class="pt-kw">${p.kw>0?p.kw+' kW':'—'}</div>
+          <div class="pt-cost-block">
+            <div class="pt-cost-row"><span class="pt-cost-lbl">Base</span><span class="pt-cost-val">₹${base}/kWh</span></div>
+            <div class="pt-cost-row"><span class="pt-cost-lbl">GST ${gstPct}%</span><span class="pt-cost-val gst-val">+₹${gstAmt}</span></div>
+            <div class="pt-cost-row total-row"><span class="pt-cost-lbl">In Pocket</span><span class="pt-cost-val total-val">₹${total}/kWh</span></div>
+          </div>
+          <div class="pt-slots">${slot}</div>
+        </div>`;
       }).join('');
     }
 
@@ -671,11 +725,21 @@ function renderStations(){
     const mallTag=s.isMall?`<span class="mall-tag">🏬 Mall</span>`:'';
     const mapsUrl=`https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lng}`;
 
+    const inPocket=(s.total||19).toFixed(2);
+    const baseRate=(s.base||16.10).toFixed(2);
+    const gstAmt=((s.total||19)-(s.base||16.10)).toFixed(2);
     return`<div class="station-card${s.isMall?' mall-card':''}">
       <div class="station-header">
         <div>
           <div class="station-name">${s.name}${mallTag}</div>
           <div class="station-meta">📍 ${s.addr||'—'} · ${s.operator}</div>
+          <div class="station-pricing">
+            <span class="price-base">₹${baseRate}</span>
+            <span class="price-plus">+</span>
+            <span class="price-gst">GST ₹${gstAmt}</span>
+            <span class="price-eq">=</span>
+            <span class="price-total">₹${inPocket}/kWh in pocket</span>
+          </div>
         </div>
         <div class="dist-block">
           <div class="station-dist">${dist}</div>
