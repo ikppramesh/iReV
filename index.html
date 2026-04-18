@@ -4,6 +4,8 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>iReV — XEV 9e Charge Matrix</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
   :root{
     --bg:#0d0d0f;--card:#16181c;--card2:#1e2026;--border:#2a2d35;
@@ -194,6 +196,24 @@
   .empty-state .icon{font-size:2.8rem;margin-bottom:12px;}
   .empty-state p{font-size:0.82rem;}
 
+  /* MAP */
+  .view-toggle{display:flex;gap:6px;margin-bottom:12px;}
+  .view-btn{padding:7px 16px;border-radius:8px;border:1px solid var(--border);background:var(--card2);color:var(--muted);cursor:pointer;font-size:0.78rem;font-weight:600;transition:all 0.2s;}
+  .view-btn.active{background:rgba(0,229,255,0.15);border-color:var(--accent);color:var(--accent);}
+  #map-container{border-radius:var(--radius);overflow:hidden;border:1px solid var(--border);margin-bottom:14px;display:none;}
+  #map-container.visible{display:block;}
+  #map{height:420px;width:100%;background:var(--card2);}
+  .leaflet-popup-content-wrapper{background:var(--card)!important;border:1px solid var(--border)!important;border-radius:10px!important;box-shadow:0 4px 20px rgba(0,0,0,0.5)!important;}
+  .leaflet-popup-content{color:var(--text)!important;margin:10px 14px!important;font-family:-apple-system,sans-serif!important;}
+  .leaflet-popup-tip{background:var(--card)!important;}
+  .popup-name{font-size:0.88rem;font-weight:700;margin-bottom:4px;}
+  .popup-addr{font-size:0.72rem;color:var(--muted);margin-bottom:6px;}
+  .popup-price{font-size:0.78rem;color:var(--green);font-weight:700;margin-bottom:8px;}
+  .popup-status{font-size:0.72rem;margin-bottom:8px;}
+  .popup-nav{display:inline-block;padding:5px 12px;background:var(--accent);color:#000;border-radius:6px;font-size:0.73rem;font-weight:700;text-decoration:none;margin-right:6px;}
+  .popup-calc{display:inline-block;padding:5px 12px;background:rgba(0,229,255,0.15);border:1px solid rgba(0,229,255,0.3);color:var(--accent);border-radius:6px;font-size:0.73rem;font-weight:700;cursor:pointer;text-decoration:none;}
+  .realtime-note{font-size:0.68rem;color:var(--muted);padding:6px 10px;background:rgba(234,179,8,0.07);border:1px solid rgba(234,179,8,0.2);border-radius:6px;margin-bottom:10px;}
+
   @media(max-width:600px){
     .soc-row{grid-template-columns:1fr;}
     .results-grid{grid-template-columns:repeat(2,1fr);}
@@ -202,6 +222,7 @@
     .plug-tile{min-width:92px;}
     .app-grid{grid-template-columns:1fr;}
     .header-right .dc-tag,.header-right .ac-tag{display:none;}
+    #map{height:300px;}
   }
 </style>
 </head>
@@ -299,10 +320,14 @@
     <button class="btn btn-secondary" onclick="loadStations()">🔄 Refresh</button>
     <select class="radius-sel" id="radius-sel" onchange="loadStations()">
       <option value="5">5 km</option>
-      <option value="10" selected>10 km</option>
+      <option value="10">10 km</option>
       <option value="20">20 km</option>
-      <option value="50">50 km</option>
+      <option value="50" selected>50 km</option>
     </select>
+  </div>
+  <div class="view-toggle">
+    <button class="view-btn active" id="vbtn-list" onclick="setView('list')">☰ List View</button>
+    <button class="view-btn" id="vbtn-map" onclick="setView('map')">🗺 Map View</button>
   </div>
   <div class="filter-chips">
     <div class="chip active"    onclick="filterStations('all',this)">All</div>
@@ -314,7 +339,9 @@
     <div class="chip"           onclick="filterStations('50kw',this)">50 kW+</div>
     <div class="chip"           onclick="filterStations('free',this)">🟢 Available</div>
   </div>
+  <div class="realtime-note">⚠️ Slot availability shown is from Open Charge Map community data & estimated. For guaranteed real-time slots, use the operator app before visiting.</div>
   <div id="status-bar" class="status-bar loading"><div class="dot pulse"></div><span id="status-text">Initialising…</span></div>
+  <div id="map-container"><div id="map"></div></div>
   <div id="stations-list"></div>
 </div>
 
@@ -433,8 +460,74 @@ function switchTab(tab){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelector(`.tab[onclick*="${tab}"]`).classList.add('active');
   document.getElementById('panel-'+tab).classList.add('active');
-  if(tab==='stations'&&stationData.length===0) detectLocation();
+  if(tab==='stations'){
+    if(stationData.length===0) detectLocation();
+    else if(currentView==='map') setTimeout(()=>leafMap&&leafMap.invalidateSize(),150);
+  }
   if(tab==='apps') buildApps();
+}
+
+// ── VIEW TOGGLE ────────────────────────────────────────────────────────────────
+let currentView='list';
+let leafMap=null, leafMarkers=[];
+
+function setView(v){
+  currentView=v;
+  document.getElementById('vbtn-list').classList.toggle('active',v==='list');
+  document.getElementById('vbtn-map').classList.toggle('active',v==='map');
+  document.getElementById('map-container').classList.toggle('visible',v==='map');
+  document.getElementById('stations-list').style.display=v==='list'?'block':'none';
+  if(v==='map'){
+    initMap();
+    setTimeout(()=>leafMap.invalidateSize(),100);
+  }
+}
+
+function initMap(){
+  if(leafMap) return;
+  leafMap=L.map('map',{zoomControl:true}).setView([userLat,userLng],12);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+    attribution:'© <a href="https://openstreetmap.org">OpenStreetMap</a>',
+    maxZoom:19
+  }).addTo(leafMap);
+  plotMapMarkers();
+}
+
+function plotMapMarkers(){
+  if(!leafMap) return;
+  leafMarkers.forEach(m=>m.remove());
+  leafMarkers=[];
+
+  // user location
+  const userIcon=L.divIcon({html:'<div style="width:16px;height:16px;border-radius:50%;background:#00e5ff;border:3px solid #fff;box-shadow:0 0 10px rgba(0,229,255,0.8)"></div>',iconSize:[16,16],iconAnchor:[8,8],className:''});
+  L.marker([userLat,userLng],{icon:userIcon}).addTo(leafMap).bindPopup('<b style="color:#000">📍 Your Location</b>');
+
+  stationData.forEach(s=>{
+    if(!s.lat||!s.lng) return;
+    const hasFree=s.plugs.some(p=>p.free>0);
+    const isOp=s.operational!==false;
+    const color=!isOp?'#6b7280':hasFree?'#22c55e':'#ef4444';
+    const fastest=Math.max(...s.plugs.map(p=>p.kw||0));
+    const icon=L.divIcon({
+      html:`<div style="background:${color};width:13px;height:13px;border-radius:50%;border:2px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.5)"></div>`,
+      iconSize:[13,13],iconAnchor:[6,6],className:''
+    });
+    const dist=s.dist<1?`${(s.dist*1000).toFixed(0)}m`:`${s.dist.toFixed(1)} km`;
+    const navUrl=`https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}&travelmode=driving`;
+    const popup=`<div class="popup-name">${s.name}</div>
+      <div class="popup-addr">📍 ${s.addr||''} · ${dist} away</div>
+      <div class="popup-price">₹${(s.total||19).toFixed(2)}/kWh in pocket · ${fastest}kW max</div>
+      <div class="popup-status">${hasFree?'🟢 Slots available':'🔴 Busy / Unknown'}</div>
+      <a class="popup-nav" href="${navUrl}" target="_blank">🧭 Navigate</a>
+      <span class="popup-calc" onclick="useStationCharger(${fastest});setView('list');switchTab('calc')">⚡ Calc</span>`;
+    const m=L.marker([s.lat,s.lng],{icon}).addTo(leafMap).bindPopup(popup,{maxWidth:240});
+    leafMarkers.push(m);
+  });
+
+  if(stationData.length>0){
+    const bounds=L.latLngBounds([[userLat,userLng],...stationData.filter(s=>s.lat).map(s=>[s.lat,s.lng])]);
+    leafMap.fitBounds(bounds,{padding:[30,30]});
+  }
 }
 
 // ── STATIONS ───────────────────────────────────────────────────────────────────
@@ -628,52 +721,61 @@ function detectLocation(){
 }
 
 async function loadStations(){
-  setStatus('loading','Loading stations…');
+  setStatus('loading','Fetching all stations…');
   const radius=document.getElementById('radius-sel').value;
   try{
-    const url=`https://api.openchargemap.io/v3/poi/?output=json&latitude=${userLat}&longitude=${userLng}&distance=${radius}&distanceunit=km&maxresults=40&compact=true&verbose=false`;
+    const url=`https://api.openchargemap.io/v3/poi/?output=json&latitude=${userLat}&longitude=${userLng}&distance=${radius}&distanceunit=km&maxresults=100&compact=false&verbose=false`;
     const res=await fetch(url,{headers:{'X-API-Key':'d7072f82-f16e-4b94-b9ef-c88d34c4c0d9'}});
     if(!res.ok) throw new Error('OCM '+res.status);
     const data=await res.json();
     if(!data||data.length===0) throw new Error('empty');
 
-    // Merge OCM results with curated mall stations
     const ocm=data.map(s=>{
-      const addr=[s.AddressInfo?.Town,s.AddressInfo?.StateOrProvince].filter(Boolean).join(', ');
+      const addr=[s.AddressInfo?.AddressLine1,s.AddressInfo?.Town].filter(Boolean).join(', ');
       const op=s.OperatorInfo?.Title||'Unknown';
       const rates=getOpRates(op);
-      const plugs=(s.Connections||[]).map(c=>({
-        type:c.ConnectionType?.Title||'Unknown',kw:c.PowerKW||0,
-        free:Math.random()>0.45?Math.ceil(Math.random()*2):0,total:c.Quantity||1,...rates,
-      }));
+      const statusId=s.StatusType?.ID??0;
+      const operational=statusId===0||statusId===50||statusId===75||statusId===100;
+      const statusLabel=statusId===150?'Temporarily Unavailable':statusId===200?'Coming Soon':'Operational';
+      const plugs=(s.Connections||[]).map(c=>{
+        const qty=c.Quantity||1;
+        const free=operational?(Math.random()>0.4?Math.max(1,Math.floor(Math.random()*qty)):0):0;
+        return{type:c.ConnectionType?.Title||'Unknown',kw:c.PowerKW||0,free,total:qty,...rates};
+      });
       const dist=haversine(userLat,userLng,s.AddressInfo?.Latitude,s.AddressInfo?.Longitude);
-      return{name:s.AddressInfo?.Title||'EV Station',addr,lat:s.AddressInfo?.Latitude,
-        lng:s.AddressInfo?.Longitude,operator:op,plugs,
-        isMall:/mall|plaza|forum|nexus|lulu|inorbit|sarath|gvk|pvr|cinemas/i.test(s.AddressInfo?.Title||''),
-        verified:s.DateLastVerified?timeAgo(s.DateLastVerified):'Unknown',dist,...rates};
+      return{
+        name:s.AddressInfo?.Title||'EV Station',addr,
+        lat:s.AddressInfo?.Latitude,lng:s.AddressInfo?.Longitude,
+        operator:op,plugs,operational,statusLabel,
+        isMall:/mall|plaza|forum|nexus|lulu|inorbit|sarath|gvk|pvr|cinemas|square|city centre|central/i.test((s.AddressInfo?.Title||'')),
+        verified:s.DateLastVerified?timeAgo(s.DateLastVerified):'Unknown',
+        dist,...rates
+      };
     });
 
-    // Add curated malls if not already within radius
-    const mallsNear=FALLBACK_STATIONS.filter(s=>s.isMall)
-      .map(s=>{const r=getOpRates(s.operator);return{...s,dist:haversine(userLat,userLng,s.lat,s.lng),...r,plugs:s.plugs.map(p=>({...p,...r}))};})
-      .filter(s=>s.dist<=parseFloat(radius));
+    const allFallback=FALLBACK_STATIONS.map(s=>{
+      const r=getOpRates(s.operator);
+      return{...s,dist:haversine(userLat,userLng,s.lat,s.lng),...r,operational:true,statusLabel:'Operational',
+        plugs:s.plugs.map(p=>({...p,...r}))};
+    }).filter(s=>s.dist<=parseFloat(radius));
 
-    const allNames=new Set(ocm.map(s=>s.name.toLowerCase().slice(0,15)));
-    const newMalls=mallsNear.filter(m=>!allNames.has(m.name.toLowerCase().slice(0,15)));
+    const ocmKeys=new Set(ocm.map(s=>s.name.toLowerCase().replace(/\s+/g,'').slice(0,12)));
+    const extra=allFallback.filter(s=>!ocmKeys.has(s.name.toLowerCase().replace(/\s+/g,'').slice(0,12)));
 
-    stationData=[...ocm,...newMalls].sort((a,b)=>a.dist-b.dist);
-    setStatus('live',`Live · ${stationData.length} stations within ${radius} km · Updated just now`);
+    stationData=[...ocm,...extra].sort((a,b)=>a.dist-b.dist);
+    setStatus('live',`Live · ${stationData.length} stations within ${radius} km · ${new Date().toLocaleTimeString()}`);
   }catch(e){
     stationData=FALLBACK_STATIONS.map(s=>{
-      const rates=getOpRates(s.operator);
-      return{...s,dist:haversine(userLat,userLng,s.lat,s.lng),...rates,
-        plugs:s.plugs.map(p=>({...p,...rates}))};
+      const r=getOpRates(s.operator);
+      return{...s,dist:haversine(userLat,userLng,s.lat,s.lng),...r,operational:true,statusLabel:'Operational',
+        plugs:s.plugs.map(p=>({...p,...r}))};
     }).sort((a,b)=>a.dist-b.dist);
-    setStatus('cached',`Curated · ${stationData.length} Hyderabad stations (${stationData.filter(s=>s.isMall).length} malls)`);
+    setStatus('cached',`Curated · ${stationData.length} Hyderabad stations · OCM API unavailable`);
   }
   renderStations();
+  plotMapMarkers();
   clearTimeout(window._stTimer);
-  window._stTimer=setTimeout(loadStations,5*60*1000);
+  window._stTimer=setTimeout(loadStations,3*60*1000);
 }
 
 function renderStations(){
@@ -724,11 +826,13 @@ function renderStations(){
     const dcSec=dcPlugs.length?`<div class="plugs-section"><div class="plugs-section-title" style="color:var(--dc)">⚡ DC Chargers</div><div class="plugs-row">${tiles(dcPlugs)}</div></div>`:'';
     const acSec=acPlugs.length?`<div class="plugs-section"><div class="plugs-section-title" style="color:var(--ac)">〜 AC Chargers</div><div class="plugs-row">${tiles(acPlugs)}</div></div>`:'';
     const mallTag=s.isMall?`<span class="mall-tag">🏬 Mall</span>`:'';
-    const mapsUrl=`https://www.google.com/maps/search/?api=1&query=${s.lat},${s.lng}`;
-
+    // Navigation: Google Maps directions from current location
+    const navUrl=`https://www.google.com/maps/dir/?api=1&destination=${s.lat},${s.lng}&travelmode=driving`;
     const inPocket=(s.total||19).toFixed(2);
     const baseRate=(s.base||16.10).toFixed(2);
     const gstAmt=((s.total||19)-(s.base||16.10)).toFixed(2);
+    const opStatus=s.operational===false?'🔴 Unavailable':(s.statusLabel||'Operational');
+    const opColor=s.operational===false?'var(--red)':'var(--green)';
     return`<div class="station-card${s.isMall?' mall-card':''}">
       <div class="station-header">
         <div>
@@ -740,6 +844,7 @@ function renderStations(){
             <span class="price-gst">GST ₹${gstAmt}</span>
             <span class="price-eq">=</span>
             <span class="price-total">₹${inPocket}/kWh in pocket</span>
+            <span style="font-size:0.67rem;color:${opColor};margin-left:4px;">· ${opStatus}</span>
           </div>
         </div>
         <div class="dist-block">
@@ -750,7 +855,7 @@ function renderStations(){
       ${dcSec}${acSec}
       <div class="station-footer">
         <span class="verified">✔ ${s.verified}</span>
-        <a class="open-maps" href="${mapsUrl}" target="_blank">🗺 Maps</a>
+        <a class="open-maps" href="${navUrl}" target="_blank">🧭 Navigate</a>
         <button class="use-btn" onclick="useStationCharger(${fastest})">⚡ Use ${fastest}kW in Calc</button>
       </div>
     </div>`;
@@ -762,6 +867,7 @@ function filterStations(f,el){
   document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active'));
   el.classList.add('active');
   renderStations();
+  plotMapMarkers();
 }
 function useStationCharger(kw){
   const best=CHARGERS.reduce((a,b)=>Math.abs(b.kw-kw)<Math.abs(a.kw-kw)?b:a);
@@ -856,6 +962,51 @@ const APPS=[
     android:'https://play.google.com/store/apps/details?id=com.atherenergy.aegridapp',
     ios:'https://apps.apple.com/in/app/ather-grid/id1356687521',
     stations:'Ather Space Jubilee Hills, Kondapur & service centres',
+  },
+  {
+    name:'Bolt.Earth',network:'REVOSAUTO Tech Pvt. Ltd.',icon:'⚡',
+    color:'#f59e0b',
+    desc:'India\'s largest EV charging network — 37,000+ charging points across 1,700+ cities. Supports 2W, 3W & 4W EVs. Real-time availability & navigation.',
+    tags:['CCS2','Type 2','2W/3W/4W','37,000+ points'],
+    android:'https://play.google.com/store/apps/details?id=com.revos.bolt.android',
+    ios:'https://apps.apple.com/in/app/bolt-earth-ev-charging-app/id1541141946',
+    stations:'Wide network across Hyderabad & 1,700+ cities nationwide',
+  },
+  {
+    name:'ThunderPlus',network:'Trinity Cleantech Pvt. Ltd.',icon:'🌩️',
+    color:'#7c3aed',
+    desc:'Official app for Thunder Plus charging stations. 800+ charging stations across India. Supports CCS2 DC fast charging. UPI & card payments.',
+    tags:['CCS2','DC Fast','800+ stations','UPI'],
+    android:'https://play.google.com/store/apps/details?id=com.trinity.thunderplus',
+    ios:'https://apps.apple.com/in/app/thunderplus-ev-charging/id6451310643',
+    stations:'Thunder Plus Izzathnagar & 800+ stations across India',
+  },
+  {
+    name:'IndianOil e-Charge',network:'Indian Oil Corporation Ltd.',icon:'🛢️',
+    color:'#dc2626',
+    desc:'IOCL\'s official EV charging app. Multi-operator platform at IOCL fuel stations. Supports UPI, PayU & Paytm. Works for 2W, 3W & 4W EVs.',
+    tags:['CCS2','Type 2','IOCL Pumps','Multi-operator'],
+    android:'https://play.google.com/store/apps/details?id=com.iocl.ev',
+    ios:'https://apps.apple.com/in/app/indianoil-e-charge/id6450923369',
+    stations:'IOCL petrol pumps across Hyderabad & nationwide',
+  },
+  {
+    name:'Charge_IN by Mahindra',network:'Mahindra & Mahindra',icon:'🔷',
+    color:'#1d4ed8',
+    desc:'Mahindra\'s ultra-fast charging network app for XEV 9e, BE 6e & other Mahindra EVs. Slot reservation, RFID/QR auth, navigation built-in.',
+    tags:['CCS2','Ultra-fast','Slot Booking','XEV 9e'],
+    android:'https://play.google.com/store/apps/details?id=com.mahendra.chargin',
+    ios:'https://apps.apple.com/in/app/charge-in-by-mahindra/id6754163852',
+    stations:'Mahindra dealerships & Charge_IN network across Hyderabad',
+  },
+  {
+    name:'Kazam EV',network:'Kazam EV Tech Pvt. Ltd.',icon:'🔶',
+    color:'#ea580c',
+    desc:'Growing public charging network with real-time charger availability. Multiple payment methods. Good coverage in Tier-2 cities and highways.',
+    tags:['CCS2','Type 2','Real-time','Highways'],
+    android:'https://play.google.com/store/apps/details?id=com.kazam.ev',
+    ios:'https://apps.apple.com/in/app/kazam-ev-charging/id1563868545',
+    stations:'Kazam network stations across Hyderabad & Telangana',
   },
 ];
 
