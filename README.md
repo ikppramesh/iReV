@@ -346,7 +346,7 @@ Each app card displays:
 | BE 6e | MX1 Pro | 59 | 535 | 9.1 |
 | BE 6e | MX2 Pro | 59 | 535 | 9.1 |
 | BE 6e | Pack One | 79 | 682 | 8.6 |
-| BE 6e | Pack Two | 79 | 682 | 8.6 |
+| BE 6e | Pack Three | 79 | 682 | 8.6 |
 | XUV400 EV | EC Pro | 34.5 | 375 | 10.9 |
 | XUV400 EV | EL Pro | 39.4 | 456 | 11.6 |
 
