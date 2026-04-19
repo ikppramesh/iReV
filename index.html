@@ -246,6 +246,60 @@
   .pk-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;}
   .pk-gc{background:#22c55e;}.pk-ac{background:var(--accent);}.pk-ec{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);}
 
+  /* ── TRIP PLANNER ────────────────────────────── */
+  .trip-vehicle-note{font-size:0.68rem;color:var(--muted);padding:8px 12px;background:rgba(0,229,255,0.05);border:1px solid rgba(0,229,255,0.12);border-radius:8px;margin-bottom:14px;}
+  .trip-vehicle-note span{color:var(--accent);font-weight:600;}
+  .trip-form-row{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:end;margin-bottom:14px;}
+  .trip-loc-wrap{position:relative;}
+  .trip-loc-wrap input{padding-right:38px;}
+  .trip-loc-btn{position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--accent);cursor:pointer;font-size:1rem;padding:0;line-height:1;}
+  .trip-swap{background:var(--card2);border:1px solid var(--border);border-radius:8px;color:var(--muted);cursor:pointer;font-size:1.15rem;padding:8px 11px;transition:all 0.2s;align-self:end;}
+  .trip-swap:hover{color:var(--accent);border-color:var(--accent);}
+  .trip-soc-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;}
+  .trip-status-msg{padding:12px 16px;border-radius:10px;margin-bottom:14px;font-size:0.8rem;display:flex;align-items:center;gap:10px;}
+  .trip-status-msg.loading{background:rgba(0,229,255,0.06);border:1px solid rgba(0,229,255,0.2);color:var(--accent);}
+  .trip-status-msg.error{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.3);color:var(--red);}
+  .trip-status-msg.success{background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.25);color:var(--green);}
+  .trip-summary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;}
+  .trip-stat{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:12px;text-align:center;}
+  .trip-stat-val{font-size:1.12rem;font-weight:800;color:var(--accent);}
+  .trip-stat-lbl{font-size:0.59rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-top:3px;}
+  #trip-map-wrap{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:14px;}
+  #trip-map{height:420px;width:100%;background:var(--card2);}
+  .trip-leg{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:12px;overflow:hidden;}
+  .trip-leg-hdr{display:flex;align-items:center;gap:12px;padding:13px 15px;border-bottom:1px solid var(--border);}
+  .trip-leg-icon{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+  .leg-src{background:rgba(34,197,94,0.15);border:2px solid var(--green);}
+  .leg-stop{background:rgba(234,179,8,0.12);border:2px solid var(--yellow);}
+  .leg-dst{background:rgba(239,68,68,0.12);border:2px solid var(--red);}
+  .trip-leg-info{flex:1;min-width:0;}
+  .trip-leg-title{font-size:0.86rem;font-weight:700;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .trip-leg-meta{font-size:0.67rem;color:var(--muted);margin-top:2px;}
+  .trip-soc-badge{display:flex;align-items:center;gap:5px;font-size:0.75rem;flex-shrink:0;}
+  .soc-arr{color:var(--yellow);font-weight:700;}.soc-dep{color:var(--green);font-weight:700;}
+  .trip-stns-wrap{padding:12px 14px;}
+  .trip-stns-title{font-size:0.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;font-weight:700;}
+  .trip-stn-cards{display:flex;flex-direction:column;gap:7px;}
+  .trip-stn-card{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:10px 12px;display:flex;align-items:flex-start;gap:10px;transition:border-color 0.2s;}
+  .trip-stn-card.best{border-color:rgba(0,229,255,0.5);background:rgba(0,229,255,0.03);}
+  .trip-stn-left{flex:1;min-width:0;}
+  .trip-stn-name{font-size:0.81rem;font-weight:700;color:var(--text);}
+  .trip-stn-addr{font-size:0.65rem;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .trip-stn-pills{display:flex;gap:4px;margin-top:5px;flex-wrap:wrap;}
+  .tp{font-size:0.57rem;padding:2px 6px;border-radius:4px;font-weight:700;}
+  .tp-dc{background:rgba(59,130,246,0.2);color:var(--dc);border:1px solid rgba(59,130,246,0.3);}
+  .tp-ac{background:rgba(168,85,247,0.2);color:var(--ac);border:1px solid rgba(168,85,247,0.3);}
+  .tp-kw{background:rgba(0,229,255,0.15);color:var(--accent);border:1px solid rgba(0,229,255,0.3);}
+  .trip-stn-right{text-align:right;flex-shrink:0;}
+  .tstn-rate{font-size:0.86rem;font-weight:700;color:var(--accent);}
+  .tstn-sub{font-size:0.61rem;color:var(--muted);margin-top:1px;}
+  .tstn-nav{display:inline-block;margin-top:5px;font-size:0.62rem;padding:3px 8px;background:var(--accent);color:#000;border-radius:5px;text-decoration:none;font-weight:700;}
+  .trip-charge-est{padding:10px 14px;background:rgba(234,179,8,0.05);border-top:1px solid var(--border);font-size:0.74rem;color:var(--muted);line-height:1.6;}
+  .tce-cost{color:var(--yellow);font-weight:700;font-size:0.86rem;}
+  .tce-time{color:var(--accent);font-weight:600;}
+  .trip-no-stn{font-size:0.74rem;color:var(--muted);padding:12px;text-align:center;}
+  .trip-direct{background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.2);border-radius:var(--radius);padding:14px 16px;margin-bottom:12px;font-size:0.8rem;color:var(--green);}
+
   @media(max-width:600px){
     .soc-row{grid-template-columns:1fr;}
     .results-grid{grid-template-columns:repeat(2,1fr);}
@@ -257,6 +311,11 @@
     #map{height:300px;}
     .vehicle-sel-row{grid-template-columns:1fr;}
     .v-specs{gap:14px;}
+    .trip-form-row{grid-template-columns:1fr;}
+    .trip-swap{display:none;}
+    .trip-soc-row{grid-template-columns:1fr 1fr;}
+    #trip-map{height:280px;}
+    .trip-summary-grid{grid-template-columns:repeat(2,1fr);}
   }
 </style>
 </head>
@@ -279,6 +338,7 @@
   <button class="tab active" onclick="switchTab('calc')">⚡ Calculator</button>
   <button class="tab" onclick="switchTab('stations')">📍 Live Stations</button>
   <button class="tab" onclick="switchTab('apps')">📱 Charging Apps</button>
+  <button class="tab" onclick="switchTab('trip')">🗺 Trip Planner</button>
 </div>
 
 <!-- ═══ CALCULATOR ═══ -->
@@ -397,6 +457,71 @@
   <div id="status-bar" class="status-bar loading"><div class="dot pulse"></div><span id="status-text">Initialising…</span></div>
   <div id="map-container"><div id="map"></div></div>
   <div id="stations-list"></div>
+</div>
+
+<!-- ═══ TRIP PLANNER ═══ -->
+<div class="panel" id="panel-trip">
+
+  <div class="card">
+    <div class="card-title"><span>🗺️</span> Plan Your EV Trip</div>
+    <div class="trip-vehicle-note" id="trip-vehicle-note">
+      Using: <span id="tvn-text">Mahindra XEV 9e · 79 kWh · 5.5 km/kWh</span> —
+      <a href="#" onclick="switchTab('calc');return false;" style="color:var(--accent)">change vehicle ↗</a>
+    </div>
+    <div class="trip-form-row">
+      <div class="inp-group">
+        <label>From</label>
+        <div class="trip-loc-wrap">
+          <input type="text" id="trip-from" placeholder="e.g. Hyderabad" autocomplete="off"/>
+          <button class="trip-loc-btn" onclick="useCurrentLocationForTrip()" title="Use my location">📍</button>
+        </div>
+      </div>
+      <button class="trip-swap" onclick="swapTripLocations()" title="Swap source &amp; destination">⇅</button>
+      <div class="inp-group">
+        <label>To</label>
+        <div class="trip-loc-wrap">
+          <input type="text" id="trip-to" placeholder="e.g. Bengaluru" autocomplete="off"/>
+        </div>
+      </div>
+    </div>
+    <div class="trip-soc-row">
+      <div class="inp-group">
+        <label>Start SOC</label>
+        <select id="trip-start-soc">
+          <option value="100">100%</option>
+          <option value="90">90%</option>
+          <option value="80" selected>80%</option>
+          <option value="70">70%</option>
+          <option value="60">60%</option>
+        </select>
+      </div>
+      <div class="inp-group">
+        <label>Charge down to</label>
+        <select id="trip-min-soc">
+          <option value="10">10%</option>
+          <option value="15">15%</option>
+          <option value="20" selected>20%</option>
+          <option value="25">25%</option>
+          <option value="30">30%</option>
+        </select>
+      </div>
+      <div class="inp-group">
+        <label>Charge up to</label>
+        <select id="trip-charge-to">
+          <option value="80" selected>80%</option>
+          <option value="85">85%</option>
+          <option value="90">90%</option>
+          <option value="100">100%</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="planTrip()" id="trip-plan-btn" style="width:100%;margin-top:4px">🚗 Plan Trip</button>
+  </div>
+
+  <div id="trip-status-bar"></div>
+  <div id="trip-summary-section"></div>
+  <div id="trip-map-wrap" style="display:none"><div id="trip-map"></div></div>
+  <div id="trip-legs-section"></div>
 </div>
 
 <!-- ═══ APPS ═══ -->
@@ -809,6 +934,7 @@ function onVariantChange(){
     `${selectedVehicle.make} ${selectedVehicle.model} · ${selectedVariantObj.battery} kWh`;
   renderVehicleShowcase();
   updateCalc();
+  updateTripVehicleNote();
 }
 
 function renderBatteryPack(from,to,battery){
@@ -897,6 +1023,7 @@ function switchTab(tab){
     else if(currentView==='map') setTimeout(()=>leafMap&&leafMap.invalidateSize(),150);
   }
   if(tab==='apps') buildApps();
+  if(tab==='trip'){updateTripVehicleNote();if(tripMap)setTimeout(()=>tripMap.invalidateSize(),150);}
 }
 
 // ── VIEW TOGGLE ────────────────────────────────────────────────────────────────
@@ -1470,6 +1597,302 @@ function buildApps(){
       </div>
       <div class="app-stations"><strong>Hyderabad stations:</strong> ${a.stations}</div>
     </div>`).join('');
+}
+
+// ── TRIP PLANNER ───────────────────────────────────────────────────────────────
+let tripMap=null;
+
+function updateTripVehicleNote(){
+  const el=document.getElementById('tvn-text');
+  if(!el) return;
+  const bat=parseFloat(document.getElementById('inp-battery').value)||79;
+  const eff=parseFloat(document.getElementById('inp-range').value)||5.5;
+  const vname=selectedVehicle?`${selectedVehicle.make} ${selectedVehicle.model}`:'Vehicle';
+  el.textContent=`${vname} · ${bat} kWh · ${eff} km/kWh real-world`;
+}
+
+function swapTripLocations(){
+  const f=document.getElementById('trip-from'),t=document.getElementById('trip-to');
+  [f.value,t.value]=[t.value,f.value];
+}
+
+async function useCurrentLocationForTrip(){
+  if(!navigator.geolocation){alert('Geolocation not supported');return;}
+  navigator.geolocation.getCurrentPosition(async pos=>{
+    try{
+      const {latitude:lat,longitude:lng}=pos.coords;
+      const res=await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`,{headers:{'Accept-Language':'en'}});
+      const d=await res.json();
+      document.getElementById('trip-from').value=d.address?.city||d.address?.town||d.address?.state_district||'My Location';
+    }catch{document.getElementById('trip-from').value='My Location';}
+  },()=>alert('Could not get your location'));
+}
+
+async function geocodePlace(query){
+  const q=encodeURIComponent(query.trim()+', India');
+  const res=await fetch(`https://nominatim.openstreetmap.org/search?q=${q}&format=json&limit=1&countrycodes=in`,{headers:{'Accept-Language':'en'}});
+  const data=await res.json();
+  if(!data||!data.length) throw new Error(`Location not found: "${query}". Try a more specific city name.`);
+  return{lat:parseFloat(data[0].lat),lng:parseFloat(data[0].lon),displayName:data[0].display_name.split(',')[0].trim()};
+}
+
+async function getOSRMRoute(from,to){
+  const url=`https://router.project-osrm.org/route/v1/driving/${from.lng},${from.lat};${to.lng},${to.lat}?overview=full&geometries=geojson`;
+  const res=await fetch(url);
+  const data=await res.json();
+  if(data.code!=='Ok') throw new Error('No drivable route found between these locations.');
+  const r=data.routes[0];
+  return{distanceKm:r.distance/1000,durationMin:r.duration/60,coords:r.geometry.coordinates.map(c=>({lng:c[0],lat:c[1]}))};
+}
+
+function buildCumDist(coords){
+  const d=[0];
+  for(let i=1;i<coords.length;i++) d.push(d[i-1]+haversine(coords[i-1].lat,coords[i-1].lng,coords[i].lat,coords[i].lng));
+  return d;
+}
+
+function pointAtKm(coords,cumDist,targetKm){
+  for(let i=1;i<cumDist.length;i++){
+    if(cumDist[i]>=targetKm){
+      const t=(targetKm-cumDist[i-1])/(cumDist[i]-cumDist[i-1]);
+      return{lat:coords[i-1].lat+t*(coords[i].lat-coords[i-1].lat),lng:coords[i-1].lng+t*(coords[i].lng-coords[i-1].lng)};
+    }
+  }
+  return coords[coords.length-1];
+}
+
+function calcTripStops(coords,totalKm){
+  const battery=parseFloat(document.getElementById('inp-battery').value)||79;
+  const kmkwh =parseFloat(document.getElementById('inp-range').value)||5.5;
+  const startSOC=parseInt(document.getElementById('trip-start-soc').value)||80;
+  const minSOC  =parseInt(document.getElementById('trip-min-soc').value)||20;
+  const chargeTo=parseInt(document.getElementById('trip-charge-to').value)||80;
+  const cumDist=buildCumDist(coords);
+  const stops=[];
+  let legStart=0;
+  let legRange=battery*(startSOC-minSOC)/100*kmkwh;
+  while(true){
+    const nextKm=legStart+legRange;
+    if(nextKm>=totalKm) break;
+    const pt=pointAtKm(coords,cumDist,nextKm);
+    stops.push({...pt,distFromStart:nextKm,legKm:nextKm-legStart,
+      socOnArrival:minSOC,socAfterCharge:chargeTo,
+      kwhToCharge:battery*(chargeTo-minSOC)/100,stations:[]});
+    legStart=nextKm;
+    legRange=battery*(chargeTo-minSOC)/100*kmkwh;
+  }
+  const finalLegKm=totalKm-legStart;
+  const lastSOC=stops.length?chargeTo:startSOC;
+  const socAtDest=Math.max(0,lastSOC-(finalLegKm/(battery*kmkwh))*100);
+  return{stops,finalLegKm,socAtDest,startSOC,minSOC,chargeTo,battery,kmkwh};
+}
+
+async function fetchTripStations(lat,lng){
+  try{
+    const key='d7072f82-f16e-4b94-b9ef-c88d34c4c0d9';
+    const url=`https://api.openchargemap.io/v3/poi/?output=json&latitude=${lat}&longitude=${lng}&distance=25&distanceunit=km&maxresults=10&compact=false&verbose=false`;
+    const res=await fetch(url,{headers:{'X-API-Key':key}});
+    const data=await res.json();
+    return(data||[]).map(s=>{
+      const op=(s.OperatorInfo?.Title||'').toLowerCase();
+      const r=getOpRates(op);
+      const conns=(s.Connections||[]).filter(c=>c.PowerKW>0);
+      const maxKw=conns.reduce((m,c)=>Math.max(m,c.PowerKW||0),0);
+      const plugTypes=[...new Set(conns.map(c=>c.ConnectionType?.Title||'').filter(Boolean))];
+      const hasDC=plugTypes.some(p=>isDC(p));
+      return{name:s.AddressInfo?.Title||'Unknown',
+        addr:[(s.AddressInfo?.AddressLine1||''),(s.AddressInfo?.Town||'')].filter(Boolean).join(', '),
+        lat:s.AddressInfo?.Latitude,lng:s.AddressInfo?.Longitude,
+        dist:haversine(lat,lng,s.AddressInfo?.Latitude||lat,s.AddressInfo?.Longitude||lng),
+        operator:s.OperatorInfo?.Title||'Unknown',...r,maxKw,hasDC,plugTypes,
+        operational:!s.StatusType||[0,50,75,100].includes(s.StatusType?.ID)};
+    }).filter(s=>s.operational&&s.maxKw>0).sort((a,b)=>b.maxKw-a.maxKw).slice(0,5);
+  }catch{return[];}
+}
+
+function setTripStatus(html){
+  const el=document.getElementById('trip-status-bar');
+  el.innerHTML=html;
+}
+
+async function planTrip(){
+  const fromTxt=document.getElementById('trip-from').value.trim();
+  const toTxt  =document.getElementById('trip-to').value.trim();
+  if(!fromTxt||!toTxt){
+    setTripStatus(`<div class="trip-status-msg error">⚠️ Please enter both source and destination.</div>`);
+    return;
+  }
+  document.getElementById('trip-summary-section').innerHTML='';
+  document.getElementById('trip-map-wrap').style.display='none';
+  document.getElementById('trip-legs-section').innerHTML='';
+  setTripStatus(`<div class="trip-status-msg loading"><div class="dot pulse"></div>Geocoding locations…</div>`);
+
+  try{
+    const [fromCoord,toCoord]=await Promise.all([geocodePlace(fromTxt),geocodePlace(toTxt)]);
+    setTripStatus(`<div class="trip-status-msg loading"><div class="dot pulse"></div>Calculating route: ${fromCoord.displayName} → ${toCoord.displayName}…</div>`);
+    const route=await getOSRMRoute(fromCoord,toCoord);
+
+    setTripStatus(`<div class="trip-status-msg loading"><div class="dot pulse"></div>Planning ${route.distanceKm.toFixed(0)} km route — finding charge stops…</div>`);
+    const tripData=calcTripStops(route.coords,route.distanceKm);
+
+    for(let i=0;i<tripData.stops.length;i++){
+      setTripStatus(`<div class="trip-status-msg loading"><div class="dot pulse"></div>Fetching stations at stop ${i+1} of ${tripData.stops.length}…</div>`);
+      tripData.stops[i].stations=await fetchTripStations(tripData.stops[i].lat,tripData.stops[i].lng);
+    }
+
+    setTripStatus('');
+    renderTripResults(fromCoord,toCoord,route,tripData);
+  }catch(e){
+    setTripStatus(`<div class="trip-status-msg error">❌ ${e.message}</div>`);
+  }
+}
+
+function renderTripResults(fromCoord,toCoord,route,tripData){
+  const {stops,finalLegKm,socAtDest,startSOC,chargeTo,battery,kmkwh}=tripData;
+  const price=parseFloat(document.getElementById('inp-price').value)||19;
+  const totalCost=stops.reduce((s,st)=>s+st.kwhToCharge*(st.stations[0]?.total||price),0);
+  const totalKwh=stops.reduce((s,st)=>s+st.kwhToCharge,0);
+  const totalChargeMins=stops.reduce((s,st)=>s+(st.kwhToCharge/(st.stations[0]?.maxKw||50))*60,0);
+  const hd=Math.floor(route.durationMin/60),md=Math.round(route.durationMin%60);
+  const hc=Math.floor(totalChargeMins/60),mc=Math.round(totalChargeMins%60);
+
+  document.getElementById('trip-summary-section').innerHTML=`
+    <div class="card">
+      <div class="card-title"><span>📊</span> Trip Summary · ${fromCoord.displayName} → ${toCoord.displayName}</div>
+      <div class="trip-summary-grid">
+        <div class="trip-stat"><div class="trip-stat-val">${route.distanceKm.toFixed(0)} km</div><div class="trip-stat-lbl">Total Distance</div></div>
+        <div class="trip-stat"><div class="trip-stat-val">${hd}h ${md}m</div><div class="trip-stat-lbl">Drive Time</div></div>
+        <div class="trip-stat"><div class="trip-stat-val">${stops.length}</div><div class="trip-stat-lbl">Charge Stops</div></div>
+        <div class="trip-stat"><div class="trip-stat-val">${hc>0?hc+'h ':''} ${mc}m</div><div class="trip-stat-lbl">Charging Time</div></div>
+        <div class="trip-stat"><div class="trip-stat-val">${totalKwh.toFixed(1)} kWh</div><div class="trip-stat-lbl">kWh to Add</div></div>
+        <div class="trip-stat"><div class="trip-stat-val">₹${totalCost.toFixed(0)}</div><div class="trip-stat-lbl">Est. Charge Cost</div></div>
+        <div class="trip-stat"><div class="trip-stat-val">${socAtDest.toFixed(0)}%</div><div class="trip-stat-lbl">SOC at Destination</div></div>
+        <div class="trip-stat"><div class="trip-stat-val">₹${route.distanceKm>0?(totalCost/route.distanceKm).toFixed(2):0}/km</div><div class="trip-stat-lbl">Cost per km</div></div>
+      </div>
+    </div>`;
+
+  renderTripMap(fromCoord,toCoord,route.coords,stops);
+  renderTripLegs(fromCoord,toCoord,tripData,price);
+}
+
+function renderTripMap(fromCoord,toCoord,routeCoords,stops){
+  document.getElementById('trip-map-wrap').style.display='block';
+  if(!tripMap){
+    tripMap=L.map('trip-map').setView([fromCoord.lat,fromCoord.lng],7);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(tripMap);
+  } else {
+    tripMap.eachLayer(l=>{if(!(l instanceof L.TileLayer)) tripMap.removeLayer(l);});
+  }
+  L.polyline(routeCoords.map(c=>[c.lat,c.lng]),{color:'#00e5ff',weight:4,opacity:0.8}).addTo(tripMap);
+
+  const mkIcon=(col,sz,label)=>L.divIcon({html:`<div style="background:${col};width:${sz}px;height:${sz}px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 12px ${col};display:flex;align-items:center;justify-content:center;font-size:${sz<16?9:11}px;font-weight:900;color:#000">${label||''}</div>`,iconSize:[sz,sz],iconAnchor:[sz/2,sz/2],className:''});
+
+  L.marker([fromCoord.lat,fromCoord.lng],{icon:mkIcon('#22c55e',16,'')}).addTo(tripMap)
+    .bindPopup(`<b style="color:#000">🟢 ${fromCoord.displayName}</b><br><small style="color:#444">Trip Start · ${startSOCDisplay()} SOC</small>`);
+  L.marker([toCoord.lat,toCoord.lng],{icon:mkIcon('#ef4444',16,'')}).addTo(tripMap)
+    .bindPopup(`<b style="color:#000">🏁 ${toCoord.displayName}</b><br><small style="color:#444">Destination</small>`);
+
+  stops.forEach((s,i)=>{
+    const best=s.stations[0];
+    L.marker([s.lat,s.lng],{icon:mkIcon('#eab308',22,i+1)}).addTo(tripMap)
+      .bindPopup(`<div class="popup-name">⚡ Charge Stop ${i+1}</div><div class="popup-addr">${s.distFromStart.toFixed(0)} km from start · ${s.kwhToCharge.toFixed(1)} kWh needed</div>${best?`<div class="popup-price">Best nearby: ${best.name}<br>₹${best.total}/kWh · ${best.maxKw} kW · ${best.dist.toFixed(1)} km off-route</div>`:'<div class="popup-price">No stations in OCM data at this point</div>'}`,{maxWidth:260});
+    s.stations.slice(0,3).forEach(st=>{
+      if(!st.lat||!st.lng) return;
+      const navUrl=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(st.name+' '+st.addr)}`;
+      L.marker([st.lat,st.lng],{icon:mkIcon('#f97316',10,'')}).addTo(tripMap)
+        .bindPopup(`<div class="popup-name">${st.name}</div><div class="popup-addr">📍${st.addr}</div><div class="popup-price">₹${st.total}/kWh · ${st.maxKw} kW</div><a class="popup-nav" href="${navUrl}" target="_blank">🧭 Navigate</a>`,{maxWidth:220});
+    });
+  });
+
+  const allPts=[[fromCoord.lat,fromCoord.lng],[toCoord.lat,toCoord.lng],...stops.map(s=>[s.lat,s.lng])];
+  tripMap.fitBounds(L.latLngBounds(allPts),{padding:[30,30]});
+  setTimeout(()=>tripMap.invalidateSize(),200);
+}
+
+function startSOCDisplay(){
+  return document.getElementById('trip-start-soc').value+'%';
+}
+
+function renderTripLegs(fromCoord,toCoord,tripData,price){
+  const {stops,finalLegKm,socAtDest,startSOC,minSOC,chargeTo,battery,kmkwh}=tripData;
+  let html='';
+
+  if(stops.length===0){
+    html=`<div class="trip-direct">✅ No charging stops needed — your ${battery} kWh battery at ${startSOC}% can complete this trip. You'll arrive with ~${socAtDest.toFixed(0)}% remaining (${(battery*socAtDest/100).toFixed(1)} kWh).</div>`;
+  }
+
+  const allLegs=[];
+  let prevName=fromCoord.displayName,legStart=0,prevSOC=startSOC;
+  stops.forEach((s,i)=>{
+    allLegs.push({type:'stop',from:prevName,to:`Charge Stop ${i+1}`,legKm:s.legKm,socDepart:prevSOC,socArrive:minSOC,stop:s,idx:i});
+    prevName=`Charge Stop ${i+1}`;prevSOC=chargeTo;legStart=s.distFromStart;
+  });
+  allLegs.push({type:'final',from:prevName,to:toCoord.displayName,legKm:finalLegKm,socDepart:prevSOC,socArrive:socAtDest});
+
+  allLegs.forEach((leg,i)=>{
+    const isFinal=leg.type==='final';
+    const iconType=isFinal?'leg-dst':i===0?'leg-src':'leg-stop';
+    const iconEmoji=isFinal?'🏁':i===0?'🟢':'⚡';
+
+    html+=`<div class="trip-leg">
+      <div class="trip-leg-hdr">
+        <div class="trip-leg-icon ${iconType}">${iconEmoji}</div>
+        <div class="trip-leg-info">
+          <div class="trip-leg-title">${leg.from} → ${leg.to}</div>
+          <div class="trip-leg-meta">${leg.legKm.toFixed(0)} km · ${driveMin(leg.legKm)} · ${(leg.legKm/kmkwh).toFixed(1)} kWh used</div>
+        </div>
+        <div class="trip-soc-badge">
+          <span class="soc-dep">${leg.socDepart.toFixed(0)}%</span>
+          <span style="color:var(--muted);font-size:0.62rem">→</span>
+          <span class="soc-arr">${Math.max(0,leg.socArrive).toFixed(0)}%</span>
+        </div>
+      </div>`;
+
+    if(leg.stop){
+      const s=leg.stop;
+      const kw=s.stations[0]?.maxKw||50;
+      const mins=(s.kwhToCharge/kw*60).toFixed(0);
+      const cost=s.kwhToCharge*(s.stations[0]?.total||price);
+      html+=`<div class="trip-stns-wrap">
+        <div class="trip-stns-title">⚡ Charging stations near Stop ${leg.idx+1} (within 25 km off-route)</div>`;
+      if(!s.stations.length){
+        html+=`<div class="trip-no-stn">No OCM stations found near this waypoint. Use operator apps to find stations along this stretch.</div>`;
+      } else {
+        html+=`<div class="trip-stn-cards">`;
+        s.stations.forEach((st,si)=>{
+          const navUrl=`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(st.name+' '+st.addr)}`;
+          const dcP=st.plugTypes.filter(p=>isDC(p)).slice(0,2);
+          const acP=st.plugTypes.filter(p=>!isDC(p)).slice(0,2);
+          html+=`<div class="trip-stn-card${si===0?' best':''}">
+            <div class="trip-stn-left">
+              <div class="trip-stn-name">${si===0?'⭐ ':''}${st.name}</div>
+              <div class="trip-stn-addr">📍 ${st.addr||st.operator} · ${st.dist.toFixed(1)} km off-route</div>
+              <div class="trip-stn-pills">
+                ${dcP.map(p=>`<span class="tp tp-dc">⚡${p.replace(/Combined Charging System|IEC 62196|Type/gi,'').trim().slice(0,8)||'DC'}</span>`).join('')}
+                ${acP.map(p=>`<span class="tp tp-ac">〜${p.replace(/IEC 62196|Type/gi,'').trim().slice(0,8)||'AC'}</span>`).join('')}
+                <span class="tp tp-kw">${st.maxKw} kW</span>
+              </div>
+            </div>
+            <div class="trip-stn-right">
+              <div class="tstn-rate">₹${st.total}/kWh</div>
+              <div class="tstn-sub">Base ₹${st.base.toFixed(2)}+GST</div>
+              <a class="tstn-nav" href="${navUrl}" target="_blank">🧭 Navigate</a>
+            </div>
+          </div>`;
+        });
+        html+=`</div>`;
+      }
+      html+=`</div>
+      <div class="trip-charge-est">
+        Charging <strong>${s.kwhToCharge.toFixed(1)} kWh</strong> (${s.socOnArrival}% → ${s.socAfterCharge}%) at best available:
+        <span class="tce-cost">₹${cost.toFixed(0)}</span> ·
+        <span class="tce-time">~${mins} min</span>
+        at ${kw} kW · ${s.stations[0]?.operator||'Unknown Operator'}
+      </div>`;
+    }
+    html+=`</div>`;
+  });
+  document.getElementById('trip-legs-section').innerHTML=html;
 }
 
 // ── INIT ───────────────────────────────────────────────────────────────────────
