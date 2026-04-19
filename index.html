@@ -214,6 +214,38 @@
   .popup-calc{display:inline-block;padding:5px 12px;background:rgba(0,229,255,0.15);border:1px solid rgba(0,229,255,0.3);color:var(--accent);border-radius:6px;font-size:0.73rem;font-weight:700;cursor:pointer;text-decoration:none;}
   .realtime-note{font-size:0.68rem;color:var(--muted);padding:6px 10px;background:rgba(234,179,8,0.07);border:1px solid rgba(234,179,8,0.2);border-radius:6px;margin-bottom:10px;}
 
+  /* ── VEHICLE SELECTOR ─────────────────────────── */
+  .vehicle-sel-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+  .vehicle-showcase{background:linear-gradient(160deg,#060a10,#0e1420);border:1px solid rgba(0,229,255,0.18);border-radius:14px;padding:20px 16px 16px;text-align:center;position:relative;overflow:hidden;}
+  .vehicle-showcase::before{content:'';position:absolute;top:0;left:15%;right:15%;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);}
+  .vehicle-img-zone{height:148px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;}
+  .v-make{font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:2px;}
+  .v-model{font-size:1.05rem;font-weight:800;color:var(--text);}
+  .v-variant{font-size:0.72rem;color:var(--muted);margin-top:4px;}
+  .v-specs{display:flex;justify-content:center;gap:20px;margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.06);}
+  .v-spec{text-align:center;}
+  .v-spec-val{font-size:0.98rem;font-weight:700;color:var(--accent);}
+  .v-spec-lbl{font-size:0.57rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-top:2px;}
+  .v-badge{display:inline-block;margin-top:10px;padding:3px 12px;background:rgba(0,229,255,0.07);border:1px solid rgba(0,229,255,0.2);border-radius:20px;font-size:0.63rem;color:var(--accent);font-weight:700;}
+  /* ── BATTERY PACK VISUAL ──────────────────────── */
+  .pack-outer{position:relative;background:#06080c;border:2px solid rgba(0,229,255,0.12);border-radius:12px;padding:14px 22px 12px;margin-bottom:6px;}
+  .pack-cap-viz{position:absolute;right:-10px;top:50%;transform:translateY(-50%);width:10px;height:24px;background:rgba(255,255,255,0.1);border-radius:0 4px 4px 0;}
+  .pack-cells{display:flex;gap:3px;height:52px;}
+  .p-cell{flex:1;border-radius:4px;transition:background 0.35s,box-shadow 0.35s;}
+  .p-cell.c-empty{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);}
+  .p-cell.c-charged{background:linear-gradient(180deg,#22c55e,#15803d);box-shadow:inset 0 1px 0 rgba(255,255,255,0.18);}
+  .p-cell.c-charging{background:linear-gradient(180deg,#00e5ff,#0891b2);animation:cPulse 1.4s ease-in-out infinite alternate;}
+  @keyframes cPulse{0%{box-shadow:0 0 4px rgba(0,229,255,0.3);filter:brightness(0.9);}100%{box-shadow:0 0 18px rgba(0,229,255,0.8);filter:brightness(1.2);}}
+  .pack-soc-row{display:flex;justify-content:space-between;margin-top:8px;font-size:0.68rem;}
+  .pack-soc-row .pfrom{color:var(--green);font-weight:700;}
+  .pack-soc-row .pto{color:var(--accent);font-weight:700;}
+  .pack-kwh-row{text-align:center;font-size:0.72rem;color:var(--muted);margin-top:5px;line-height:1.6;}
+  .kf{color:var(--green);font-weight:600;}.kd{color:var(--yellow);font-weight:600;}.kt{color:var(--accent);font-weight:600;}
+  .pack-legend{display:flex;gap:12px;justify-content:center;margin-top:10px;flex-wrap:wrap;}
+  .pk-leg{display:flex;align-items:center;gap:5px;font-size:0.62rem;color:var(--muted);}
+  .pk-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;}
+  .pk-gc{background:#22c55e;}.pk-ac{background:var(--accent);}.pk-ec{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);}
+
   @media(max-width:600px){
     .soc-row{grid-template-columns:1fr;}
     .results-grid{grid-template-columns:repeat(2,1fr);}
@@ -223,6 +255,8 @@
     .app-grid{grid-template-columns:1fr;}
     .header-right .dc-tag,.header-right .ac-tag{display:none;}
     #map{height:300px;}
+    .vehicle-sel-row{grid-template-columns:1fr;}
+    .v-specs{gap:14px;}
   }
 </style>
 </head>
@@ -249,15 +283,35 @@
 
 <!-- ═══ CALCULATOR ═══ -->
 <div class="panel active" id="panel-calc">
+
+  <div class="card">
+    <div class="card-title"><span>🚗</span> Select Your Vehicle</div>
+    <div class="vehicle-sel-row">
+      <div class="inp-group"><label>Manufacturer</label><select id="sel-make" onchange="onMakeChange()"></select></div>
+      <div class="inp-group"><label>Model</label><select id="sel-model" onchange="onModelChange()"></select></div>
+      <div class="inp-group"><label>Variant / Pack</label><select id="sel-variant" onchange="onVariantChange()"></select></div>
+    </div>
+    <div id="vehicle-showcase"></div>
+  </div>
+
   <div class="card">
     <div class="card-title"><span>🔋</span> Battery State</div>
-    <div class="battery-viz">
-      <div class="battery-cap"></div>
-      <div class="battery-fill" id="fill-current"></div>
-      <div class="battery-delta" id="fill-delta"></div>
+    <div class="pack-outer">
+      <div class="pack-cap-viz"></div>
+      <div class="pack-cells" id="pack-cells"></div>
     </div>
-    <div class="battery-label" id="battery-label">—</div>
-    <div class="soc-row" style="margin-top:14px">
+    <div class="pack-soc-row">
+      <span class="pfrom" id="pack-from-lbl">—</span>
+      <span style="color:var(--muted);font-size:0.63rem">→ charging →</span>
+      <span class="pto" id="pack-to-lbl">—</span>
+    </div>
+    <div class="pack-kwh-row" id="pack-kwh-row">—</div>
+    <div class="pack-legend">
+      <div class="pk-leg"><div class="pk-dot pk-gc"></div>Already charged</div>
+      <div class="pk-leg"><div class="pk-dot pk-ac"></div>Being charged</div>
+      <div class="pk-leg"><div class="pk-dot pk-ec"></div>Empty</div>
+    </div>
+    <div class="soc-row" style="margin-top:16px">
       <div class="soc-item">
         <label>From SOC <strong id="from-val">20%</strong></label>
         <input type="range" id="slider-from" min="0" max="95" value="20" oninput="updateCalc()"/>
@@ -354,6 +408,230 @@
 </div>
 
 <script>
+// ── VEHICLE DATA ───────────────────────────────────────────────────────────────
+const VEHICLES=[
+  /* ── MAHINDRA ── */
+  {make:'Mahindra',model:'XEV 9e',type:'suv',bodyColor:'#0e0e12',
+   variants:[
+     {name:'MX1 Pro (59 kWh)',  battery:59,  rangeKm:542, effKm:9.2},
+     {name:'MX2 Pro (59 kWh)',  battery:59,  rangeKm:542, effKm:9.2},
+     {name:'Pack One (79 kWh)', battery:79,  rangeKm:656, effKm:8.3},
+     {name:'Pack Two (79 kWh)', battery:79,  rangeKm:656, effKm:8.3},
+     {name:'Cineluxe (79 kWh)', battery:79,  rangeKm:656, effKm:8.3, def:true},
+  ]},
+  {make:'Mahindra',model:'BE 6e',type:'suv',bodyColor:'#080e18',
+   variants:[
+     {name:'MX1 Pro (59 kWh)',  battery:59,  rangeKm:535, effKm:9.1},
+     {name:'MX2 Pro (59 kWh)',  battery:59,  rangeKm:535, effKm:9.1},
+     {name:'Pack One (79 kWh)', battery:79,  rangeKm:682, effKm:8.6},
+     {name:'Pack Two (79 kWh)', battery:79,  rangeKm:682, effKm:8.6},
+  ]},
+  {make:'Mahindra',model:'XUV400 EV',type:'suv',bodyColor:'#0e0e10',
+   variants:[
+     {name:'EC Pro (34.5 kWh)', battery:34.5,rangeKm:375, effKm:10.9},
+     {name:'EL Pro (39.4 kWh)', battery:39.4,rangeKm:456, effKm:11.6},
+  ]},
+  /* ── TATA ── */
+  {make:'Tata',model:'Nexon EV',type:'suv',bodyColor:'#070f07',
+   variants:[
+     {name:'Creative (30 kWh)',     battery:30,  rangeKm:312, effKm:10.4},
+     {name:'Fearless (30 kWh)',     battery:30,  rangeKm:312, effKm:10.4},
+     {name:'Creative+ LR (40.5)',   battery:40.5,rangeKm:465, effKm:11.5},
+     {name:'Fearless+ LR (40.5)',   battery:40.5,rangeKm:465, effKm:11.5},
+  ]},
+  {make:'Tata',model:'Punch EV',type:'suv',bodyColor:'#120707',
+   variants:[
+     {name:'Smart (25 kWh)',        battery:25,  rangeKm:315, effKm:12.6},
+     {name:'Smart+ (25 kWh)',       battery:25,  rangeKm:315, effKm:12.6},
+     {name:'Adventure (35 kWh)',    battery:35,  rangeKm:421, effKm:12.0},
+     {name:'Empowered (35 kWh)',    battery:35,  rangeKm:421, effKm:12.0},
+  ]},
+  {make:'Tata',model:'Tiago EV',type:'hatch',bodyColor:'#080f0c',
+   variants:[
+     {name:'XT (19.2 kWh)',         battery:19.2,rangeKm:250, effKm:13.0},
+     {name:'XZ+ (19.2 kWh)',        battery:19.2,rangeKm:250, effKm:13.0},
+     {name:'XZ+ LR (24 kWh)',       battery:24,  rangeKm:315, effKm:13.1},
+  ]},
+  {make:'Tata',model:'Tigor EV',type:'sedan',bodyColor:'#080810',
+   variants:[
+     {name:'XE (26 kWh)',           battery:26,  rangeKm:306, effKm:11.8},
+     {name:'XM (26 kWh)',           battery:26,  rangeKm:306, effKm:11.8},
+     {name:'XZ+ (26 kWh)',          battery:26,  rangeKm:306, effKm:11.8},
+  ]},
+  {make:'Tata',model:'Curvv EV',type:'suv',bodyColor:'#0f0808',
+   variants:[
+     {name:'Creative (45 kWh)',     battery:45,  rangeKm:502, effKm:11.2},
+     {name:'Accomplished (55 kWh)', battery:55,  rangeKm:585, effKm:10.6},
+     {name:'Empowered+ (55 kWh)',   battery:55,  rangeKm:585, effKm:10.6},
+  ]},
+  /* ── HYUNDAI ── */
+  {make:'Hyundai',model:'Creta EV',type:'suv',bodyColor:'#080f14',
+   variants:[
+     {name:'Executive (45 kWh)',    battery:45,  rangeKm:473, effKm:10.5},
+     {name:'Smart (51.4 kWh)',      battery:51.4,rangeKm:473, effKm:9.2},
+     {name:'Premium (51.4 kWh)',    battery:51.4,rangeKm:473, effKm:9.2},
+     {name:'Excellence (51.4 kWh)', battery:51.4,rangeKm:473, effKm:9.2},
+  ]},
+  {make:'Hyundai',model:'Ioniq 5',type:'suv',bodyColor:'#0e0e1a',
+   variants:[
+     {name:'Standard (58 kWh)',     battery:58,  rangeKm:385, effKm:6.6},
+     {name:'Long Range (72.6 kWh)', battery:72.6,rangeKm:631, effKm:8.7},
+  ]},
+  {make:'Hyundai',model:'Ioniq 6',type:'sedan',bodyColor:'#0c0c18',
+   variants:[
+     {name:'RWD Standard (53 kWh)',     battery:53,  rangeKm:429, effKm:8.1},
+     {name:'RWD Long Range (77.4 kWh)', battery:77.4,rangeKm:614, effKm:7.9},
+  ]},
+  {make:'Hyundai',model:'Kona Electric',type:'suv',bodyColor:'#0c0e18',
+   variants:[
+     {name:'Standard (39.2 kWh)', battery:39.2,rangeKm:452, effKm:11.5},
+  ]},
+  /* ── MG ── */
+  {make:'MG',model:'ZS EV',type:'suv',bodyColor:'#120a0e',
+   variants:[
+     {name:'Excite (44.5 kWh)',    battery:44.5,rangeKm:461, effKm:10.4},
+     {name:'Exclusive (50.3 kWh)', battery:50.3,rangeKm:461, effKm:9.2},
+  ]},
+  {make:'MG',model:'Comet EV',type:'hatch',bodyColor:'#081208',
+   variants:[
+     {name:'Pace (17.3 kWh)', battery:17.3,rangeKm:230, effKm:13.3},
+     {name:'Spin (17.3 kWh)', battery:17.3,rangeKm:230, effKm:13.3},
+  ]},
+  {make:'MG',model:'Windsor EV',type:'suv',bodyColor:'#080e14',
+   variants:[
+     {name:'Excite (38 kWh)',    battery:38,rangeKm:331, effKm:8.7},
+     {name:'Exclusive (38 kWh)', battery:38,rangeKm:331, effKm:8.7},
+     {name:'Essence (38 kWh)',   battery:38,rangeKm:331, effKm:8.7},
+  ]},
+  /* ── KIA ── */
+  {make:'Kia',model:'EV6',type:'suv',bodyColor:'#0c120c',
+   variants:[
+     {name:'RWD Standard (58 kWh)',     battery:58,  rangeKm:394, effKm:6.8},
+     {name:'RWD Long Range (77.4 kWh)', battery:77.4,rangeKm:528, effKm:6.8},
+     {name:'AWD Long Range (77.4 kWh)', battery:77.4,rangeKm:483, effKm:6.2},
+  ]},
+  {make:'Kia',model:'EV9',type:'suv',bodyColor:'#12120a',
+   variants:[
+     {name:'RWD LR (99.8 kWh)', battery:99.8,rangeKm:561, effKm:5.6},
+     {name:'AWD LR (99.8 kWh)', battery:99.8,rangeKm:505, effKm:5.1},
+  ]},
+  /* ── BYD ── */
+  {make:'BYD',model:'Atto 3',type:'suv',bodyColor:'#080c14',
+   variants:[
+     {name:'Standard (60.5 kWh)', battery:60.5,rangeKm:521, effKm:8.6},
+  ]},
+  {make:'BYD',model:'Seal',type:'sedan',bodyColor:'#0a0a12',
+   variants:[
+     {name:'Dynamic (82.56 kWh)',     battery:82.56,rangeKm:650, effKm:7.9},
+     {name:'Performance (82.56 kWh)', battery:82.56,rangeKm:580, effKm:7.0},
+  ]},
+  /* ── BMW ── */
+  {make:'BMW',model:'i4',type:'sedan',bodyColor:'#080f1a',
+   variants:[
+     {name:'eDrive35 (66.5 kWh)', battery:66.5,rangeKm:590, effKm:8.9},
+     {name:'eDrive40 (80.7 kWh)', battery:80.7,rangeKm:590, effKm:7.3},
+     {name:'M50 (80.7 kWh)',      battery:80.7,rangeKm:510, effKm:6.3},
+  ]},
+  {make:'BMW',model:'iX1',type:'suv',bodyColor:'#080f1a',
+   variants:[
+     {name:'xDrive30 (64.7 kWh)', battery:64.7,rangeKm:440, effKm:6.8},
+  ]},
+  {make:'BMW',model:'iX3',type:'suv',bodyColor:'#080f1a',
+   variants:[
+     {name:'Inspiring (74 kWh)', battery:74,rangeKm:460, effKm:6.2},
+  ]},
+  {make:'BMW',model:'i7',type:'sedan',bodyColor:'#0a081a',
+   variants:[
+     {name:'xDrive60 (101.7 kWh)', battery:101.7,rangeKm:590, effKm:5.8},
+  ]},
+  /* ── MERCEDES-BENZ ── */
+  {make:'Mercedes-Benz',model:'EQS',type:'sedan',bodyColor:'#080810',
+   variants:[
+     {name:'450+ (107.8 kWh)',   battery:107.8,rangeKm:770, effKm:7.1},
+     {name:'580 4M (107.8 kWh)', battery:107.8,rangeKm:676, effKm:6.3},
+  ]},
+  {make:'Mercedes-Benz',model:'EQE',type:'sedan',bodyColor:'#08080e',
+   variants:[
+     {name:'350+ (90.6 kWh)', battery:90.6,rangeKm:660, effKm:7.3},
+  ]},
+  {make:'Mercedes-Benz',model:'EQA',type:'suv',bodyColor:'#08080c',
+   variants:[
+     {name:'250+ (70.5 kWh)', battery:70.5,rangeKm:560, effKm:7.9},
+  ]},
+  {make:'Mercedes-Benz',model:'EQB',type:'suv',bodyColor:'#08080c',
+   variants:[
+     {name:'300 4M (66.5 kWh)', battery:66.5,rangeKm:419, effKm:6.3},
+  ]},
+  /* ── AUDI ── */
+  {make:'Audi',model:'Q8 e-tron',type:'suv',bodyColor:'#110e06',
+   variants:[
+     {name:'50 quattro (95 kWh)',  battery:95, rangeKm:491, effKm:5.2},
+     {name:'55 quattro (114 kWh)', battery:114,rangeKm:582, effKm:5.1},
+  ]},
+  {make:'Audi',model:'Q4 e-tron',type:'suv',bodyColor:'#0f0d08',
+   variants:[
+     {name:'40 (77 kWh)',          battery:77,rangeKm:520, effKm:6.8},
+     {name:'50 quattro (77 kWh)',  battery:77,rangeKm:488, effKm:6.3},
+  ]},
+  /* ── VOLVO ── */
+  {make:'Volvo',model:'XC40 Recharge',type:'suv',bodyColor:'#081014',
+   variants:[
+     {name:'Pure Electric (67 kWh)', battery:67,rangeKm:418, effKm:6.2},
+  ]},
+  {make:'Volvo',model:'C40 Recharge',type:'suv',bodyColor:'#081018',
+   variants:[
+     {name:'Pure Electric (67 kWh)', battery:67,rangeKm:440, effKm:6.6},
+  ]},
+  {make:'Volvo',model:'EX90',type:'suv',bodyColor:'#080c14',
+   variants:[
+     {name:'Twin Motor (107 kWh)', battery:107,rangeKm:580, effKm:5.4},
+  ]},
+  /* ── TOYOTA ── */
+  {make:'Toyota',model:'bZ4X',type:'suv',bodyColor:'#081410',
+   variants:[
+     {name:'FWD (71.4 kWh)', battery:71.4,rangeKm:516, effKm:7.2},
+     {name:'AWD (71.4 kWh)', battery:71.4,rangeKm:470, effKm:6.6},
+  ]},
+  /* ── 2-WHEELERS ── */
+  {make:'Ola Electric',model:'S1 Pro',type:'scooter',bodyColor:'#120808',
+   variants:[
+     {name:'Gen 3 (4 kWh)', battery:4,rangeKm:195, effKm:48.8},
+  ]},
+  {make:'Ola Electric',model:'S1 Air',type:'scooter',bodyColor:'#081212',
+   variants:[
+     {name:'Gen 3 (3 kWh)', battery:3,rangeKm:151, effKm:50.3},
+  ]},
+  {make:'Ola Electric',model:'S1 X',type:'scooter',bodyColor:'#101008',
+   variants:[
+     {name:'2 kWh', battery:2,rangeKm:91,  effKm:45.5},
+     {name:'3 kWh', battery:3,rangeKm:151, effKm:50.3},
+     {name:'4 kWh', battery:4,rangeKm:190, effKm:47.5},
+  ]},
+  {make:'Ather Energy',model:'Rizta',type:'scooter',bodyColor:'#080810',
+   variants:[
+     {name:'S (2.9 kWh)', battery:2.9,rangeKm:123, effKm:42.4},
+     {name:'Z (3.7 kWh)', battery:3.7,rangeKm:160, effKm:43.2},
+  ]},
+  {make:'Ather Energy',model:'450X',type:'scooter',bodyColor:'#08080e',
+   variants:[
+     {name:'Gen 3 (2.9 kWh)', battery:2.9,rangeKm:146, effKm:50.3},
+  ]},
+  {make:'TVS',model:'iQube',type:'scooter',bodyColor:'#0f0d06',
+   variants:[
+     {name:'S (3.04 kWh)', battery:3.04,rangeKm:100, effKm:32.9},
+     {name:'ST (5.1 kWh)', battery:5.1, rangeKm:145, effKm:28.4},
+  ]},
+  {make:'Bajaj',model:'Chetak',type:'scooter',bodyColor:'#081212',
+   variants:[
+     {name:'Premium (3.2 kWh)', battery:3.2,rangeKm:128, effKm:40.0},
+     {name:'Urbane (3.2 kWh)',  battery:3.2,rangeKm:113, effKm:35.3},
+  ]},
+  {make:'Simple Energy',model:'Simple One',type:'scooter',bodyColor:'#120814',
+   variants:[
+     {name:'Standard (4.8 kWh)', battery:4.8,rangeKm:212, effKm:44.2},
+  ]},
+];
+
 // ── CHARGER DATA ───────────────────────────────────────────────────────────────
 const CHARGERS=[
   {id:'ccs240',label:'240 kW',kw:240,type:'CCS2',   current:'DC',speed:'ultra'},
@@ -401,6 +679,165 @@ function buildChargerGrid(){
   });
 }
 
+// ── VEHICLE SELECTOR ───────────────────────────────────────────────────────────
+let selectedVehicle=null, selectedVariantObj=null;
+
+function getVehicleSVG(type,bodyColor){
+  const c=bodyColor||'#1e2026';
+  const w='#0c0c0c'; // tyre
+  const r='#2a2a3a'; // rim
+  const win='rgba(0,229,255,0.09)';
+  const hl='rgba(255,255,255,0.05)';
+  const gid='vg'+Math.random().toString(36).slice(2,6);
+  const grad=`<defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${c}"/><stop offset="100%" stop-color="#070708"/></linearGradient></defs>`;
+
+  if(type==='scooter') return`<svg viewBox="0 0 220 130" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:130px;filter:drop-shadow(0 8px 24px rgba(0,0,0,0.7))">
+    ${grad}
+    <ellipse cx="110" cy="125" rx="88" ry="5" fill="rgba(0,0,0,0.4)"/>
+    <circle cx="50" cy="100" r="26" fill="${w}"/><circle cx="50" cy="100" r="14" fill="${r}"/><circle cx="50" cy="100" r="5" fill="${w}"/>
+    <circle cx="170" cy="100" r="26" fill="${w}"/><circle cx="170" cy="100" r="14" fill="${r}"/><circle cx="170" cy="100" r="5" fill="${w}"/>
+    <path d="M58,74 Q64,28 94,23 L158,23 Q186,27 192,46 L196,74 Q176,80 135,82 L90,82 Z" fill="url(#${gid})"/>
+    <path d="M98,25 Q125,16 152,23 L148,30 Q124,22 98,32 Z" fill="${r}"/>
+    <rect x="62" y="76" width="92" height="10" rx="4" fill="${c}"/>
+    <path d="M164,28 L190,18 L194,24 L172,36" stroke="${r}" stroke-width="3" fill="none"/>
+    <path d="M154,26 L172,14 L177,20 L160,32 Z" fill="${win}" stroke="rgba(0,229,255,0.2)" stroke-width="0.5"/>
+    <ellipse cx="188" cy="36" rx="6" ry="5" fill="#fff9c4" opacity="0.85"/>
+    <ellipse cx="62" cy="50" rx="5" ry="4" fill="#ef4444" opacity="0.7"/>
+  </svg>`;
+
+  if(type==='sedan') return`<svg viewBox="0 0 300 105" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:130px;filter:drop-shadow(0 8px 24px rgba(0,0,0,0.7))">
+    ${grad}
+    <ellipse cx="150" cy="100" rx="130" ry="6" fill="rgba(0,0,0,0.4)"/>
+    <path d="M20,82 L20,58 Q22,42 46,30 L82,19 L176,16 L228,20 Q263,33 274,58 L276,82 Z" fill="url(#${gid})"/>
+    <path d="M52,32 L88,20 L177,18 L227,28 L221,57 L56,57 Z" fill="${win}"/>
+    <line x1="144" y1="18" x2="144" y2="57" stroke="${c}" stroke-width="3.5"/>
+    <path d="M22,70 L274,70" stroke="${hl}" stroke-width="1"/>
+    <circle cx="66" cy="84" r="20" fill="${w}"/><circle cx="66" cy="84" r="10" fill="${r}"/><circle cx="66" cy="84" r="4" fill="${w}"/>
+    <circle cx="230" cy="84" r="20" fill="${w}"/><circle cx="230" cy="84" r="10" fill="${r}"/><circle cx="230" cy="84" r="4" fill="${w}"/>
+    <rect x="261" y="51" width="13" height="7" rx="2" fill="#fff9c4" opacity="0.9"/>
+    <rect x="24" y="51" width="11" height="7" rx="2" fill="#ef4444" opacity="0.7"/>
+  </svg>`;
+
+  if(type==='hatch') return`<svg viewBox="0 0 282 105" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:130px;filter:drop-shadow(0 8px 24px rgba(0,0,0,0.7))">
+    ${grad}
+    <ellipse cx="140" cy="100" rx="122" ry="6" fill="rgba(0,0,0,0.4)"/>
+    <path d="M18,82 L18,58 Q20,40 46,28 L80,18 L178,16 Q222,18 242,40 L248,60 L250,82 Z" fill="url(#${gid})"/>
+    <path d="M50,30 L84,18 L178,17 Q215,20 230,32 L227,56 L54,56 Z" fill="${win}"/>
+    <line x1="142" y1="17" x2="142" y2="56" stroke="${c}" stroke-width="3"/>
+    <path d="M20,70 L248,70" stroke="${hl}" stroke-width="1"/>
+    <circle cx="58" cy="84" r="20" fill="${w}"/><circle cx="58" cy="84" r="10" fill="${r}"/><circle cx="58" cy="84" r="4" fill="${w}"/>
+    <circle cx="212" cy="84" r="20" fill="${w}"/><circle cx="212" cy="84" r="10" fill="${r}"/><circle cx="212" cy="84" r="4" fill="${w}"/>
+    <rect x="238" y="46" width="12" height="7" rx="2" fill="#fff9c4" opacity="0.9"/>
+    <rect x="20" y="46" width="10" height="7" rx="2" fill="#ef4444" opacity="0.7"/>
+  </svg>`;
+
+  // default: SUV
+  return`<svg viewBox="0 0 300 122" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:140px;filter:drop-shadow(0 8px 24px rgba(0,0,0,0.7))">
+    ${grad}
+    <ellipse cx="150" cy="118" rx="132" ry="6" fill="rgba(0,0,0,0.4)"/>
+    <path d="M22,94 L22,60 Q26,38 54,26 L90,16 L168,13 L227,16 Q264,26 272,54 L276,76 L276,94 Z" fill="url(#${gid})"/>
+    <path d="M58,28 L92,17 L218,15 L250,28 L244,59 L60,59 Z" fill="${win}"/>
+    <line x1="150" y1="15" x2="150" y2="59" stroke="${c}" stroke-width="4"/>
+    <path d="M24,80 L274,80" stroke="${hl}" stroke-width="1"/>
+    <circle cx="72" cy="96" r="22" fill="${w}"/><circle cx="72" cy="96" r="12" fill="${r}"/><circle cx="72" cy="96" r="5" fill="${w}"/>
+    <circle cx="230" cy="96" r="22" fill="${w}"/><circle cx="230" cy="96" r="12" fill="${r}"/><circle cx="230" cy="96" r="5" fill="${w}"/>
+    <rect x="263" y="53" width="13" height="8" rx="3" fill="#fff9c4" opacity="0.9"/>
+    <rect x="23" y="53" width="11" height="8" rx="3" fill="#ef4444" opacity="0.7"/>
+    <path d="M167,13 L170,5 L173,13" fill="${c}"/>
+  </svg>`;
+}
+
+function renderVehicleShowcase(){
+  if(!selectedVehicle||!selectedVariantObj) return;
+  const v=selectedVehicle, vr=selectedVariantObj;
+  const typeLabel=v.type==='scooter'?'2-Wheeler':v.type==='sedan'?'Sedan':v.type==='hatch'?'Hatchback':'SUV / Crossover';
+  const realEff=(vr.effKm*0.7).toFixed(1);
+  document.getElementById('vehicle-showcase').innerHTML=`
+    <div class="vehicle-showcase">
+      <div class="vehicle-img-zone">${getVehicleSVG(v.type,v.bodyColor)}</div>
+      <div class="v-make">${v.make}</div>
+      <div class="v-model">${v.model}</div>
+      <div class="v-variant">${vr.name} · ${typeLabel}</div>
+      <div class="v-specs">
+        <div class="v-spec"><div class="v-spec-val">${vr.battery} kWh</div><div class="v-spec-lbl">Battery</div></div>
+        <div class="v-spec"><div class="v-spec-val">${vr.rangeKm} km</div><div class="v-spec-lbl">WLTP Range</div></div>
+        <div class="v-spec"><div class="v-spec-val">${vr.effKm}</div><div class="v-spec-lbl">km/kWh WLTP</div></div>
+        <div class="v-spec"><div class="v-spec-val">~${realEff}</div><div class="v-spec-lbl">km/kWh Real</div></div>
+      </div>
+      <span class="v-badge">${v.make} ${v.model} · ${vr.battery} kWh</span>
+    </div>`;
+}
+
+function buildVehicleDropdowns(){
+  const makes=[...new Set(VEHICLES.map(v=>v.make))];
+  const mk=document.getElementById('sel-make');
+  mk.innerHTML=makes.map(m=>`<option value="${m}">${m}</option>`).join('');
+  mk.value='Mahindra';
+  onMakeChange(true);
+}
+
+function onMakeChange(init=false){
+  const make=document.getElementById('sel-make').value;
+  const models=VEHICLES.filter(v=>v.make===make);
+  const md=document.getElementById('sel-model');
+  md.innerHTML=models.map(v=>`<option value="${v.model}">${v.model}</option>`).join('');
+  if(init&&make==='Mahindra') md.value='XEV 9e';
+  onModelChange(init);
+}
+
+function onModelChange(init=false){
+  const make=document.getElementById('sel-make').value;
+  const model=document.getElementById('sel-model').value;
+  const vehicle=VEHICLES.find(v=>v.make===make&&v.model===model);
+  if(!vehicle) return;
+  selectedVehicle=vehicle;
+  const vr=document.getElementById('sel-variant');
+  vr.innerHTML=vehicle.variants.map((v,i)=>`<option value="${i}">${v.name}</option>`).join('');
+  const defIdx=vehicle.variants.findIndex(v=>v.def);
+  vr.value=defIdx>=0?defIdx:0;
+  onVariantChange();
+}
+
+function onVariantChange(){
+  if(!selectedVehicle) return;
+  const idx=parseInt(document.getElementById('sel-variant').value)||0;
+  selectedVariantObj=selectedVehicle.variants[idx];
+  document.getElementById('inp-battery').value=selectedVariantObj.battery;
+  const realEff=Math.min((selectedVariantObj.effKm*0.7).toFixed(1),8.5);
+  document.getElementById('inp-range').value=realEff;
+  document.querySelector('.badge').textContent=selectedVehicle.model;
+  document.querySelector('.brand p').textContent=
+    `${selectedVehicle.make} ${selectedVehicle.model} · ${selectedVariantObj.battery} kWh`;
+  renderVehicleShowcase();
+  updateCalc();
+}
+
+function renderBatteryPack(from,to,battery){
+  const cells=20; // each cell = 5%
+  const container=document.getElementById('pack-cells');
+  if(!container) return;
+  let html='';
+  for(let i=0;i<cells;i++){
+    const cellPct=(i+1)*5;
+    let cls='c-empty';
+    if(cellPct<=from) cls='c-charged';
+    else if(cellPct<=to) cls='c-charging';
+    html+=`<div class="p-cell ${cls}"></div>`;
+  }
+  container.innerHTML=html;
+  const fKwh=(battery*from/100).toFixed(1);
+  const tKwh=(battery*to/100).toFixed(1);
+  const dKwh=(battery*(to-from)/100).toFixed(1);
+  document.getElementById('pack-from-lbl').textContent=`${from}% · ${fKwh} kWh`;
+  document.getElementById('pack-to-lbl').textContent=`${to}% · ${tKwh} kWh`;
+  document.getElementById('pack-kwh-row').innerHTML=
+    `<span class="kf">${fKwh} kWh stored</span>`+
+    `<span style="color:var(--muted)"> + charging </span>`+
+    `<span class="kd">${dKwh} kWh</span>`+
+    `<span style="color:var(--muted)"> = </span>`+
+    `<span class="kt">${tKwh} kWh target</span>`;
+}
+
 // ── CALCULATOR ─────────────────────────────────────────────────────────────────
 function updateCalc(){
   const from=parseInt(document.getElementById('slider-from').value);
@@ -415,11 +852,7 @@ function updateCalc(){
   const kmkwh  =parseFloat(document.getElementById('inp-range').value)||5.5;
   const kw     =selectedCharger.kw;
 
-  document.getElementById('fill-current').style.width=from+'%';
-  const delta=document.getElementById('fill-delta');
-  delta.style.left=from+'%';delta.style.width=(to-from)+'%';
-  document.getElementById('battery-label').textContent=
-    `${from}% (${(battery*from/100).toFixed(1)} kWh)  →  ${to}% (${(battery*to/100).toFixed(1)} kWh)`;
+  renderBatteryPack(from,to,battery);
 
   const deltaKwh=battery*(to-from)/100;
   const wallKwh=deltaKwh/eff;
@@ -1042,7 +1475,7 @@ function buildApps(){
 
 // ── INIT ───────────────────────────────────────────────────────────────────────
 buildChargerGrid();
-updateCalc();
+buildVehicleDropdowns(); // sets vehicle → auto-calls updateCalc()
 </script>
 </body>
 </html>
