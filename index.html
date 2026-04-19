@@ -754,7 +754,6 @@ function renderVehicleShowcase(){
   const realEff=(vr.effKm*0.7).toFixed(1);
   document.getElementById('vehicle-showcase').innerHTML=`
     <div class="vehicle-showcase">
-      <div class="vehicle-img-zone">${getVehicleSVG(v.type,v.bodyColor)}</div>
       <div class="v-make">${v.make}</div>
       <div class="v-model">${v.model}</div>
       <div class="v-variant">${vr.name} · ${typeLabel}</div>
