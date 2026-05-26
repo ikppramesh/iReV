@@ -95,6 +95,58 @@
   .breakdown-row:last-child{border-bottom:none;}
   .breakdown-row .val{font-weight:600;color:var(--text);}
   .breakdown-row .lbl{color:var(--muted);}
+  .breakdown-row.sep{background:rgba(255,255,255,0.02);margin:4px -13px;padding:6px 13px;border-bottom:1px solid var(--border);}
+  .breakdown-row .val.green{color:var(--green);}
+  .breakdown-row .val.orange{color:var(--orange);}
+  .breakdown-row .val.yellow{color:var(--yellow);}
+  .breakdown-row .val.accent{color:var(--accent);}
+  .bd-section{font-size:0.62rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px;padding:8px 0 2px;border-bottom:1px solid rgba(255,255,255,0.04);}
+
+  /* ── PRICING MODE ─────────────────────────────────────────── */
+  .pm-wrap{margin-bottom:16px;}
+  .pm-label{font-size:0.67rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:8px;font-weight:700;}
+  .pm-btns{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+  .pm-btn{background:var(--card2);border:1.5px solid var(--border);border-radius:10px;padding:10px 6px;cursor:pointer;text-align:center;transition:all 0.2s;color:var(--text);outline:none;}
+  .pm-btn:hover{border-color:rgba(0,229,255,0.3);}
+  .pm-btn.active-home{border-color:var(--green);background:rgba(34,197,94,0.1);}
+  .pm-btn.active-dc{border-color:var(--dc);background:rgba(59,130,246,0.1);}
+  .pm-btn.active-ac{border-color:var(--ac);background:rgba(168,85,247,0.1);}
+  .pm-btn.active-custom{border-color:var(--accent);background:rgba(0,229,255,0.07);}
+  .pm-btn .pm-icon{font-size:1.1rem;margin-bottom:4px;}
+  .pm-btn .pm-name{font-size:0.72rem;font-weight:700;}
+  .pm-btn .pm-rate{font-size:0.59rem;color:var(--muted);margin-top:2px;}
+  .pm-btn.active-home .pm-rate{color:var(--green);}
+  .pm-btn.active-dc .pm-rate{color:var(--dc);}
+  .pm-btn.active-ac .pm-rate{color:var(--ac);}
+  .pm-btn.active-custom .pm-rate{color:var(--accent);}
+  .pm-home-note{background:rgba(34,197,94,0.06);border:1px solid rgba(34,197,94,0.2);border-radius:8px;padding:7px 12px;font-size:0.68rem;color:var(--green);margin-bottom:12px;display:flex;align-items:center;gap:8px;}
+  .pm-home-note.hidden{display:none;}
+  .inp-hint{font-size:0.62rem;color:var(--muted);margin-top:4px;}
+  .hyd-tag{background:rgba(234,179,8,0.15);border:1px solid rgba(234,179,8,0.35);color:var(--yellow);padding:1px 6px;border-radius:8px;font-size:0.58rem;font-weight:700;vertical-align:middle;margin-left:4px;}
+  .petrol-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);}
+  .petrol-row-label{font-size:0.65rem;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;margin-top:14px;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+  .petrol-row-label .pl-badge{background:rgba(249,115,22,0.15);border:1px solid rgba(249,115,22,0.4);color:var(--orange);padding:2px 8px;border-radius:10px;font-size:0.58rem;font-weight:800;}
+  .petrol-update-note{font-size:0.62rem;color:var(--muted);padding:6px 10px;background:rgba(249,115,22,0.06);border:1px solid rgba(249,115,22,0.15);border-radius:6px;margin-top:8px;}
+  .petrol-update-note strong{color:var(--orange);}
+
+  /* ── SAVINGS BANNER ────────────────────────────────────────── */
+  .savings-banner{background:linear-gradient(135deg,rgba(34,197,94,0.09),rgba(0,229,255,0.04));border:1px solid rgba(34,197,94,0.28);border-radius:14px;padding:16px;margin:14px 0 0;}
+  .savings-banner.loss{background:linear-gradient(135deg,rgba(239,68,68,0.08),rgba(249,115,22,0.04));border-color:rgba(239,68,68,0.25);}
+  .sav-main{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+  .sav-icon{font-size:2rem;flex-shrink:0;}
+  .sav-content .sav-title{font-size:0.92rem;font-weight:700;color:var(--green);}
+  .sav-content .sav-title.loss{color:var(--red);}
+  .sav-content .sav-amount{font-size:1.5rem;font-weight:900;color:#4ade80;line-height:1.1;}
+  .sav-content .sav-amount.loss{color:var(--red);}
+  .sav-content .sav-sub{font-size:0.67rem;color:var(--muted);margin-top:3px;}
+  .sav-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+  .sav-stat{background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.06);border-radius:9px;padding:10px 8px;text-align:center;}
+  .sav-stat-val{font-size:0.9rem;font-weight:800;color:var(--accent);}
+  .sav-stat-val.green{color:var(--green);}
+  .sav-stat-val.orange{color:var(--orange);}
+  .sav-stat-val.yellow{color:var(--yellow);}
+  .sav-stat-lbl{font-size:0.57rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-top:4px;line-height:1.3;}
+  .result-val.green{color:var(--green)!important;}
 
   /* STATIONS */
   .stations-controls{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px;}
@@ -316,6 +368,9 @@
     .trip-soc-row{grid-template-columns:1fr 1fr;}
     #trip-map{height:280px;}
     .trip-summary-grid{grid-template-columns:repeat(2,1fr);}
+    .pm-btns{grid-template-columns:repeat(2,1fr);}
+    .sav-stats{grid-template-columns:repeat(2,1fr);}
+    .petrol-row{grid-template-columns:1fr 1fr;}
   }
 </style>
 </head>
@@ -390,18 +445,80 @@
 
   <div class="card">
     <div class="card-title"><span>⚙️</span> Settings</div>
+
+    <!-- Pricing Mode -->
+    <div class="pm-wrap">
+      <div class="pm-label">Charging Location</div>
+      <div class="pm-btns">
+        <button class="pm-btn" id="pm-home" onclick="setPricingMode('home')">
+          <div class="pm-icon">🏠</div>
+          <div class="pm-name">Home</div>
+          <div class="pm-rate">TSSPDCL ₹6/kWh</div>
+        </button>
+        <button class="pm-btn active-dc" id="pm-dc" onclick="setPricingMode('dc')">
+          <div class="pm-icon">⚡</div>
+          <div class="pm-name">DC Fast</div>
+          <div class="pm-rate">Public ₹19/kWh</div>
+        </button>
+        <button class="pm-btn" id="pm-ac" onclick="setPricingMode('ac')">
+          <div class="pm-icon">〜</div>
+          <div class="pm-name">AC Public</div>
+          <div class="pm-rate">Type 2 ₹16/kWh</div>
+        </button>
+        <button class="pm-btn" id="pm-custom" onclick="setPricingMode('custom')">
+          <div class="pm-icon">✏️</div>
+          <div class="pm-name">Custom</div>
+          <div class="pm-rate">Manual entry</div>
+        </button>
+      </div>
+    </div>
+
+    <div class="pm-home-note hidden" id="pm-home-note">
+      🏠 TSSPDCL Hyderabad domestic rate · 301–400 units/month slab · includes distribution charges
+    </div>
+
     <div class="inputs-row">
-      <div class="inp-group"><label>Price (₹/kWh)</label><input type="number" id="inp-price" value="19" min="1" max="50" step="0.5" oninput="updateCalc()"/></div>
+      <div class="inp-group">
+        <label>Price (₹/kWh)</label>
+        <input type="number" id="inp-price" value="19" min="1" max="50" step="0.5" oninput="updateCalc()"/>
+        <div class="inp-hint" id="price-hint">Public DC fast charger rate (incl. GST)</div>
+      </div>
       <div class="inp-group"><label>Battery (kWh)</label><input type="number" id="inp-battery" value="79" min="10" max="200" step="1" oninput="updateCalc()"/></div>
       <div class="inp-group"><label>Efficiency</label>
         <select id="inp-eff" onchange="updateCalc()">
-          <option value="0.85">85% — Home slow</option>
-          <option value="0.92" selected>92% — AC fast</option>
-          <option value="0.96">96% — DC fast</option>
+          <option value="0.85">85% — Home slow AC</option>
+          <option value="0.92">92% — AC fast</option>
+          <option value="0.96" selected>96% — DC fast</option>
         </select>
       </div>
       <div class="inp-group"><label>Range (km/kWh)</label><input type="number" id="inp-range" value="5.5" min="3" max="10" step="0.1" oninput="updateCalc()"/></div>
     </div>
+
+    <!-- Petrol Comparison -->
+    <div class="petrol-row-label">
+      Petrol Comparison <span class="pl-badge">Hyderabad</span>
+    </div>
+    <div class="petrol-row">
+      <div class="inp-group">
+        <label>Petrol Price (₹/L) <span class="hyd-tag">HYD</span></label>
+        <input type="number" id="inp-petrol" value="104.99" min="80" max="200" step="0.01" oninput="updateCalc()"/>
+      </div>
+      <div class="inp-group">
+        <label>Petrol Mileage (km/L)</label>
+        <input type="number" id="inp-petrol-km" value="15" min="8" max="30" step="0.5" oninput="updateCalc()"/>
+      </div>
+      <div class="inp-group">
+        <label>Charges / Month</label>
+        <select id="inp-freq" onchange="updateCalc()">
+          <option value="4">4× — weekly</option>
+          <option value="8" selected>8× — twice/week</option>
+          <option value="12">12× — 3× /week</option>
+          <option value="20">20× — 5× /week</option>
+          <option value="30">30× — daily</option>
+        </select>
+      </div>
+    </div>
+    <div class="petrol-update-note">⛽ Verify current Hyderabad petrol rate before calculations — prices change monthly. Default shown is approximate for Hyderabad, Telangana.</div>
   </div>
 
   <div class="card">
@@ -409,20 +526,71 @@
     <div class="progress-wrap"><div class="progress-bar" id="prog-bar" style="width:0%"></div></div>
     <div class="results-grid">
       <div class="result-card"><div class="result-icon">⏱️</div><div class="result-val" id="res-time">—</div><div class="result-label">Charge Time</div><div class="result-sub" id="res-time-sub"></div></div>
-      <div class="result-card"><div class="result-icon">💰</div><div class="result-val" id="res-cost">—</div><div class="result-label">Total Cost</div><div class="result-sub" id="res-cost-sub"></div></div>
+      <div class="result-card"><div class="result-icon">💰</div><div class="result-val" id="res-cost">—</div><div class="result-label">EV Charge Cost</div><div class="result-sub" id="res-cost-sub"></div></div>
       <div class="result-card"><div class="result-icon">🛣️</div><div class="result-val" id="res-range">—</div><div class="result-label">Range Added</div><div class="result-sub" id="res-range-sub"></div></div>
       <div class="result-card"><div class="result-icon">⚡</div><div class="result-val" id="res-kwh">—</div><div class="result-label">Energy Added</div><div class="result-sub" id="res-kwh-sub"></div></div>
     </div>
+
+    <!-- Savings Banner -->
+    <div class="savings-banner" id="savings-banner">
+      <div class="sav-main">
+        <div class="sav-icon" id="sav-icon">💚</div>
+        <div class="sav-content">
+          <div class="sav-title" id="sav-title">You save vs petrol</div>
+          <div class="sav-amount" id="sav-amount">₹—</div>
+          <div class="sav-sub" id="sav-sub">per charge · vs petrol @ ₹—/L &amp; — km/L</div>
+        </div>
+      </div>
+      <div class="sav-stats">
+        <div class="sav-stat">
+          <div class="sav-stat-val green" id="sav-annual">₹—</div>
+          <div class="sav-stat-lbl">Annual Savings</div>
+        </div>
+        <div class="sav-stat">
+          <div class="sav-stat-val yellow" id="sav-co2">— kg</div>
+          <div class="sav-stat-lbl">CO₂ Saved</div>
+        </div>
+        <div class="sav-stat">
+          <div class="sav-stat-val accent" id="sav-ev-cpkm">₹—/km</div>
+          <div class="sav-stat-lbl">EV Cost/km</div>
+        </div>
+        <div class="sav-stat">
+          <div class="sav-stat-val orange" id="sav-petrol-cpkm">₹—/km</div>
+          <div class="sav-stat-lbl">Petrol Cost/km</div>
+        </div>
+      </div>
+    </div>
+
     <div class="breakdown">
+      <div class="bd-section">Charger &amp; Energy</div>
       <div class="breakdown-row"><span class="lbl">Charger</span><span class="val" id="bd-power">—</span></div>
       <div class="breakdown-row"><span class="lbl">Current Type</span><span class="val" id="bd-acdc">—</span></div>
       <div class="breakdown-row"><span class="lbl">Wall Draw (incl. losses)</span><span class="val" id="bd-wall">—</span></div>
+      <div class="breakdown-row"><span class="lbl">Net energy added</span><span class="val accent" id="bd-energy">—</span></div>
+
+      <div class="bd-section" style="margin-top:6px">Electricity Pricing</div>
+      <div class="breakdown-row"><span class="lbl">Charging mode</span><span class="val" id="bd-mode">—</span></div>
       <div class="breakdown-row"><span class="lbl">Base rate (pre-tax)</span><span class="val" id="bd-base">—</span></div>
-      <div class="breakdown-row"><span class="lbl">GST 18%</span><span class="val" id="bd-gst" style="color:var(--orange)">—</span></div>
-      <div class="breakdown-row"><span class="lbl">In-pocket rate</span><span class="val" id="bd-rate" style="color:var(--green)">—</span></div>
-      <div class="breakdown-row"><span class="lbl">Cost per km (with tax)</span><span class="val" id="bd-cpkm">—</span></div>
-      <div class="breakdown-row"><span class="lbl">Petrol equivalent saving</span><span class="val" id="bd-petrol">—</span></div>
-      <div class="breakdown-row"><span class="lbl">Net energy added</span><span class="val" id="bd-energy">—</span></div>
+      <div class="breakdown-row"><span class="lbl">GST 18%</span><span class="val orange" id="bd-gst">—</span></div>
+      <div class="breakdown-row"><span class="lbl">In-pocket rate</span><span class="val green" id="bd-rate">—</span></div>
+      <div class="breakdown-row"><span class="lbl">Total EV charge cost</span><span class="val" id="bd-total-cost">—</span></div>
+
+      <div class="bd-section" style="margin-top:6px">Per-km Economics</div>
+      <div class="breakdown-row"><span class="lbl">EV cost per km</span><span class="val accent" id="bd-cpkm">—</span></div>
+      <div class="breakdown-row"><span class="lbl">Petrol cost per km</span><span class="val orange" id="bd-petrol-cpkm">—</span></div>
+      <div class="breakdown-row"><span class="lbl">You save per km</span><span class="val green" id="bd-save-km">—</span></div>
+
+      <div class="bd-section" style="margin-top:6px">Petrol Savings</div>
+      <div class="breakdown-row"><span class="lbl">Petrol cost for same range</span><span class="val orange" id="bd-petrol-cost">—</span></div>
+      <div class="breakdown-row"><span class="lbl">Saving this charge</span><span class="val green" id="bd-petrol">—</span></div>
+      <div class="breakdown-row"><span class="lbl">Monthly savings (<span id="bd-freq-lbl">—</span> charges)</span><span class="val green" id="bd-monthly">—</span></div>
+      <div class="breakdown-row"><span class="lbl">Annual savings (estimated)</span><span class="val green" id="bd-annual">—</span></div>
+
+      <div class="bd-section" style="margin-top:6px">Environment</div>
+      <div class="breakdown-row"><span class="lbl">CO₂ from EV charging</span><span class="val" id="bd-co2-ev">—</span></div>
+      <div class="breakdown-row"><span class="lbl">CO₂ from petrol equivalent</span><span class="val orange" id="bd-co2-petrol">—</span></div>
+      <div class="breakdown-row"><span class="lbl">CO₂ saved this charge</span><span class="val green" id="bd-co2-saved">—</span></div>
+      <div class="breakdown-row"><span class="lbl">Annual CO₂ offset</span><span class="val green" id="bd-co2-annual">—</span></div>
     </div>
   </div>
 </div>
@@ -963,7 +1131,42 @@ function renderBatteryPack(from,to,battery){
     `<span class="kt">${tKwh} kWh target</span>`;
 }
 
+// ── PRICING MODE ────────────────────────────────────────────────────────────────
+let currentPricingMode='dc';
+function setPricingMode(mode){
+  currentPricingMode=mode;
+  ['home','dc','ac','custom'].forEach(m=>{
+    const b=document.getElementById('pm-'+m);
+    if(b) b.className='pm-btn';
+  });
+  const btn=document.getElementById('pm-'+mode);
+  if(btn) btn.classList.add('active-'+mode);
+  const priceInp=document.getElementById('inp-price');
+  const effSel=document.getElementById('inp-eff');
+  const hint=document.getElementById('price-hint');
+  const homeNote=document.getElementById('pm-home-note');
+  if(homeNote) homeNote.classList.toggle('hidden', mode!=='home');
+  if(mode==='home'){
+    priceInp.value=6; priceInp.readOnly=true;
+    effSel.value='0.85';
+    if(hint) hint.textContent='TSSPDCL Hyderabad domestic · 301–400 units slab';
+  } else if(mode==='dc'){
+    priceInp.value=19; priceInp.readOnly=true;
+    effSel.value='0.96';
+    if(hint) hint.textContent='Public DC fast charger rate (incl. GST)';
+  } else if(mode==='ac'){
+    priceInp.value=16; priceInp.readOnly=true;
+    effSel.value='0.92';
+    if(hint) hint.textContent='Public AC charger (Type 2) rate (incl. GST)';
+  } else {
+    priceInp.readOnly=false;
+    if(hint) hint.textContent='Enter your custom rate (incl. all taxes)';
+  }
+  updateCalc();
+}
+
 // ── CALCULATOR ─────────────────────────────────────────────────────────────────
+function fmt(n){return n.toLocaleString('en-IN',{maximumFractionDigits:0});}
 function updateCalc(){
   const from=parseInt(document.getElementById('slider-from').value);
   let   to  =parseInt(document.getElementById('slider-to').value);
@@ -971,45 +1174,97 @@ function updateCalc(){
   document.getElementById('from-val').textContent=from+'%';
   document.getElementById('to-val').textContent=to+'%';
 
-  const price  =parseFloat(document.getElementById('inp-price').value)||19;
-  const battery=parseFloat(document.getElementById('inp-battery').value)||79;
-  const eff    =parseFloat(document.getElementById('inp-eff').value)||0.92;
-  const kmkwh  =parseFloat(document.getElementById('inp-range').value)||5.5;
-  const kw     =selectedCharger.kw;
+  const price      =parseFloat(document.getElementById('inp-price').value)||19;
+  const battery    =parseFloat(document.getElementById('inp-battery').value)||79;
+  const eff        =parseFloat(document.getElementById('inp-eff').value)||0.96;
+  const kmkwh      =parseFloat(document.getElementById('inp-range').value)||5.5;
+  const kw         =selectedCharger.kw;
+  const petrolPrice=parseFloat(document.getElementById('inp-petrol').value)||104.99;
+  const petrolKm   =parseFloat(document.getElementById('inp-petrol-km').value)||15;
+  const freq       =parseInt(document.getElementById('inp-freq').value)||8;
 
   renderBatteryPack(from,to,battery);
 
+  // Core calculations
   const deltaKwh=battery*(to-from)/100;
   const wallKwh=deltaKwh/eff;
   const hours=wallKwh/kw;
   const cost=wallKwh*price;
   const rangeKm=deltaKwh*kmkwh;
 
+  // Petrol comparison
+  const petrolCost=(rangeKm/petrolKm)*petrolPrice;
+  const savings=petrolCost-cost;
+  const evCpkm=cost/rangeKm;
+  const petrolCpkm=petrolPrice/petrolKm;
+  const monthlySavings=savings*freq;
+  const annualSavings=monthlySavings*12;
+
+  // CO2 calculations (India grid: 0.82 kg CO2/kWh; petrol: 2.296 kg CO2/L)
+  const co2EV=wallKwh*0.82;
+  const co2Petrol=(rangeKm/petrolKm)*2.296;
+  const co2Saved=co2Petrol-co2EV;
+  const annualCo2Saved=co2Saved*freq*12;
+
+  // GST breakdown (home charging has no GST — it's a domestic electricity tariff)
+  const isHome=currentPricingMode==='home';
+  const baseRate=isHome?price:price/1.18;
+  const gstAmt=isHome?0:price-baseRate;
+
+  // ── Result cards ──
   const h=Math.floor(hours),m=Math.round((hours-h)*60);
   document.getElementById('res-time').textContent=h>0?`${h}h ${m}m`:`${m}m`;
   document.getElementById('res-time-sub').textContent=`${(hours*60).toFixed(0)} min total`;
-  document.getElementById('res-cost').textContent=`₹${cost.toFixed(0)}`;
-  document.getElementById('res-cost-sub').textContent=`₹${(cost/rangeKm).toFixed(2)}/km`;
+  document.getElementById('res-cost').textContent=`₹${fmt(cost)}`;
+  document.getElementById('res-cost-sub').textContent=`₹${evCpkm.toFixed(2)}/km`;
   document.getElementById('res-range').textContent=`${rangeKm.toFixed(0)} km`;
-  document.getElementById('res-range-sub').textContent=`~${(rangeKm/kmkwh).toFixed(1)} kWh used`;
+  document.getElementById('res-range-sub').textContent=`${deltaKwh.toFixed(1)} kWh net`;
   document.getElementById('res-kwh').textContent=`${deltaKwh.toFixed(1)} kWh`;
-  document.getElementById('res-kwh-sub').textContent=`${wallKwh.toFixed(1)} kWh from wall`;
+  document.getElementById('res-kwh-sub').textContent=`${wallKwh.toFixed(1)} kWh wall draw`;
   document.getElementById('prog-bar').style.width=(to-from)+'%';
 
+  // ── Savings Banner ──
+  const banner=document.getElementById('savings-banner');
+  const isLoss=savings<0;
+  banner.classList.toggle('loss',isLoss);
+  document.getElementById('sav-icon').textContent=isLoss?'⚠️':'💚';
+  document.getElementById('sav-title').textContent=isLoss?'EV costs more than petrol':'You save vs petrol';
+  document.getElementById('sav-title').className='sav-title'+(isLoss?' loss':'');
+  document.getElementById('sav-amount').textContent=`₹${fmt(Math.abs(savings))}`;
+  document.getElementById('sav-amount').className='sav-amount'+(isLoss?' loss':'');
+  document.getElementById('sav-sub').textContent=
+    `per charge · vs petrol @ ₹${petrolPrice.toFixed(2)}/L & ${petrolKm} km/L`;
+  document.getElementById('sav-annual').textContent=`₹${fmt(Math.abs(annualSavings))}`;
+  document.getElementById('sav-co2').textContent=co2Saved>0?`${co2Saved.toFixed(1)} kg`:`+${Math.abs(co2Saved).toFixed(1)} kg`;
+  document.getElementById('sav-ev-cpkm').textContent=`₹${evCpkm.toFixed(2)}/km`;
+  document.getElementById('sav-petrol-cpkm').textContent=`₹${petrolCpkm.toFixed(2)}/km`;
+
+  // ── Breakdown ──
   const curHTML=selectedCharger.current==='DC'
     ?'<span style="color:var(--dc);font-weight:700;">⚡ DC Fast</span>'
     :'<span style="color:var(--ac);font-weight:700;">〜 AC</span>';
-  const baseRate=price/1.18;
-  const gstAmt=price-baseRate;
+  const modeLabels={home:'🏠 Home (TSSPDCL Hyderabad)',dc:'⚡ DC Fast (Public)',ac:'〜 AC Public',custom:'✏️ Custom'};
   document.getElementById('bd-power').textContent=`${kw} kW · ${selectedCharger.type}`;
   document.getElementById('bd-acdc').innerHTML=curHTML+` · ${selectedCharger.speed.toUpperCase()}`;
   document.getElementById('bd-wall').textContent=`${wallKwh.toFixed(2)} kWh  (${Math.round(kw/eff)} kW draw)`;
-  document.getElementById('bd-base').textContent=`₹${baseRate.toFixed(2)}/kWh`;
-  document.getElementById('bd-gst').textContent=`+₹${gstAmt.toFixed(2)}/kWh  (18%)`;
-  document.getElementById('bd-rate').textContent=`₹${price.toFixed(2)}/kWh`;
-  document.getElementById('bd-cpkm').textContent=`₹${(cost/rangeKm).toFixed(2)}/km`;
-  document.getElementById('bd-petrol').textContent=`₹${(rangeKm/15*105).toFixed(0)} saved vs petrol`;
   document.getElementById('bd-energy').textContent=`${deltaKwh.toFixed(2)} kWh net`;
+  document.getElementById('bd-mode').textContent=modeLabels[currentPricingMode]||'—';
+  document.getElementById('bd-base').textContent=isHome?`₹${baseRate.toFixed(2)}/kWh (domestic tariff)`:`₹${baseRate.toFixed(2)}/kWh`;
+  document.getElementById('bd-gst').textContent=isHome?'Not applicable (domestic tariff)':`+₹${gstAmt.toFixed(2)}/kWh  (18%)`;
+  document.getElementById('bd-rate').textContent=`₹${price.toFixed(2)}/kWh`;
+  document.getElementById('bd-total-cost').textContent=`₹${fmt(cost)}`;
+  document.getElementById('bd-cpkm').textContent=`₹${evCpkm.toFixed(2)}/km`;
+  document.getElementById('bd-petrol-cpkm').textContent=`₹${petrolCpkm.toFixed(2)}/km`;
+  document.getElementById('bd-save-km').textContent=isLoss?`-₹${Math.abs(petrolCpkm-evCpkm).toFixed(2)}/km`:`₹${(petrolCpkm-evCpkm).toFixed(2)}/km`;
+  document.getElementById('bd-petrol-cost').textContent=`₹${fmt(petrolCost)}  (${(rangeKm/petrolKm).toFixed(1)} L × ₹${petrolPrice.toFixed(2)})`;
+  document.getElementById('bd-petrol').textContent=isLoss?`-₹${fmt(Math.abs(savings))}`:`₹${fmt(savings)} saved`;
+  document.getElementById('bd-freq-lbl').textContent=freq+'×';
+  document.getElementById('bd-monthly').textContent=isLoss?`-₹${fmt(Math.abs(monthlySavings))}`:`₹${fmt(monthlySavings)}`;
+  document.getElementById('bd-annual').textContent=isLoss?`-₹${fmt(Math.abs(annualSavings))}`:`₹${fmt(annualSavings)} /year`;
+  document.getElementById('bd-co2-ev').textContent=`${co2EV.toFixed(2)} kg  (grid: 0.82 kg/kWh)`;
+  document.getElementById('bd-co2-petrol').textContent=`${co2Petrol.toFixed(2)} kg  (petrol: 2.30 kg/L)`;
+  document.getElementById('bd-co2-saved').textContent=co2Saved>0?`${co2Saved.toFixed(2)} kg CO₂`:`+${Math.abs(co2Saved).toFixed(2)} kg CO₂`;
+  document.getElementById('bd-co2-annual').textContent=annualCo2Saved>0?`${(annualCo2Saved/1000).toFixed(2)} tonnes/year`:`+${(Math.abs(annualCo2Saved)/1000).toFixed(2)} tonnes/year`;
 }
 
 // ── TABS ───────────────────────────────────────────────────────────────────────
@@ -1897,6 +2152,7 @@ function renderTripLegs(fromCoord,toCoord,tripData,price){
 
 // ── INIT ───────────────────────────────────────────────────────────────────────
 buildChargerGrid();
+setPricingMode('dc'); // set DC fast as default active mode
 buildVehicleDropdowns(); // sets vehicle → auto-calls updateCalc()
 </script>
 </body>
