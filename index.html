@@ -395,7 +395,7 @@
   <div class="logo">iR</div>
   <div class="brand">
     <h1>iReV Charge Matrix</h1>
-    <p>Mahindra XEV 9e · 79 kWh · ₹19/kWh</p>
+    <p>Mahindra XEV 9e · 79 kWh · Hafeezpet, Hyd</p>
   </div>
   <div class="header-right">
     <span class="dc-tag">DC</span>
@@ -468,7 +468,7 @@
         <button class="pm-btn" id="pm-home" onclick="setPricingMode('home')">
           <div class="pm-icon">🏠</div>
           <div class="pm-name">Home</div>
-          <div class="pm-rate">TSSPDCL ₹6/kWh</div>
+          <div class="pm-rate">TGSPDCL ₹8.22/kWh</div>
         </button>
         <button class="pm-btn active-dc" id="pm-dc" onclick="setPricingMode('dc')">
           <div class="pm-icon">⚡</div>
@@ -489,7 +489,8 @@
     </div>
 
     <div class="pm-home-note hidden" id="pm-home-note">
-      🏠 TSSPDCL Hyderabad domestic rate · 301–400 units/month slab · includes distribution charges
+      🏠 TGSPDCL Hafeezpet/Gachibowli domestic rate · <strong>587 units / 28 days</strong> · Jun 2026 actual bill
+      <br>Energy ₹4,573 + Fixed ₹77 + Customer ₹140 + Duty ₹35 = <strong>₹4,826 total → ₹8.22/kWh all-in</strong>
     </div>
 
     <div class="inputs-row">
@@ -515,7 +516,7 @@
     </div>
     <div class="petrol-row">
       <div class="inp-group">
-        <label>Petrol Price (₹/L) <span class="hyd-tag">HYD</span></label>
+        <label>Petrol Price (₹/L) <span class="hyd-tag" title="Hafeezpet, Hyderabad">HYD</span></label>
         <input type="number" id="inp-petrol" value="115.69" min="80" max="200" step="0.01" oninput="updateCalc()"/>
       </div>
       <div class="inp-group">
@@ -1178,9 +1179,9 @@ function setPricingMode(mode){
   const homeNote=document.getElementById('pm-home-note');
   if(homeNote) homeNote.classList.toggle('hidden', mode!=='home');
   if(mode==='home'){
-    priceInp.value=6; priceInp.readOnly=true;
+    priceInp.value=8.22; priceInp.readOnly=true;
     effSel.value='0.85';
-    if(hint) hint.textContent='TSSPDCL Hyderabad domestic · 301–400 units slab';
+    if(hint) hint.textContent='TGSPDCL Hafeezpet actual rate · ₹4826 / 587 kWh (Jun 2026)';
   } else if(mode==='dc'){
     priceInp.value=19; priceInp.readOnly=true;
     effSel.value='0.96';
@@ -1274,7 +1275,7 @@ function updateCalc(){
   const curHTML=selectedCharger.current==='DC'
     ?'<span style="color:var(--dc);font-weight:700;">⚡ DC Fast</span>'
     :'<span style="color:var(--ac);font-weight:700;">〜 AC</span>';
-  const modeLabels={home:'🏠 Home (TSSPDCL Hyderabad)',dc:'⚡ DC Fast (Public)',ac:'〜 AC Public',custom:'✏️ Custom'};
+  const modeLabels={home:'🏠 Home (TGSPDCL Hafeezpet)',dc:'⚡ DC Fast (Public)',ac:'〜 AC Public',custom:'✏️ Custom'};
   document.getElementById('bd-power').textContent=`${kw} kW · ${selectedCharger.type}`;
   document.getElementById('bd-acdc').innerHTML=curHTML+` · ${selectedCharger.speed.toUpperCase()}`;
   document.getElementById('bd-wall').textContent=`${wallKwh.toFixed(2)} kWh  (${Math.round(kw/eff)} kW draw)`;
