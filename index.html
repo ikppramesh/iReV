@@ -323,6 +323,34 @@
   .vehicle-sel-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
   .vehicle-showcase{background:linear-gradient(160deg,rgba(6,10,16,0.55),rgba(14,20,32,0.45));border:1px solid rgba(0,229,255,0.22);border-radius:16px;padding:20px 16px 16px;text-align:center;position:relative;overflow:hidden;backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);box-shadow:var(--glass-shadow),var(--glass-hi);}
   .vehicle-showcase::before{content:'';position:absolute;top:0;left:15%;right:15%;height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);}
+
+  /* ── ANIMATED CHARGING SCENE ──────────────────────────────── */
+  .charge-scene{position:relative;width:100%;max-width:420px;margin:6px auto 14px;}
+  .charge-scene svg{width:100%;height:auto;display:block;overflow:visible;}
+  .cs-status{display:flex;align-items:center;justify-content:space-between;padding:0 4px 8px;}
+  .cs-status .cs-state{font-size:0.7rem;font-weight:800;letter-spacing:1.5px;color:var(--accent);text-transform:uppercase;}
+  .cs-status .cs-pct{font-size:1.5rem;font-weight:800;color:#fff;line-height:1;}
+  .cs-status .cs-time{font-size:0.62rem;color:var(--muted);text-align:right;}
+  .cs-status .cs-time strong{display:block;font-size:0.95rem;color:var(--text);font-weight:700;margin-top:1px;}
+  /* energy dots flowing along the cable */
+  .flow-dot{fill:#00e5ff;filter:drop-shadow(0 0 4px #00e5ff);}
+  @keyframes flowPath{from{offset-distance:0%;}to{offset-distance:100%;}}
+  /* battery cell pulse while charging */
+  @keyframes cellPulse{0%,100%{opacity:0.85;}50%{opacity:1;}}
+  .cs-cell-charging{animation:cellPulse 1.2s ease-in-out infinite;}
+  /* glow ring at the charge port */
+  @keyframes portGlow{0%,100%{opacity:0.4;r:6;}50%{opacity:0.9;r:9;}}
+  .cs-port-glow{animation:portGlow 1.6s ease-in-out infinite;}
+  /* plug bobbing */
+  .cs-plug{transform-box:fill-box;transform-origin:center;}
+  /* lightning bolt pulse */
+  @keyframes boltPulse{0%,100%{opacity:0.6;transform:scale(0.95);}50%{opacity:1;transform:scale(1.1);}}
+  .cs-bolt{transform-box:fill-box;transform-origin:center;animation:boltPulse 1s ease-in-out infinite;}
+  .charge-scene.paused .flow-dot{display:none;}
+  .charge-scene.paused .cs-cell-charging{animation:none;}
+  .charge-scene.paused .cs-bolt{animation:none;opacity:0.3;}
+  .charge-scene.paused .cs-port-glow{animation:none;opacity:0.25;}
+  .cs-tag{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);font-size:0.58rem;color:var(--muted);letter-spacing:0.5px;}
   .vehicle-img-zone{height:148px;display:flex;align-items:center;justify-content:center;margin-bottom:12px;}
   .v-make{font-size:0.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:2px;margin-bottom:2px;}
   .v-model{font-size:1.05rem;font-weight:800;color:var(--text);}
@@ -477,6 +505,7 @@
       <div class="inp-group"><label>Variant / Pack</label><select id="sel-variant" onchange="onVariantChange()"></select></div>
     </div>
     <div id="vehicle-showcase"></div>
+    <div id="charge-scene-mount"></div>
   </div>
 
   <div class="card">
@@ -1216,6 +1245,108 @@ function renderBatteryPack(from,to,battery){
     `<span class="kd">${dKwh} kWh</span>`+
     `<span style="color:var(--muted)"> = </span>`+
     `<span class="kt">${tKwh} kWh target</span>`;
+  renderChargeScene(from,to);
+}
+
+// ── ANIMATED CHARGING SCENE (translucent car + filling pack + live cable) ────────
+function renderChargeScene(from,to){
+  const mount=document.getElementById('charge-scene-mount');
+  if(!mount) return;
+  const isFull = to>=100;
+  const stateLabel = isFull ? 'Charge Complete' : (currentPricingMode==='dc' ? 'Supercharging' : 'Charging');
+  // battery cells inside the car (16 cells representing 0-100%)
+  const N=16;
+  const cellW=11, gap=2.2, x0=150, yTop=92, cellH=30;
+  let cells='';
+  for(let i=0;i<N;i++){
+    const lo=i*(100/N), hi=(i+1)*(100/N);
+    const x=x0+i*(cellW+gap);
+    let fill='#1a2535', cls='', op='1';
+    if(hi<=from){ fill='#22c55e'; }                       // already charged - green
+    else if(lo<to){                                        // currently charging - cyan, animated
+      fill = hi<=to ? '#00e5ff' : '#1a2535';
+      if(hi<=to) cls='cs-cell-charging';
+    }
+    cells+=`<rect x="${x}" y="${yTop}" width="${cellW}" height="${cellH}" rx="2" fill="${fill}" class="${cls}" style="animation-delay:${i*0.08}s"/>`;
+  }
+  // SOC time estimate (rough, based on current charger kW)
+  const battery=parseFloat(document.getElementById('inp-battery').value)||79;
+  const kw = currentPricingMode==='dc'?90:(currentPricingMode==='ac'?11:7.2);
+  const kwhToAdd=battery*(to-from)/100;
+  const mins=Math.max(1,Math.round(kwhToAdd/kw*60));
+  const timeStr = mins>=60?`${Math.floor(mins/60)}h ${mins%60}m`:`${mins} min`;
+
+  mount.innerHTML=`
+  <div class="charge-scene ${isFull?'paused':''}" id="charge-scene">
+    <div class="cs-status">
+      <div>
+        <div class="cs-state">${isFull?'✓ '+stateLabel:'⚡ '+stateLabel}</div>
+        <div class="cs-pct">${to}%</div>
+      </div>
+      <div class="cs-time">${isFull?'Ready to drive':'Time Remaining'}<strong>${isFull?'—':timeStr}</strong></div>
+    </div>
+    <svg viewBox="0 0 460 210" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="bodyGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="rgba(120,180,255,0.18)"/>
+          <stop offset="100%" stop-color="rgba(60,90,140,0.05)"/>
+        </linearGradient>
+        <linearGradient id="glassGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="rgba(160,210,255,0.30)"/>
+          <stop offset="100%" stop-color="rgba(90,130,180,0.08)"/>
+        </linearGradient>
+        <radialGradient id="wheelGrad"><stop offset="55%" stop-color="#0c0f16"/><stop offset="100%" stop-color="#2a3340"/></radialGradient>
+        <path id="cablePath" d="M 60 200 C 70 150, 95 140, 120 138" fill="none"/>
+      </defs>
+
+      <!-- translucent car body -->
+      <path d="M70 140 C80 95,120 70,180 66 C230 63,270 70,300 82 C340 78,390 95,410 120 C420 132,418 145,410 150 L80 150 C72 150,68 146,70 140 Z"
+            fill="url(#bodyGrad)" stroke="rgba(150,200,255,0.5)" stroke-width="1.4"/>
+      <!-- greenhouse / cabin glass -->
+      <path d="M150 70 C200 56,250 56,300 78 L290 100 L168 100 C156 100,150 90,150 70 Z"
+            fill="url(#glassGrad)" stroke="rgba(160,210,255,0.45)" stroke-width="1"/>
+      <line x1="225" y1="60" x2="222" y2="100" stroke="rgba(160,210,255,0.35)" stroke-width="1"/>
+
+      <!-- battery tray outline -->
+      <rect x="146" y="86" width="${N*(cellW+gap)+4}" height="42" rx="5" fill="rgba(5,12,20,0.65)" stroke="rgba(0,229,255,0.35)" stroke-width="1.2"/>
+      <!-- cells -->
+      ${cells}
+
+      <!-- wheels -->
+      <circle cx="140" cy="152" r="26" fill="url(#wheelGrad)" stroke="#3a4453" stroke-width="3"/>
+      <circle cx="140" cy="152" r="9" fill="#0c0f16" stroke="#4a5566" stroke-width="2"/>
+      <circle cx="340" cy="152" r="26" fill="url(#wheelGrad)" stroke="#3a4453" stroke-width="3"/>
+      <circle cx="340" cy="152" r="9" fill="#0c0f16" stroke="#4a5566" stroke-width="2"/>
+
+      <!-- charge port glow on car (front-left) -->
+      <circle cx="120" cy="138" r="6" fill="none" stroke="#00e5ff" stroke-width="1.5" class="cs-port-glow"/>
+      <circle cx="120" cy="138" r="3" fill="#00e5ff"/>
+
+      <!-- charging cable from socket(bottom-left) up to port -->
+      <use href="#cablePath" stroke="#00e5ff" stroke-width="3.5" stroke-linecap="round" opacity="0.55"/>
+      <use href="#cablePath" stroke="rgba(0,229,255,0.15)" stroke-width="7" stroke-linecap="round"/>
+
+      <!-- wall socket -->
+      <rect x="44" y="196" width="32" height="14" rx="3" fill="#161a24" stroke="#2a3340" stroke-width="1.5"/>
+      <circle cx="54" cy="203" r="2" fill="#00e5ff"/>
+      <circle cx="66" cy="203" r="2" fill="#00e5ff"/>
+
+      <!-- plug head at car port -->
+      <g class="cs-plug">
+        <rect x="112" y="130" width="14" height="12" rx="2.5" fill="#0e2230" stroke="#00e5ff" stroke-width="1.3"/>
+      </g>
+
+      <!-- flowing energy dots along cable -->
+      ${isFull?'':`
+      <circle r="2.6" class="flow-dot" style="offset-path:path('M 60 200 C 70 150, 95 140, 120 138');animation:flowPath 1.4s linear infinite;"/>
+      <circle r="2.6" class="flow-dot" style="offset-path:path('M 60 200 C 70 150, 95 140, 120 138');animation:flowPath 1.4s linear infinite;animation-delay:0.46s;"/>
+      <circle r="2.6" class="flow-dot" style="offset-path:path('M 60 200 C 70 150, 95 140, 120 138');animation:flowPath 1.4s linear infinite;animation-delay:0.93s;"/>`}
+
+      <!-- lightning bolt over pack -->
+      <path class="cs-bolt" d="M250 96 l-10 18 h7 l-5 16 14 -20 h-7 l8 -14 z" fill="#ffd60a" stroke="#fff3b0" stroke-width="0.5"/>
+    </svg>
+    <div class="cs-tag">${kw} kW · ${(battery*(to-from)/100).toFixed(1)} kWh to add · live SOC ${from}% → ${to}%</div>
+  </div>`;
 }
 
 // ── PRICING MODE ────────────────────────────────────────────────────────────────
