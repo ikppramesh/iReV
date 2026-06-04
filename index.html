@@ -9,51 +9,50 @@
 <style>
   :root{
     --bg:#070710;
-    --card:rgba(255,255,255,0.07);
-    --card2:rgba(255,255,255,0.05);
-    --border:rgba(255,255,255,0.14);
+    --card:rgba(20,20,32,0.55);
+    --card2:rgba(28,28,42,0.50);
+    --border:rgba(255,255,255,0.12);
     --accent:#00e5ff;--accent2:#7c3aed;
     --green:#22c55e;--red:#ef4444;--orange:#f97316;--yellow:#eab308;
     --dc:#3b82f6;--ac:#a855f7;
-    --text:#f0f2f5;--muted:#b4b8d0;--radius:18px;
-    --glass-blur:blur(24px) saturate(180%);
+    --text:#f0f2f5;--muted:#a8acc4;--radius:18px;
+    --glass-blur:blur(22px) saturate(150%);
     --glass-shadow:0 8px 32px rgba(0,0,0,0.45);
-    --glass-hi:inset 0 1px 0 rgba(255,255,255,0.18),inset 0 -1px 0 rgba(0,0,0,0.1);
+    --glass-hi:inset 0 1px 0 rgba(255,255,255,0.10);
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   body{
     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
     color:var(--text);min-height:100vh;position:relative;
-    background:#0a0618;
+    background:#06060c;
   }
-  /* Vivid photographic mesh backdrop — bright colour is what makes frosted glass actually read.
-     Large saturated blobs drift slowly behind every panel (true iOS-style depth). */
+  /* Deep muted backdrop — low-opacity colour pools on a near-black base.
+     Enough tint for the frosted glass to read, but no bright glare behind text. */
   body::before{
     content:'';position:fixed;inset:-20%;z-index:-2;
     background:
-      radial-gradient(38rem 38rem at 15% 12%, #7c3aed 0%, rgba(124,58,237,0) 60%),
-      radial-gradient(34rem 34rem at 85% 8%,  #00e5ff 0%, rgba(0,229,255,0) 55%),
-      radial-gradient(42rem 42rem at 78% 88%, #ec4899 0%, rgba(236,72,153,0) 60%),
-      radial-gradient(36rem 36rem at 12% 82%, #22c55e 0%, rgba(34,197,94,0) 58%),
-      radial-gradient(30rem 30rem at 50% 50%, #f97316 0%, rgba(249,115,22,0) 55%),
-      linear-gradient(135deg,#0a0618 0%,#120a2e 45%,#0a0618 100%);
-    filter:saturate(130%);
-    animation:auroraShift 26s ease-in-out infinite alternate;
+      radial-gradient(40rem 40rem at 15% 12%, rgba(124,58,237,0.16) 0%, transparent 60%),
+      radial-gradient(36rem 36rem at 85% 8%,  rgba(0,229,255,0.10) 0%, transparent 55%),
+      radial-gradient(42rem 42rem at 78% 90%, rgba(236,72,153,0.10) 0%, transparent 60%),
+      radial-gradient(36rem 36rem at 12% 84%, rgba(34,197,94,0.08) 0%, transparent 58%),
+      linear-gradient(150deg,#06060c 0%,#0c0a1c 50%,#06060c 100%);
+    filter:saturate(105%);
+    animation:auroraShift 30s ease-in-out infinite alternate;
   }
-  /* Subtle moving noise/grid layer to add texture under the blur */
+  /* faint texture grid */
   body::after{
     content:'';position:fixed;inset:0;z-index:-1;
     background-image:
-      linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),
-      linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);
+      linear-gradient(rgba(255,255,255,0.015) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,0.015) 1px,transparent 1px);
     background-size:46px 46px;
     mask-image:radial-gradient(circle at 50% 35%,#000 55%,transparent 100%);
     -webkit-mask-image:radial-gradient(circle at 50% 35%,#000 55%,transparent 100%);
   }
   @keyframes auroraShift{
-    0%{transform:translate3d(0,0,0) scale(1) rotate(0deg);}
-    50%{transform:translate3d(-3%,2.5%,0) scale(1.12) rotate(2deg);}
-    100%{transform:translate3d(3%,-2.5%,0) scale(1.06) rotate(-2deg);}
+    0%{transform:translate3d(0,0,0) scale(1);}
+    50%{transform:translate3d(-2%,2%,0) scale(1.06);}
+    100%{transform:translate3d(2%,-2%,0) scale(1.03);}
   }
 
   header{background:rgba(12,12,20,0.55);border-bottom:1px solid var(--border);padding:16px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100;backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);box-shadow:var(--glass-shadow);}
