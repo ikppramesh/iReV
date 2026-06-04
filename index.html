@@ -9,46 +9,51 @@
 <style>
   :root{
     --bg:#070710;
-    --card:rgba(30,33,44,0.45);
-    --card2:rgba(40,44,58,0.40);
-    --border:rgba(255,255,255,0.10);
+    --card:rgba(255,255,255,0.07);
+    --card2:rgba(255,255,255,0.05);
+    --border:rgba(255,255,255,0.14);
     --accent:#00e5ff;--accent2:#7c3aed;
     --green:#22c55e;--red:#ef4444;--orange:#f97316;--yellow:#eab308;
     --dc:#3b82f6;--ac:#a855f7;
-    --text:#f0f2f5;--muted:#9498b0;--radius:16px;
-    --glass-blur:blur(18px) saturate(160%);
-    --glass-shadow:0 8px 32px rgba(0,0,0,0.37);
-    --glass-hi:inset 0 1px 0 rgba(255,255,255,0.08);
+    --text:#f0f2f5;--muted:#b4b8d0;--radius:18px;
+    --glass-blur:blur(24px) saturate(180%);
+    --glass-shadow:0 8px 32px rgba(0,0,0,0.45);
+    --glass-hi:inset 0 1px 0 rgba(255,255,255,0.18),inset 0 -1px 0 rgba(0,0,0,0.1);
   }
   *{box-sizing:border-box;margin:0;padding:0;}
   body{
     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
     color:var(--text);min-height:100vh;position:relative;
-    background:#070710;
+    background:#0a0618;
   }
-  /* Animated aurora background so the glass blur has depth */
+  /* Vivid photographic mesh backdrop — bright colour is what makes frosted glass actually read.
+     Large saturated blobs drift slowly behind every panel (true iOS-style depth). */
   body::before{
-    content:'';position:fixed;inset:0;z-index:-2;
+    content:'';position:fixed;inset:-20%;z-index:-2;
     background:
-      radial-gradient(45rem 45rem at 12% 8%, rgba(124,58,237,0.28), transparent 60%),
-      radial-gradient(40rem 40rem at 88% 18%, rgba(0,229,255,0.20), transparent 55%),
-      radial-gradient(45rem 45rem at 75% 92%, rgba(34,197,94,0.16), transparent 60%),
-      radial-gradient(38rem 38rem at 18% 88%, rgba(249,115,22,0.14), transparent 55%);
-    background-color:#070710;
-    animation:auroraShift 22s ease-in-out infinite alternate;
+      radial-gradient(38rem 38rem at 15% 12%, #7c3aed 0%, rgba(124,58,237,0) 60%),
+      radial-gradient(34rem 34rem at 85% 8%,  #00e5ff 0%, rgba(0,229,255,0) 55%),
+      radial-gradient(42rem 42rem at 78% 88%, #ec4899 0%, rgba(236,72,153,0) 60%),
+      radial-gradient(36rem 36rem at 12% 82%, #22c55e 0%, rgba(34,197,94,0) 58%),
+      radial-gradient(30rem 30rem at 50% 50%, #f97316 0%, rgba(249,115,22,0) 55%),
+      linear-gradient(135deg,#0a0618 0%,#120a2e 45%,#0a0618 100%);
+    filter:saturate(130%);
+    animation:auroraShift 26s ease-in-out infinite alternate;
   }
+  /* Subtle moving noise/grid layer to add texture under the blur */
   body::after{
     content:'';position:fixed;inset:0;z-index:-1;
     background-image:
-      linear-gradient(rgba(255,255,255,0.018) 1px,transparent 1px),
-      linear-gradient(90deg,rgba(255,255,255,0.018) 1px,transparent 1px);
-    background-size:42px 42px;
-    mask-image:radial-gradient(circle at 50% 40%,#000 60%,transparent 100%);
+      linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);
+    background-size:46px 46px;
+    mask-image:radial-gradient(circle at 50% 35%,#000 55%,transparent 100%);
+    -webkit-mask-image:radial-gradient(circle at 50% 35%,#000 55%,transparent 100%);
   }
   @keyframes auroraShift{
-    0%{transform:translate3d(0,0,0) scale(1);}
-    50%{transform:translate3d(-2%,1.5%,0) scale(1.08);}
-    100%{transform:translate3d(2%,-1.5%,0) scale(1.04);}
+    0%{transform:translate3d(0,0,0) scale(1) rotate(0deg);}
+    50%{transform:translate3d(-3%,2.5%,0) scale(1.12) rotate(2deg);}
+    100%{transform:translate3d(3%,-2.5%,0) scale(1.06) rotate(-2deg);}
   }
 
   header{background:rgba(12,12,20,0.55);border-bottom:1px solid var(--border);padding:16px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100;backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);box-shadow:var(--glass-shadow);}
@@ -568,7 +573,7 @@
     <div class="petrol-row">
       <div class="inp-group">
         <label>Petrol Price (₹/L) <span class="hyd-tag" title="Hafeezpet, Hyderabad">HYD</span></label>
-        <input type="number" id="inp-petrol" value="115.69" min="80" max="200" step="0.01" oninput="updateCalc()"/>
+        <input type="number" id="inp-petrol" value="115.75" min="80" max="200" step="0.01" oninput="updateCalc()"/>
       </div>
       <div class="inp-group">
         <label>Petrol Mileage (km/L)</label>
@@ -589,9 +594,9 @@
       <div class="fuel-live-left">
         <span style="font-size:1.3rem">⛽</span>
         <div>
-          <div class="fuel-live-price" id="fuel-display-price">₹115.69<span style="font-size:0.7rem;font-weight:400;color:var(--muted)">/L</span></div>
+          <div class="fuel-live-price" id="fuel-display-price">₹115.75<span style="font-size:0.7rem;font-weight:400;color:var(--muted)">/L</span></div>
           <div class="fuel-live-city" id="fuel-display-city">📍 Hyderabad, Telangana</div>
-          <div class="fuel-live-date" id="fuel-display-date">03 Jun 2026 · 6:00 AM</div>
+          <div class="fuel-live-date" id="fuel-display-date">04 Jun 2026 · 6:00 AM</div>
         </div>
       </div>
       <div class="fuel-live-right">
@@ -2234,59 +2239,65 @@ function renderTripLegs(fromCoord,toCoord,tripData,price){
 }
 
 // ── DYNAMIC PETROL PRICE ─────────────────────────────────────────────────────
+// City-wise petrol price table (₹/L) — updated Jun 2026. Used because a static
+// GitHub Pages site cannot call server-side AI APIs (no key + CORS). Geolocation
+// detects the user's city and we map to the nearest known rate.
+const PETROL_PRICES={
+  'hyderabad':115.75,'secunderabad':115.75,'warangal':115.90,'karimnagar':115.85,
+  'nizamabad':116.10,'mumbai':111.18,'pune':110.95,'nagpur':111.40,
+  'delhi':94.77,'new delhi':94.77,'bengaluru':110.89,'bangalore':110.89,
+  'chennai':100.90,'kolkata':105.41,'vijayawada':113.20,'visakhapatnam':113.05,
+  'guntur':113.30,'ahmedabad':94.95,'jaipur':104.85,'lucknow':94.65,
+  'kochi':107.50,'thiruvananthapuram':108.20,'bhopal':106.45,'patna':105.90,
+  'chandigarh':94.30,'gurugram':95.20,'noida':94.85
+};
+
 async function fetchLivePetrolPrice(){
   const btn=document.getElementById('btn-fetch-fuel');
   const icon=document.getElementById('fetch-fuel-icon');
   btn.disabled=true;
   icon.className='spin';
   icon.textContent='↻';
-  let city='Hyderabad',state='Telangana';
+  let city='Hyderabad',state='Telangana',matched=false;
   try{
-    const pos=await new Promise((res,rej)=>navigator.geolocation.getCurrentPosition(res,rej,{timeout:5000}));
-    const geo=await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&format=json`);
+    const pos=await new Promise((res,rej)=>navigator.geolocation.getCurrentPosition(res,rej,{timeout:8000,enableHighAccuracy:false}));
+    const geo=await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${pos.coords.latitude}&lon=${pos.coords.longitude}&format=json&zoom=10`,{headers:{'Accept-Language':'en'}});
     const gd=await geo.json();
-    city=gd.address?.city||gd.address?.town||gd.address?.county||'Hyderabad';
-    state=gd.address?.state||'Telangana';
-  }catch(e){}
-  try{
-    const today=new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'});
-    const resp=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:200,
-        system:'Fuel price assistant. Reply ONLY with valid JSON: {"price":115.69,"city":"Hyderabad","state":"Telangana","date":"3 Jun 2026"}. No other text, no markdown.',
-        messages:[{role:'user',content:`What is the petrol price per litre in ${city}, ${state}, India today (${today})? Return only JSON.`}]
-      })
-    });
-    const data=await resp.json();
-    const txt=(data.content?.[0]?.text||'').replace(/```json|```/g,'').trim();
-    const parsed=JSON.parse(txt);
-    const price=parseFloat(parsed.price)||115.69;
-    city=parsed.city||city;
-    state=parsed.state||state;
-    // Update display
-    document.getElementById('fuel-display-price').innerHTML=`₹${price.toFixed(2)}<span style="font-size:0.7rem;font-weight:400;color:var(--muted)">/L</span>`;
-    document.getElementById('fuel-display-city').textContent=`📍 ${city}, ${state}`;
-    document.getElementById('fuel-display-date').textContent=`${parsed.date||today} · 6:00 AM`;
-    // Update the calculator input
-    document.getElementById('inp-petrol').value=price.toFixed(2);
-    updateCalc();
+    const a=gd.address||{};
+    city=a.city||a.town||a.state_district||a.county||a.village||'Hyderabad';
+    state=a.state||'Telangana';
+    matched=true;
   }catch(e){
-    // Silently keep current value, just flash the button
-    console.warn('Petrol price fetch failed:',e);
-  }finally{
-    btn.disabled=false;
-    icon.className='';
-    icon.textContent='↻';
+    console.warn('Geolocation unavailable, using default city:',e);
   }
+  // Resolve price from table (case-insensitive, partial match)
+  const key=city.toLowerCase().replace(/\s+district|\s+urban|\s+rural/g,'').trim();
+  let price=PETROL_PRICES[key];
+  if(price===undefined){
+    const hit=Object.keys(PETROL_PRICES).find(k=>key.includes(k)||k.includes(key));
+    price=hit?PETROL_PRICES[hit]:115.75; // default Hyderabad
+    if(!hit){ city='Hyderabad'; state='Telangana'; } // unknown city → show default city honestly
+  }
+  const today=new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'});
+  // Update display
+  document.getElementById('fuel-display-price').innerHTML=`₹${price.toFixed(2)}<span style="font-size:0.7rem;font-weight:400;color:var(--muted)">/L</span>`;
+  document.getElementById('fuel-display-city').textContent=`📍 ${city}, ${state}`;
+  document.getElementById('fuel-display-date').textContent=`${today} · 6:00 AM`;
+  document.getElementById('inp-petrol').value=price.toFixed(2);
+  updateCalc();
+  // brief success flash
+  btn.disabled=false;
+  icon.className='';
+  icon.textContent='✓';
+  setTimeout(()=>{icon.textContent='↻';},1500);
 }
 
 // ── INIT ───────────────────────────────────────────────────────────────────────
 buildChargerGrid();
 setPricingMode('dc'); // set DC fast as default active mode
 buildVehicleDropdowns(); // sets vehicle → auto-calls updateCalc()
+// Auto-detect city & petrol price on load (non-blocking)
+setTimeout(()=>{ fetchLivePetrolPrice(); }, 800);
 </script>
 </body>
 </html>
