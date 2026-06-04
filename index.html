@@ -394,6 +394,26 @@
   .trip-status-msg.error{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.3);color:var(--red);}
   .trip-status-msg.success{background:rgba(34,197,94,0.08);border:1px solid rgba(34,197,94,0.25);color:var(--green);}
   .trip-summary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;}
+
+  /* ── EV vs PETROL TRIP SAVINGS CARD ───────────────────────── */
+  .trip-savings-card{background:linear-gradient(160deg,rgba(34,197,94,0.08),rgba(20,20,32,0.55));border-color:rgba(34,197,94,0.25);}
+  .ts-vs{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:stretch;margin-bottom:12px;}
+  .ts-col{border-radius:14px;padding:13px 10px;text-align:center;border:1px solid var(--border);backdrop-filter:blur(8px);}
+  .ts-ev{background:rgba(0,229,255,0.08);border-color:rgba(0,229,255,0.25);}
+  .ts-petrol{background:rgba(249,115,22,0.07);border-color:rgba(249,115,22,0.22);}
+  .ts-col-icon{font-size:1.4rem;}
+  .ts-col-name{font-size:0.64rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;margin-top:3px;}
+  .ts-col-cost{font-size:1.45rem;font-weight:800;color:#fff;margin-top:4px;line-height:1;}
+  .ts-col-sub{font-size:0.58rem;color:var(--muted);margin-top:5px;line-height:1.3;}
+  .ts-vs-mid{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 4px;min-width:84px;}
+  .ts-vs-badge{font-size:0.55rem;font-weight:800;letter-spacing:1.5px;color:var(--green);background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.35);border-radius:20px;padding:2px 10px;}
+  .ts-vs-amt{font-size:1.5rem;font-weight:800;color:var(--green);margin-top:5px;line-height:1;}
+  .ts-vs-pct{font-size:0.62rem;color:var(--green);margin-top:3px;font-weight:600;}
+  .ts-foot{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding-top:11px;border-top:1px solid var(--border);}
+  .ts-foot-item{text-align:center;font-size:0.6rem;color:var(--muted);}
+  .ts-foot-item span{display:block;margin-bottom:3px;}
+  .ts-foot-item strong{font-size:0.92rem;color:var(--text);font-weight:800;}
+  .ts-note{font-size:0.58rem;color:var(--muted);margin-top:10px;line-height:1.4;text-align:center;}
   .trip-stat{background:rgba(255,255,255,0.05);border:1px solid var(--border);border-radius:12px;padding:12px;text-align:center;backdrop-filter:blur(8px);}
   .trip-stat-val{font-size:1.12rem;font-weight:800;color:var(--accent);}
   .trip-stat-lbl{font-size:0.59rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.5px;margin-top:3px;}
@@ -2242,10 +2262,68 @@ function renderTripResults(fromCoord,toCoord,route,tripData){
         <div class="trip-stat"><div class="trip-stat-val">${socAtDest.toFixed(0)}%</div><div class="trip-stat-lbl">SOC at Destination</div></div>
         <div class="trip-stat"><div class="trip-stat-val">₹${route.distanceKm>0?(totalCost/route.distanceKm).toFixed(2):0}/km</div><div class="trip-stat-lbl">Cost per km</div></div>
       </div>
-    </div>`;
+    </div>
+    ${renderTripSavings(route.distanceKm,battery,kmkwh)}`;
 
   renderTripMap(fromCoord,toCoord,route.coords,stops);
   renderTripLegs(fromCoord,toCoord,tripData,price);
+}
+
+// ── EV vs PETROL SAVINGS FOR THE WHOLE TRIP ──────────────────────────────────────
+function renderTripSavings(distanceKm,battery,kmkwh){
+  // EV: full-trip energy = distance / efficiency (km per kWh), charged at the selected rate.
+  const evRate=parseFloat(document.getElementById('inp-price').value)||19;
+  const chargeEff=parseFloat(document.getElementById('inp-eff').value)||0.92;
+  const evKwh=distanceKm/kmkwh;                 // energy actually used to drive
+  const evKwhBilled=evKwh/chargeEff;            // metered energy incl. charging losses
+  const evCost=evKwhBilled*evRate;
+
+  // Petrol: distance / mileage × petrol price.
+  const petrolPrice=parseFloat(document.getElementById('inp-petrol').value)||115.75;
+  const mileage=parseFloat(document.getElementById('inp-petrol-km').value)||15;
+  const litres=distanceKm/mileage;
+  const petrolCost=litres*petrolPrice;
+
+  const saving=petrolCost-evCost;
+  const pct=petrolCost>0?(saving/petrolCost*100):0;
+
+  // CO2: petrol ~2.31 kg/L; grid EV ~0.71 kg/kWh (India avg)
+  const co2Petrol=litres*2.31;
+  const co2EV=evKwhBilled*0.71;
+  const co2Saved=Math.max(0,co2Petrol-co2EV);
+
+  const home=currentPricingMode==='home';
+  const rateLabel=home?'home ₹'+evRate+'/kWh':(currentPricingMode==='dc'?'DC ₹'+evRate+'/kWh':currentPricingMode==='ac'?'AC ₹'+evRate+'/kWh':'₹'+evRate+'/kWh');
+
+  return `
+    <div class="card trip-savings-card">
+      <div class="card-title"><span>💰</span> EV vs Petrol · This Trip</div>
+      <div class="ts-vs">
+        <div class="ts-col ts-ev">
+          <div class="ts-col-icon">⚡</div>
+          <div class="ts-col-name">Your EV</div>
+          <div class="ts-col-cost">₹${evCost.toFixed(0)}</div>
+          <div class="ts-col-sub">${evKwhBilled.toFixed(1)} kWh @ ${rateLabel}</div>
+        </div>
+        <div class="ts-vs-mid">
+          <div class="ts-vs-badge">SAVE</div>
+          <div class="ts-vs-amt">₹${saving.toFixed(0)}</div>
+          <div class="ts-vs-pct">${pct.toFixed(0)}% cheaper</div>
+        </div>
+        <div class="ts-col ts-petrol">
+          <div class="ts-col-icon">⛽</div>
+          <div class="ts-col-name">Petrol Car</div>
+          <div class="ts-col-cost">₹${petrolCost.toFixed(0)}</div>
+          <div class="ts-col-sub">${litres.toFixed(1)} L @ ₹${petrolPrice}/L · ${mileage} km/L</div>
+        </div>
+      </div>
+      <div class="ts-foot">
+        <div class="ts-foot-item"><span>🌿 CO₂ saved</span><strong>${co2Saved.toFixed(1)} kg</strong></div>
+        <div class="ts-foot-item"><span>⚡ EV cost/km</span><strong>₹${(evCost/distanceKm).toFixed(2)}</strong></div>
+        <div class="ts-foot-item"><span>⛽ Petrol cost/km</span><strong>₹${(petrolCost/distanceKm).toFixed(2)}</strong></div>
+      </div>
+      <div class="ts-note">Based on ${distanceKm.toFixed(0)} km · EV efficiency ${kmkwh} km/kWh (incl. charging losses) vs petrol at ${mileage} km/L. Adjust petrol mileage &amp; price in the Calculator tab.</div>
+    </div>`;
 }
 
 function renderTripMap(fromCoord,toCoord,routeCoords,stops){
